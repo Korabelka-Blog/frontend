@@ -1,9 +1,11 @@
-import React from 'react';
 
 import TextField from '@mui/material/TextField';
 import s from './Login.module.scss';
 import Button from '../../components/Button/Button';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { selectTheme } from '../../redux/Slices/theme';
+import classNames from 'classnames';
 function Login() {
     const {
         register,
@@ -13,9 +15,12 @@ function Login() {
     const onSubmit = (values) => {
         console.log(values);
     };
+    const theme = useSelector(selectTheme);
     return (
         <div className={s.login}>
-            <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+            <form className={classNames(s.form, {
+                [s.dark]: theme === 'dark',
+            })} onSubmit={handleSubmit(onSubmit)}>
                 <h2>Войти</h2>
                 <TextField
                     {...register('email', {
@@ -31,6 +36,7 @@ function Login() {
                     fullWidth
                     label='E-mail'
                     type='email'
+                    autocomplete
                 />
                 <TextField
                     {...register('password', {
@@ -44,6 +50,7 @@ function Login() {
                     error={Boolean(errors.password?.message)}
                     label='Пароль'
                     type='password'
+                    autocomplete
                     margin={'dense'}
                     fullWidth
                 />

@@ -14,7 +14,11 @@ button {
     justify-content: center;
     padding: 50px 0px 20px 0px;
     width: 400px;
+    & > .form.dark {
+        border: 1px solid rgba($color: #fff, $alpha: 0.2) !important;
+    }
 }
+
 .form {
     width: 100%;
     border: 1px solid rgba($color: #000, $alpha: 0.3);
@@ -27,6 +31,5 @@ button {
     }
     button {
         margin: 10px 0px 0px 0px;
-        
     }
 }
