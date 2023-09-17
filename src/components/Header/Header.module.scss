@@ -1,0 +1,36 @@
+@import '../../scss/index.scss';
+
+.header {
+}
+.content {
+    padding: 10px;
+    height: 75px;
+    max-width: calc(1000px + 20px);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    color: $font-primary;
+    font-weight: 700;
+    font-size: 18px;
+    img {
+        margin: 0px 10px 0px 0px;
+        height: 45px;
+        @media (max-width: 500px) {
+            margin: 0px 5px 0px 0px;
+        }
+    }
+}
+.panel {
+    display: flex;
+    & > *:not(:last-child) {
+        margin-right: 15px;
+        @media (max-width: 500px) {
+            margin-right: 10px;
+        }
+    }
+}

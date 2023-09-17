@@ -1,0 +1,34 @@
+@import '../../scss/index';
+
+.button {
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition-duration: 0.2s;
+    @media (max-width: 500px) {
+        padding: 10px 15px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    &:disabled{
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
+.primary {
+    border: 1px solid $primary;
+    color: #fff;
+    background: $primary;
+    &:hover {
+        background: darken($primary, 5%);
+    }
+}
+.default {
+    border: 1px solid #d0d5dd;
+    color: $font-gray;
+    background: #fff;
+    &:hover {
+        background: #f3f4f6;
+    }
+}
