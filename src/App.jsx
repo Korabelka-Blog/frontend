@@ -9,7 +9,6 @@ import { CssBaseline, ThemeProvider, createTheme, responsiveFontSizes } from '@m
 import { useSelector } from 'react-redux';
 import { selectTheme } from './redux/Slices/theme';
 import React from 'react';
-
 function App() {
     const themeMode = useSelector(selectTheme);
     let theme = React.useMemo(
@@ -17,47 +16,99 @@ function App() {
             createTheme({
                 palette: {
                     mode: themeMode,
-                    primary: {
-                        main: '#7f56d9',
-                    },
-                    secondary: {
-                        main: '#E0C2FF',
-                        light: '#F5EBFF',
-                        contrastText: '#47008F',
-                    },
+
+                    ...(themeMode === 'light'
+                        ? {
+                              primary: {
+                                  main: '#7f56d9',
+                              },
+                              secondary: {
+                                  main: '#101828',
+                              },
+                              text: {
+                                  primary: '#101828',
+                                  secondary: '#6941c6',
+                              },
+                          }
+                        : {
+                              primary: {
+                                  main: '#7f56d9',
+                              },
+                              secondary: {
+                                  main: 'rgba(255, 255, 255, 0.7)',
+                              },
+                              text: {
+                                  primary: '#6941c6',
+                                  secondary: 'rgba(255, 255, 255, 0.7)',
+                              },
+                          }),
                 },
                 typography: {
-                    tag: {
-                        color: '#6941c6',
-                    },
-                    caption: {
-                        color: '#7f56d9',
-                    },
+                    tag: {},
+                    caption: {},
+                    subtitle2: {},
                     body1: {
                         fontSize: '12px',
-                        color: '#475467',
-                    },
-                    subtitle2: {
-                        color: '#101828',
                     },
                     h1: {
-                        color: '#101828',
                         fontWeight: 500,
                     },
                     h2: {
-                        color: '#101828',
                         fontWeight: 500,
                     },
                     h4: {
-                        color: '#101828',
                         fontWeight: 500,
                     },
                 },
             }),
         [themeMode]
     );
+    theme = createTheme(theme, {
+        palette: {
+            ...(themeMode === 'light'
+                ? {
+                      primary: {
+                          main: '#7f56d9',
+                      },
+                      secondary: {
+                          main: '#101828',
+                      },
+                      text: {
+                          primary: '#6941c6',
+                          secondary: '#101828',
+                          text: {
+                              gray: theme.palette.augmentColor({
+                                  color: {
+                                      main: '#475467',
+                                  },
+                                  name: 'gray',
+                              }),
+                          },
+                      },
+                  }
+                : {
+                      primary: {
+                          main: '#7f56d9',
+                      },
+                      secondary: {
+                          main: 'rgba(255, 255, 255, 0.7)',
+                      },
+                      text: {
+                          primary: '#7f56d9',
+                          secondary: 'rgba(255, 255, 255, 0.7)',
+                          text: {
+                              gray: theme.palette.augmentColor({
+                                  color: {
+                                      main: '#475467',
+                                  },
+                                  name: 'gray',
+                              }),
+                          },
+                      },
+                  }),
+        },
+    });
     theme = responsiveFontSizes(theme);
-    console.log(themeMode);
     return (
         <>
             <ThemeProvider theme={theme}>

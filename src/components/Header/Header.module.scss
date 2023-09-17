@@ -25,6 +25,7 @@
 }
 .panel {
     display: flex;
+    align-items: center;
     & > *:not(:last-child) {
         margin-right: 15px;
         @media (max-width: 500px) {

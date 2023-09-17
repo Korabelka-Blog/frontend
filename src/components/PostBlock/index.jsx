@@ -7,7 +7,9 @@ function PostBlock({ item }) {
             return (
                 <>
                     <Link to={`/${tag}`}>
-                        <Typography variant='tag'>{tag}</Typography>
+                        <Typography color='text.primary' variant='tag'>
+                            {tag}
+                        </Typography>
                     </Link>
                 </>
             );
@@ -25,10 +27,10 @@ function PostBlock({ item }) {
                 </Link>
                 <div className={s.tags}>{renderTags()}</div>
                 <Link to={pathToFullScreenPost}>
-                    <Typography variant='subtitle2' mt='8px' noWrap>
+                    <Typography color='secondary' variant='subtitle2' mt='8px' noWrap>
                         {item.title}
                     </Typography>
-                    <Typography variant='body1' mt='8px' noWrap>
+                    <Typography color='gray' variant='body1' mt='8px' noWrap>
                         {item.text}
                     </Typography>
                 </Link>
@@ -36,10 +38,10 @@ function PostBlock({ item }) {
                     <div className={s.author}>
                         <Avatar alt={item.userName} src={item.userImg && item.userImg} />
                         <div className={s.author__info}>
-                            <Typography variant='subtitle2' noWrap>
+                            <Typography color='secondary' variant='subtitle2' noWrap>
                                 {item.userName}
                             </Typography>
-                            <Typography variant='body1' noWrap>
+                            <Typography color='gray' variant='body1' noWrap>
                                 {'19 Jan 2024'}
                             </Typography>
                         </div>

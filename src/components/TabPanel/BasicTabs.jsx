@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Grid, Tab, Tabs } from '@mui/material';
-
-import CustomTabPanel from './CustomTabPanel';
-import PostBlock from '../PostBlock/PostBlock';
+import SwipeableViews from 'react-swipeable-views';
+import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
+import PostBlock from '../PostBlock';
 function BasicTabs() {
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
@@ -46,16 +46,22 @@ function BasicTabs() {
                     <Tab label='Новые' />
                 </Tabs>
             </Box>
-            <CustomTabPanel value={value} index={0}>
-                <Grid container spacing={4}>
-                    {customData.map((item) => (
-                        <PostBlock key={item.id} item={item} />
-                    ))}
-                </Grid>
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-                Новые
-            </CustomTabPanel>
+            <SwipeableViews index={value} onChangeIndex={handleChange}>
+                <CustomTabPanel value={value} index={0}>
+                    <Grid container spacing={4}>
+                        {customData.map((item) => (
+                            <PostBlock key={item.id} item={item} />
+                        ))}
+                    </Grid>
+                </CustomTabPanel>
+                <CustomTabPanel axis='x-reverse' value={value} index={1}>
+                    <Grid container spacing={4}>
+                        {customData.map((item) => (
+                            <PostBlock key={'uniq_key_' + item.id} item={item} />
+                        ))}
+                    </Grid>
+                </CustomTabPanel>
+            </SwipeableViews>
         </Box>
     );
 }

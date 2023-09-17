@@ -26,10 +26,10 @@ button {
     border-radius: 4px;
     display: flex;
     flex-direction: column;
-    h2 {
-        text-align: center;
-    }
     button {
         margin: 10px 0px 0px 0px;
     }
+}
+body {
+    transition-duration: 0.1s;
 }

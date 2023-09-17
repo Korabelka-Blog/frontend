@@ -2,15 +2,23 @@ import { useState } from 'react';
 import Button from '../Button/Button';
 import s from './Header.module.scss';
 import { Link } from 'react-router-dom';
-import { Container } from '@mui/material';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
-import { selectTheme } from '../../redux/Slices/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTheme, setTheme } from '../../redux/Slices/theme';
+
+import { Container } from '@mui/material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 function Header() {
     const [isAuth, setIsAuth] = useState(true);
+    const dispatch = useDispatch();
 
     const theme = useSelector(selectTheme);
+
+    const changeTheme = () => {
+        dispatch(setTheme());
+    };
 
     return (
         <header className={s.header}>
@@ -48,6 +56,19 @@ function Header() {
                                     <Button func={() => setIsAuth(true)} text={'Войти'} color={'primary'} />
                                 </Link>
                             </>
+                        )}
+                        {theme === 'dark' ? (
+                            <LightModeIcon
+                                color='secondary'
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => changeTheme()}
+                            />
+                        ) : (
+                            <Brightness4Icon
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => changeTheme()}
+                                color='secondary'
+                            />
                         )}
                     </div>
                 </div>

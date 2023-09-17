@@ -6,7 +6,9 @@ function Home() {
     return (
         <div>
             <Container>
-                <Typography variant='h2'>Главная</Typography>
+                <Typography color='secondary' variant='h2'>
+                    Главная
+                </Typography>
                 <BasicTabs value={0} index={0} />
             </Container>
         </div>

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { selectTheme } from '../../redux/Slices/theme';
+import { Typography } from '@mui/material';
 function Registration() {
     const {
         register,
@@ -23,7 +24,9 @@ function Registration() {
                 })}
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <h2>Зарегистрироваться</h2>
+                <Typography mb='5px' color='secondary' variant='h4'>
+                    Зарегистрироваться
+                </Typography>
                 <TextField
                     {...register('userName', {
                         required: 'Это обязательное поле',

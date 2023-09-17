@@ -1,4 +1,3 @@
-
 import TextField from '@mui/material/TextField';
 import s from './Login.module.scss';
 import Button from '../../components/Button/Button';
@@ -6,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectTheme } from '../../redux/Slices/theme';
 import classNames from 'classnames';
+import { Typography } from '@mui/material';
 function Login() {
     const {
         register,
@@ -18,10 +18,15 @@ function Login() {
     const theme = useSelector(selectTheme);
     return (
         <div className={s.login}>
-            <form className={classNames(s.form, {
-                [s.dark]: theme === 'dark',
-            })} onSubmit={handleSubmit(onSubmit)}>
-                <h2>Войти</h2>
+            <form
+                className={classNames(s.form, {
+                    [s.dark]: theme === 'dark',
+                })}
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <Typography mb='5px' color='secondary' variant='h4'>
+                    Войти
+                </Typography>
                 <TextField
                     {...register('email', {
                         required: 'Это обязательное поле',
