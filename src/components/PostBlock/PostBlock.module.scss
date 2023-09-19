@@ -1,13 +1,25 @@
 @import '../../scss/index';
-
+.post {
+    padding: 20px;
+    border-radius: 20px;
+    background: darken(#fff, 5%);
+    &.dark {
+        background: lighten(#121212, 5%) !important;
+    }
+}
 .image {
-    width: 100%;
     height: 250px;
-    img {
-        height: 100%;
-        width: 100%;
-        border-radius: 16px;
-        object-fit: cover;
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    &.large {
+        height: 500px;
+        @media (max-width: 800px) {
+            height: 400px;
+        }
+        @media (max-width: 600px) {
+            height: 300px;
+        }
     }
 }
 .tags {

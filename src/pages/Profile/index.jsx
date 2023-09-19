@@ -50,31 +50,10 @@ function Profile() {
                     [s.profile]: true,
                     [s.dark]: theme === 'dark',
                 })}
-                sx={{
-                    marginTop: '20px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
             >
-                <Avatar className={s.avatar} alt={userName} src={userImg && userImg} />
-                <Box
-                    sx={{
-                        width: '100%',
-                        marginLeft: '20px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                    >
+                <Box className={s.profile__text}>
+                    <Avatar className={s.avatar} alt={userName} src={userImg && userImg} />
+                    <Box className={s.profile__nickname}>
                         <Typography color='secondary' variant='h5'>
                             {userName}
                         </Typography>
@@ -82,14 +61,14 @@ function Profile() {
                             {userNickName}
                         </Typography>
                     </Box>
-                    <Button color='default'>Редактировать профиль</Button>
                 </Box>
+                <Button color='default'>Редактировать профиль</Button>
             </Box>
-            <Container sx={{ paddingTop: '50px' }}>
+            <Container sx={{ padding: '50px 0 10px 0' }}>
                 {customData.map((item) => (
                     <>
                         <Box sx={{ width: '100%', marginBottom: '20px' }}>
-                            <PostBlock key={item._id} item={item} />
+                            <PostBlock key={item._id} item={item} size='large' />
                         </Box>
                     </>
                 ))}

@@ -3,17 +3,31 @@
     height: 100px;
     width: 100px;
     @media (max-width: 850px) {
-        width: 64px;
-        height: 64px;
+        width: 48px;
+        height: 48px;
     }
 }
 .profile {
-    display: flex;
-    align-items: center;
+    margin: 20px 0px 0px 0px;
     padding: 20px;
-    // background: darken(#fff, 5%);
     border: 1px solid #d0d5dd;
     border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @media (max-width: 600px) {
+        flex-direction: column;
+        button {
+            margin: 10px 0px 0px 0px;
+        }
+    }
+    &__nickname {
+        margin: 0px 0px 0px 10px;
+    }
+    &__text {
+        display: flex;
+        align-items: center;
+    }
 }
 .dark {
     background: lighten(#121212, 10%);

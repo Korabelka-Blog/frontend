@@ -81,7 +81,7 @@ function BasicTabs() {
                     </Grid>
                 </CustomTabPanel>
                 <CustomTabPanel axis='x-reverse' value={value} index={1}>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={1}>
                         {customData.map((item) => (
                             <PostBlock key={item.id} item={item} />
                         ))}
