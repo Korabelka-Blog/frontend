@@ -1,12 +1,41 @@
-import React from 'react';
-import { Box, Grid, Tab, Tabs } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Container, Grid, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
 import PostBlock from '../PostBlock';
+import CustomPostSkeleton from '../PostBlock/CustomPostSkeleton';
+import Button from '../Button/Button';
+import ErrorLoading from '../PostBlock/ErrorLoading';
 function BasicTabs() {
     const [value, setValue] = React.useState(0);
+    const [newPostsStatus, setNewPostsStatus] = React.useState('error');
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    useEffect(() => {
+        const interval = setTimeout(() => {
+            setNewPostsStatus('error');
+            console.log('was updated');
+        }, 1500);
+        interval;
+    }, []);
+
+    const reloadData = () => {
+        console.log('reloaded');
+    };
+
+    const renderPopularPosts = () => {
+        if (newPostsStatus === 'error') {
+            return <ErrorLoading text={'постов'} func={() => reloadData()} />;
+        }
+        return (newPostsStatus === 'loading' ? [...Array(4)] : customData).map((item) => {
+            return newPostsStatus === 'loading' ? (
+                <CustomPostSkeleton />
+            ) : (
+                <PostBlock key={'uniq_key_' + item.id} item={item} />
+            );
+        });
     };
 
     const customData = [
@@ -49,15 +78,13 @@ function BasicTabs() {
             <SwipeableViews index={value} onChangeIndex={handleChange}>
                 <CustomTabPanel value={value} index={0}>
                     <Grid container spacing={4}>
-                        {customData.map((item) => (
-                            <PostBlock key={item.id} item={item} />
-                        ))}
+                        {renderPopularPosts()}
                     </Grid>
                 </CustomTabPanel>
                 <CustomTabPanel axis='x-reverse' value={value} index={1}>
                     <Grid container spacing={4}>
                         {customData.map((item) => (
-                            <PostBlock key={'uniq_key_' + item.id} item={item} />
+                            <PostBlock key={item.id} item={item} />
                         ))}
                     </Grid>
                 </CustomTabPanel>
