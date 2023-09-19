@@ -1,42 +1,17 @@
-import React, { useEffect } from 'react';
-import { Box, Grid, Tab, Tabs } from '@mui/material';
-import SwipeableViews from 'react-swipeable-views';
-import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
-import PostBlock from '../PostBlock';
-import CustomPostSkeleton from '../PostBlock/CustomPostSkeleton';
-import ErrorLoading from '../ErrorLoading';
-function BasicTabs() {
-    const [value, setValue] = React.useState(0);
-    const [newPostsStatus, setNewPostsStatus] = React.useState('error');
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+import { Avatar, Box, Container, Grid, Typography } from '@mui/material';
+import Button from '../../components/Button/Button';
+import s from './Profile.module.scss';
+import { selectTheme } from '../../redux/Slices/theme';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+import PostBlock from '../../components/PostBlock';
+function Profile() {
+    const theme = useSelector(selectTheme);
+    const { userName, userImg, userNickName } = {
+        userName: 'Иванов Иван Иванович',
+        userImg: 'https://cdn-edge.kwork.ru/files/avatar/large/52/15318475-1.jpg',
+        userNickName: 'Worker',
     };
-
-    useEffect(() => {
-        const interval = setTimeout(() => {
-            setNewPostsStatus('error');
-            console.log('was updated');
-        }, 1500);
-        interval;
-    }, []);
-
-    const reloadData = () => {
-        console.log('reloaded');
-    };
-
-    const renderPopularPosts = () => {
-        if (newPostsStatus === 'error') {
-            return <ErrorLoading text={'постов'} func={() => reloadData()} />;
-        }
-        return (newPostsStatus === 'loading' ? [...Array(4)] : customData).map((item) => {
-            return newPostsStatus === 'loading' ? (
-                <CustomPostSkeleton />
-            ) : (
-                <PostBlock key={'uniq_key_' + item.id} item={item} />
-            );
-        });
-    };
-
     const customData = [
         {
             _id: 0,
@@ -65,31 +40,62 @@ function BasicTabs() {
             userName: 'Иванов Иван Иванович',
         },
     ];
-
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-                    <Tab label='Популярные' />
-                    <Tab label='Новые' />
-                </Tabs>
+        <Container>
+            <Typography color='secondary' variant='h4'>
+                Профиль
+            </Typography>
+            <Box
+                className={classNames({
+                    [s.profile]: true,
+                    [s.dark]: theme === 'dark',
+                })}
+                sx={{
+                    marginTop: '20px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
+                <Avatar className={s.avatar} alt={userName} src={userImg && userImg} />
+                <Box
+                    sx={{
+                        width: '100%',
+                        marginLeft: '20px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <Typography color='secondary' variant='h5'>
+                            {userName}
+                        </Typography>
+                        <Typography color='gray' variant='subtitle2'>
+                            {userNickName}
+                        </Typography>
+                    </Box>
+                    <Button color='default'>Редактировать профиль</Button>
+                </Box>
             </Box>
-            <SwipeableViews index={value} onChangeIndex={handleChange}>
-                <CustomTabPanel value={value} index={0}>
-                    <Grid container spacing={4}>
-                        {renderPopularPosts()}
-                    </Grid>
-                </CustomTabPanel>
-                <CustomTabPanel axis='x-reverse' value={value} index={1}>
-                    <Grid container spacing={4}>
-                        {customData.map((item) => (
-                            <PostBlock key={item.id} item={item} />
-                        ))}
-                    </Grid>
-                </CustomTabPanel>
-            </SwipeableViews>
-        </Box>
+            <Container sx={{ paddingTop: '50px' }}>
+                {customData.map((item) => (
+                    <>
+                        <Box sx={{ width: '100%', marginBottom: '20px' }}>
+                            <PostBlock key={item._id} item={item} />
+                        </Box>
+                    </>
+                ))}
+            </Container>
+        </Container>
     );
 }
 
-export default BasicTabs;
+export default Profile;

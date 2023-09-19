@@ -6,6 +6,15 @@
     border-radius: 8px;
     font-weight: 700;
     transition-duration: 0.2s;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    svg {
+        height: 18px;
+        width: 18px;
+        display: flex;
+    }
     @media (max-width: 500px) {
         padding: 10px 15px;
         font-size: 11px;
@@ -27,7 +36,8 @@
 .default {
     border: 1px solid #d0d5dd;
     color: $font-gray;
-    background: #fff;
+    // background: #fff;
+    background: transparent;
     &:hover {
         background: #f3f4f6;
     }
@@ -36,7 +46,7 @@
     color: #fff !important;
 }
 .dark.default {
-    background: #121212;
+    // background: #121212;
     border: 1px solid $primary;
     &:hover {
         background: lighten(#121212, 5%);

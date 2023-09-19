@@ -74,7 +74,9 @@ function Registration() {
                     margin={'dense'}
                     fullWidth
                 />
-                <Button color='primary' disabled={!isValid} text={'Подтвердить'} type='submit' />
+                <Button color='primary' disabled={!isValid} type='submit'>
+                    Подтвердить
+                </Button>
             </form>
         </div>
     );

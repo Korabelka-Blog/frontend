@@ -1,0 +1,20 @@
+@import '../../scss/index';
+.avatar {
+    height: 100px;
+    width: 100px;
+    @media (max-width: 850px) {
+        width: 64px;
+        height: 64px;
+    }
+}
+.profile {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    // background: darken(#fff, 5%);
+    border: 1px solid #d0d5dd;
+    border-radius: 20px;
+}
+.dark {
+    background: lighten(#121212, 10%);
+}

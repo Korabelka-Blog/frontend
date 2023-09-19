@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
-import Button from '../../Button/Button';
 
 import s from './ErrorLoading.module.scss';
+import Button from '../Button/Button';
 
 function ErrorLoading({ text, func }) {
     return (
@@ -15,8 +15,9 @@ function ErrorLoading({ text, func }) {
                     style={{ alignSelf: 'flex-start', margin: '10px auto 0 auto' }}
                     color='primary'
                     func={() => func()}
-                    text={'Повторить'}
-                />
+                >
+                    Повторить
+                </Button>
             </Box>
         </>
     );

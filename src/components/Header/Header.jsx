@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTheme, setTheme } from '../../redux/Slices/theme';
-
+import PersonIcon from '@mui/icons-material/Person';
 import { Container } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -37,23 +37,28 @@ function Header() {
                         {isAuth ? (
                             <>
                                 <Link to='/'>
-                                    <Button func={() => setIsAuth(false)} text={'Выйти'} color={'default'} />
+                                    <Button func={() => setIsAuth(false)} color={'default'}>
+                                        Выйти
+                                    </Button>
                                 </Link>
                                 <Link to='/profile'>
-                                    <Button text={'Профиль'} color={'primary'} />
+                                    <Button color={'primary'}>
+                                        <PersonIcon />
+                                        Профиль
+                                    </Button>
                                 </Link>
                             </>
                         ) : (
                             <>
                                 <Link to='/register'>
-                                    <Button
-                                        func={() => setIsAuth(true)}
-                                        text={'Зарегистрироваться'}
-                                        color={'default'}
-                                    />
+                                    <Button func={() => setIsAuth(true)} color={'default'}>
+                                        Зарегистрироваться
+                                    </Button>
                                 </Link>
                                 <Link to='/login'>
-                                    <Button func={() => setIsAuth(true)} text={'Войти'} color={'primary'} />
+                                    <Button func={() => setIsAuth(true)} color={'primary'}>
+                                        Войти
+                                    </Button>
                                 </Link>
                             </>
                         )}

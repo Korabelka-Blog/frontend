@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider, createTheme, responsiveFontSizes } from '@m
 import { useSelector } from 'react-redux';
 import { selectTheme } from './redux/Slices/theme';
 import React from 'react';
+import Profile from './pages/Profile';
 function App() {
     const themeMode = useSelector(selectTheme);
     let theme = React.useMemo(
@@ -118,6 +119,7 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Registration />} />
+                    <Route path='/profile' element={<Profile />} />
                 </Routes>
             </ThemeProvider>
         </>

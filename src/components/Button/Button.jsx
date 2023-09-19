@@ -1,11 +1,9 @@
-import React from 'react';
-
 import s from './Button.module.scss';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { selectTheme } from '../../redux/Slices/theme';
 
-function Button({ color = 'default', text, func, ...props }) {
+function Button({ color = 'default', func, children, ...props }) {
     const theme = useSelector(selectTheme);
     const btnType = classNames({
         [s.button]: true,
@@ -15,7 +13,7 @@ function Button({ color = 'default', text, func, ...props }) {
     });
     return (
         <button className={btnType} onClick={func} {...props}>
-            {text}
+            {children}
         </button>
     );
 }
