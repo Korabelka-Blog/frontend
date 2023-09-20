@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Box, Grid, Tab, Tabs } from '@mui/material';
+import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
 import PostBlock from '../PostBlock';
 import CustomPostSkeleton from '../PostBlock/CustomPostSkeleton';
 import ErrorLoading from '../ErrorLoading';
+
 function BasicTabs() {
     const [value, setValue] = React.useState(0);
     const [newPostsStatus, setNewPostsStatus] = React.useState('error');
@@ -68,12 +69,14 @@ function BasicTabs() {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-                    <Tab label='Популярные' />
-                    <Tab label='Новые' />
-                </Tabs>
-            </Box>
+            <Container>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
+                        <Tab label='Популярные' />
+                        <Tab label='Новые' />
+                    </Tabs>
+                </Box>
+            </Container>
             <SwipeableViews index={value} onChangeIndex={handleChange}>
                 <CustomTabPanel value={value} index={0}>
                     <Grid container spacing={4}>

@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { selectTheme } from './redux/Slices/theme';
 import React from 'react';
 import Profile from './pages/Profile';
+import s from './App.module.scss';
+import NavigationMobile from './components/NavigationMobile/NavigationMobile';
 function App() {
     const themeMode = useSelector(selectTheme);
     let theme = React.useMemo(
@@ -113,14 +115,17 @@ function App() {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Header />
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/register' element={<Registration />} />
-                    <Route path='/profile' element={<Profile />} />
-                </Routes>
+                <div className={s.container}>
+                    <CssBaseline />
+                    <Header />
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Registration />} />
+                        <Route path='/profile' element={<Profile />} />
+                    </Routes>
+                    <NavigationMobile />
+                </div>
             </ThemeProvider>
         </>
     );

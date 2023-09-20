@@ -1,10 +1,23 @@
 @import '../../scss/index.scss';
-
+.header {
+    z-index: 2;
+    width: 100%;
+    background: darken($main, 5%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
 .dark {
-    color: $primary !important;
+    background: lighten(#121212, 5%);
+    &__text {
+        color: $primary !important;
+    }
 }
 .content {
-    height: 75px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
