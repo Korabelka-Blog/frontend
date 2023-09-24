@@ -1,2 +1,2 @@
 # Blog frontend
-This site was built using [GitHub Pages](https://pages.github.com/).
+Check [result][(https://pages.github.com/](https://tangerine-salmiakki-6b6eff.netlify.app/)https://tangerine-salmiakki-6b6eff.netlify.app/).
