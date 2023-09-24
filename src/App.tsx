@@ -1,20 +1,11 @@
-import './App.css';
-import './reset.css';
-import Header from './components/Header/Header';
-import Login from './pages/Login';
-import Registration from './pages/Registration';
-import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
+import React from 'react';
+
 import {
     CssBaseline,
     ThemeProvider,
     createTheme,
     responsiveFontSizes,
 } from '@mui/material';
-import React from 'react';
-import Profile from './pages/Profile';
-import s from './App.module.scss';
-import NavigationMobile from './components/NavigationMobile/NavigationMobile';
 
 import {
     lightTheme,
@@ -23,12 +14,23 @@ import {
     changeLightTheme,
     changeDarkTheme,
 } from './themeCustom';
-import { useAppSelector } from './redux/hooks';
 import { selectTheme } from './redux/Slices/theme';
+import { Route, Routes } from 'react-router-dom';
+import { useAppSelector } from './redux/hooks';
+
+import Header from './components/Header/Header';
+import NavigationMobile from './components/NavigationMobile/NavigationMobile';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Login from './pages/Login';
+import Registration from './pages/Registration';
+
+import s from './App.module.scss';
+import './reset.css';
 
 function App() {
     const themeMode = useAppSelector(selectTheme);
-    
+
     let theme = React.useMemo(
         () =>
             createTheme({
