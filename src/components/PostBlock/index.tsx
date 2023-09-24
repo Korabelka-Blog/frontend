@@ -1,15 +1,20 @@
 import React from 'react';
-import { Avatar, Grid, Typography } from '@mui/material';
-import s from './PostBlock.module.scss';
+
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+
 import { selectTheme } from '../../redux/Slices/theme';
 import { useAppSelector } from '../../redux/hooks';
 import { PostBlockProps } from './types';
 
+import { Avatar, Grid, Typography } from '@mui/material';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+
+import s from './PostBlock.module.scss';
+
 function PostBlock({ item, size }: PostBlockProps): JSX.Element {
     const theme = useAppSelector(selectTheme);
-    const renderTags = () => {
+    const renderTags = (): JSX.Element[] => {
         return item.tags.map((tag) => {
             return (
                 <>
@@ -49,7 +54,7 @@ function PostBlock({ item, size }: PostBlockProps): JSX.Element {
                             {item.text}
                         </Typography>
                     </Link>
-                    <Link to={pathToAuthorProfile}>
+                    <Link to={pathToAuthorProfile} className={s.buttomInfo}>
                         <div className={s.author}>
                             <Avatar
                                 alt={item.userName}
@@ -63,6 +68,13 @@ function PostBlock({ item, size }: PostBlockProps): JSX.Element {
                                     {'19 Jan 2024'}
                                 </Typography>
                             </div>
+                        </div>
+                        <div className={s.stats}>
+                            <RemoveRedEyeIcon />
+                            <Typography color='gray' variant='body1' noWrap>
+                                {/* {item.views} */}
+                                {'1.2k'}
+                            </Typography>
                         </div>
                     </Link>
                 </div>

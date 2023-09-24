@@ -8,8 +8,6 @@ import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { selectTheme, setTheme } from '../../redux/Slices/theme';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-import s from './Profile.module.scss';
-
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 
@@ -17,8 +15,11 @@ import Button from '../../components/Button/Button';
 import ErrorLoading from '../../components/ErrorLoading';
 import PostBlock from '../../components/PostBlock';
 import PostBlockSkeleton from '../../components/PostBlock/PostBlockSkeleton';
+
 import { userProps } from './types';
 import { postData } from '@/components/TabPanel/types';
+
+import s from './Profile.module.scss';
 
 function Profile(): JSX.Element {
     const [isAuth, setIsAuth] = useState<boolean>(true);
