@@ -1,15 +1,20 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import s from './ErrorLoading.module.scss';
 import Button from '../Button/Button';
 
 function ErrorLoading({ text, func }: { text?: string; func: () => void }): JSX.Element {
     return (
         <>
-            <Box className={s.container}>
+            <div className={s.container}>
                 <img src='/magical-bird.png' alt='Magic Bird' className={s.image} />
-                <Typography sx={{ marginTop: '10px' }} color='secondary' variant='h5'>
+                <Typography
+                    sx={{ marginTop: '10px' }}
+                    color='secondary'
+                    align='center'
+                    variant='h5'
+                >
                     Кажется произошла ошибка загрузки{text && ` ${text}`}...
                 </Typography>
                 <Button
@@ -19,7 +24,7 @@ function ErrorLoading({ text, func }: { text?: string; func: () => void }): JSX.
                 >
                     Повторить
                 </Button>
-            </Box>
+            </div>
         </>
     );
 }

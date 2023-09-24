@@ -10,6 +10,7 @@
     align-items: center;
     text-align: center;
     background: transparent;
+    transition-duration: 0.2s;
     svg {
         height: 18px;
         width: 18px;
@@ -31,6 +32,7 @@
     background: $primary;
     &:hover {
         background: darken($primary, 5%);
+        transition-duration: 0.2s;
     }
 }
 .default {
@@ -39,7 +41,8 @@
     // background: #fff;
     background: transparent;
     &:hover {
-        background: #f3f4f6;
+        transition-duration: 0.2s;
+        background: darken(#f3f4f6, 5%);
     }
 }
 .dark {
@@ -49,6 +52,6 @@
     // background: #121212;
     border: 1px solid $primary;
     &:hover {
-        background: lighten(#121212, 5%);
+        background: lighten(#121212, 8%);
     }
 }

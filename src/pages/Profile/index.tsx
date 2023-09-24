@@ -127,6 +127,7 @@ function Profile(): JSX.Element {
                                 <>
                                     <Box sx={{ width: '100%', marginBottom: '20px' }}>
                                         <PostBlock
+                                            fromProfile={true}
                                             key={item._id}
                                             item={item}
                                             size={'large'}

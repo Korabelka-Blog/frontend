@@ -5,6 +5,7 @@ const lightTheme = {
     secondary: {
         main: '#101828',
     },
+    
     text: {
         primary: '#101828',
         secondary: '#6941c6',
@@ -17,6 +18,7 @@ const darkTheme = {
     secondary: {
         main: 'rgba(255, 255, 255, 0.7)',
     },
+    
     text: {
         primary: '#6941c6',
         secondary: 'rgba(255, 255, 255, 0.7)',

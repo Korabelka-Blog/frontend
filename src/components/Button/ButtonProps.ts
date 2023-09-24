@@ -5,4 +5,5 @@ export type ButtonProps = {
     style?: React.CSSProperties;
     disabled?: boolean;
     type?: 'submit';
+    // className?: string;
 };

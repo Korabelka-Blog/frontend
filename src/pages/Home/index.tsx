@@ -10,7 +10,7 @@ function Home(): JSX.Element {
     const dispatch = useAppDispatch();
     const path = useAppSelector(selectPath);
     useEffect(() => {
-        dispatch(setPath(2));
+        dispatch(setPath(0));
         console.log('path', path);
     }, []);
     return (
