@@ -1,19 +1,27 @@
-import Button from '../../components/Button/Button';
-import TextField from '@mui/material/TextField';
-import s from './Registration.module.scss';
+import React from 'react';
+
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+
 import { selectTheme } from '../../redux/Slices/theme';
 import { Typography } from '@mui/material';
-function Registration() {
+
+import { useAppSelector } from '../../redux/hooks';
+import { RegistrationFormValues } from './types';
+
+import s from './Registration.module.scss';
+
+import TextField from '@mui/material/TextField';
+import Button from '../../components/Button/Button';
+
+function Registration(): JSX.Element {
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
-    } = useForm({ mode: 'onChange' });
-    const theme = useSelector(selectTheme);
-    const onSubmit = (values) => {
+    } = useForm<RegistrationFormValues>({ mode: 'onChange' });
+    const theme = useAppSelector(selectTheme);
+    const onSubmit = (values: RegistrationFormValues) => {
         console.log(values);
     };
     return (
@@ -38,9 +46,9 @@ function Registration() {
                     helperText={errors.userName?.message}
                     error={Boolean(errors.userName?.message)}
                     label='ФИО'
-                    autocomplete
                     fullWidth
                     margin={'dense'}
+                    autoComplete='name'
                 />
                 <TextField
                     {...register('email', {
@@ -55,8 +63,8 @@ function Registration() {
                     margin={'dense'}
                     label='E-mail'
                     type='email'
-                    autocomplete
                     fullWidth
+                    autoComplete='email'
                 />
                 <TextField
                     {...register('password', {
@@ -70,7 +78,7 @@ function Registration() {
                     error={Boolean(errors.password?.message)}
                     label='Пароль'
                     type='password'
-                    autocomplete
+                    autoComplete='new-password'
                     margin={'dense'}
                     fullWidth
                 />

@@ -5,64 +5,38 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import { CssBaseline, ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { selectTheme } from './redux/Slices/theme';
+import {
+    CssBaseline,
+    ThemeProvider,
+    createTheme,
+    responsiveFontSizes,
+} from '@mui/material';
 import React from 'react';
 import Profile from './pages/Profile';
 import s from './App.module.scss';
 import NavigationMobile from './components/NavigationMobile/NavigationMobile';
+
+import {
+    lightTheme,
+    darkTheme,
+    typographyTheme,
+    changeLightTheme,
+    changeDarkTheme,
+} from './themeCustom';
+import { useAppSelector } from './redux/hooks';
+import { selectTheme } from './redux/Slices/theme';
+
 function App() {
-    const themeMode = useSelector(selectTheme);
+    const themeMode = useAppSelector(selectTheme);
+    
     let theme = React.useMemo(
         () =>
             createTheme({
                 palette: {
                     mode: themeMode,
-
-                    ...(themeMode === 'light'
-                        ? {
-                              primary: {
-                                  main: '#7f56d9',
-                              },
-                              secondary: {
-                                  main: '#101828',
-                              },
-                              text: {
-                                  primary: '#101828',
-                                  secondary: '#6941c6',
-                              },
-                          }
-                        : {
-                              primary: {
-                                  main: '#7f56d9',
-                              },
-                              secondary: {
-                                  main: 'rgba(255, 255, 255, 0.7)',
-                              },
-                              text: {
-                                  primary: '#6941c6',
-                                  secondary: 'rgba(255, 255, 255, 0.7)',
-                              },
-                          }),
+                    ...(themeMode === 'light' ? lightTheme : darkTheme),
                 },
-                typography: {
-                    tag: {},
-                    caption: {},
-                    subtitle2: {},
-                    body1: {
-                        fontSize: '12px',
-                    },
-                    h1: {
-                        fontWeight: 500,
-                    },
-                    h2: {
-                        fontWeight: 500,
-                    },
-                    h4: {
-                        fontWeight: 500,
-                    },
-                },
+                typography: typographyTheme,
             }),
         [themeMode]
     );
@@ -70,12 +44,7 @@ function App() {
         palette: {
             ...(themeMode === 'light'
                 ? {
-                      primary: {
-                          main: '#7f56d9',
-                      },
-                      secondary: {
-                          main: '#101828',
-                      },
+                      changeLightTheme,
                       text: {
                           primary: '#6941c6',
                           secondary: '#101828',
@@ -90,12 +59,7 @@ function App() {
                       },
                   }
                 : {
-                      primary: {
-                          main: '#7f56d9',
-                      },
-                      secondary: {
-                          main: 'rgba(255, 255, 255, 0.7)',
-                      },
+                      changeDarkTheme,
                       text: {
                           primary: '#7f56d9',
                           secondary: 'rgba(255, 255, 255, 0.7)',

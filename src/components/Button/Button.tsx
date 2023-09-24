@@ -2,9 +2,9 @@ import React from 'react';
 
 import s from './Button.module.scss';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 import { selectTheme } from '../../redux/Slices/theme';
 import { ButtonProps } from './ButtonProps';
+import { useAppSelector } from '../../redux/hooks';
 
 function Button({
     color = 'default',
@@ -12,7 +12,7 @@ function Button({
     children,
     ...props
 }: ButtonProps): JSX.Element {
-    const theme = useSelector(selectTheme);
+    const theme = useAppSelector(selectTheme);
     const btnType = classNames({
         [s.button]: true,
         [s.dark]: theme === 'dark',

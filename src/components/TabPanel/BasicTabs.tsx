@@ -3,7 +3,7 @@ import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
 import PostBlock from '../PostBlock';
-import CustomPostSkeleton from '../PostBlock/CustomPostSkeleton';
+import CustomPostSkeleton from '../PostBlock/PostBlockSkeleton';
 import ErrorLoading from '../ErrorLoading';
 import { postData } from './types';
 import { selectTheme } from '../../redux/Slices/theme';
@@ -88,11 +88,7 @@ function BasicTabs(): JSX.Element {
                     </Tabs>
                 </Box>
             </Container>
-            <SwipeableViews
-                axis={'x'}
-                index={value}
-                onChangeIndex={handleChange}
-            >
+            <SwipeableViews axis={'x'} index={value} onChangeIndex={() => handleChange}>
                 <CustomTabPanel value={value} index={0} dir={'x'}>
                     <Grid container spacing={4}>
                         {renderPopularPosts()}

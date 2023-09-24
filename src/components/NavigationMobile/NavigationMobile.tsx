@@ -5,12 +5,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import ArticleIcon from '@mui/icons-material/Article';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectPath, setPath } from '../../redux/Slices/navigation';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 function NavigationMobile() {
-    const dispatch = useDispatch();
-    const path = useSelector(selectPath);
+    const dispatch = useAppDispatch();
+    const path = useAppSelector(selectPath);
     return (
         <BottomNavigation
             className={s.navigation}

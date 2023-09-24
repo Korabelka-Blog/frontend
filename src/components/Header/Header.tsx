@@ -4,7 +4,6 @@ import s from './Header.module.scss';
 
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import { selectTheme } from '../../redux/Slices/theme';
 
@@ -12,11 +11,12 @@ import { Container } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 import Button from '../Button/Button';
+import { useAppSelector } from '../../redux/hooks';
 
 function Header(): JSX.Element {
     const [isAuth, setIsAuth] = useState<Boolean>(true);
 
-    const theme = useSelector(selectTheme);
+    const theme = useAppSelector(selectTheme);
 
     return (
         <header className={classNames({ [s.header]: true, [s.dark]: theme === 'dark' })}>

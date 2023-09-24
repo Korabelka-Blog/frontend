@@ -1,39 +1,47 @@
-import { Avatar, Box, Container, Grid, Typography } from '@mui/material';
-import Button from '../../components/Button/Button';
-import s from './Profile.module.scss';
-import { selectTheme, setTheme } from '../../redux/Slices/theme';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+
+import { Avatar, Box, Container, Typography } from '@mui/material';
 import classNames from 'classnames';
-import PostBlock from '../../components/PostBlock';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import LightModeIcon from '@mui/icons-material/LightMode';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+
 import { selectPath, setPath } from '../../redux/Slices/navigation';
-import CustomPostSkeleton from '../../components/PostBlock/CustomPostSkeleton';
+import { selectTheme, setTheme } from '../../redux/Slices/theme';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+
+import s from './Profile.module.scss';
+
+import LightModeIcon from '@mui/icons-material/LightMode';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+
+import Button from '../../components/Button/Button';
 import ErrorLoading from '../../components/ErrorLoading';
-function Profile() {
-    const [isAuth, setIsAuth] = useState(true);
-    const [status, setStatus] = useState('loaded');
-    const theme = useSelector(selectTheme);
-    const path = useSelector(selectPath);
-    const dispatch = useDispatch();
+import PostBlock from '../../components/PostBlock';
+import PostBlockSkeleton from '../../components/PostBlock/PostBlockSkeleton';
+import { userProps } from './types';
+import { postData } from '@/components/TabPanel/types';
+
+function Profile(): JSX.Element {
+    const [isAuth, setIsAuth] = useState<boolean>(true);
+    const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
+    const theme = useAppSelector(selectTheme);
+    const path = useAppSelector(selectPath);
+    const dispatch = useAppDispatch();
     const changeTheme = () => {
         dispatch(setTheme());
     };
     useEffect(() => {
         dispatch(setPath(2));
         console.log('path', path);
-    }, []);
-    const { userName, userImg, userNickName } = {
+    }, [path, dispatch]);
+    const { userName, userImg, userNickName }: userProps = {
         userName: 'Иванов Иван Иванович',
         userImg: 'https://cdn-edge.kwork.ru/files/avatar/large/52/15318475-1.jpg',
         userNickName: 'Worker',
     };
-    const reloadProfilePosts = () => {
+    const reloadProfilePosts: () => void = () => {
         console.log('reloaded');
     };
-    const customData = [
+    const customData: postData[] = [
         {
             _id: 0,
             title: 'Искусство в цифровой эпохе: Эволюция и влияние на общество',
@@ -63,19 +71,25 @@ function Profile() {
     ];
     return (
         <>
-            <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Container
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                }}
+            >
                 <Typography color='secondary' variant='h2'>
                     Профиль
                 </Typography>
                 {theme === 'dark' ? (
                     <LightModeIcon
-                        color='secondapxry'
+                        color='secondary'
                         style={{ cursor: 'pointer' }}
                         onClick={() => changeTheme()}
                     />
                 ) : (
                     <Brightness4Icon
-                        style={{ cursopxr: 'pointer' }}
+                        style={{ cursor: 'pointer' }}
                         onClick={() => changeTheme()}
                         color='secondary'
                     />
@@ -90,7 +104,11 @@ function Profile() {
                         })}
                     >
                         <Box className={s.profile__text}>
-                            <Avatar className={s.avatar} alt={userName} src={userImg && userImg} />
+                            <Avatar
+                                className={s.avatar}
+                                alt={userName}
+                                src={userImg && userImg}
+                            />
                             <Box className={s.profile__nickname}>
                                 <Typography color='secondary' variant='h5'>
                                     {userName}
@@ -107,14 +125,21 @@ function Profile() {
                             customData.map((item) => (
                                 <>
                                     <Box sx={{ width: '100%', marginBottom: '20px' }}>
-                                        <PostBlock key={item._id} item={item} size='large' />
+                                        <PostBlock
+                                            key={item._id}
+                                            item={item}
+                                            size={'large'}
+                                        />
                                     </Box>
                                 </>
                             ))
                         ) : status === 'loading' ? (
-                            <CustomPostSkeleton />
+                            <PostBlockSkeleton />
                         ) : (
-                            <ErrorLoading text={'постов'} func={() => reloadProfilePosts()} />
+                            <ErrorLoading
+                                text={'постов'}
+                                func={() => reloadProfilePosts()}
+                            />
                         )}
                     </Container>
                 </Container>

@@ -1,21 +1,26 @@
+import React from 'react';
+
 import TextField from '@mui/material/TextField';
-import s from './Login.module.scss';
-import Button from '../../components/Button/Button';
+import { Autocomplete, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { selectTheme } from '../../redux/Slices/theme';
 import classNames from 'classnames';
-import { Typography } from '@mui/material';
-function Login() {
+
+import { selectTheme } from '../../redux/Slices/theme';
+import { useAppSelector } from '../../redux/hooks';
+
+import Button from '../../components/Button/Button';
+import s from './Login.module.scss';
+import { LoginFormValues } from './types';
+function Login(): JSX.Element {
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
-    } = useForm({ mode: 'onChange' });
-    const onSubmit = (values) => {
+    } = useForm<LoginFormValues>({ mode: 'onChange' });
+    const onSubmit = (values: LoginFormValues) => {
         console.log(values);
     };
-    const theme = useSelector(selectTheme);
+    const theme = useAppSelector(selectTheme);
     return (
         <div className={s.login}>
             <form
@@ -41,7 +46,7 @@ function Login() {
                     fullWidth
                     label='E-mail'
                     type='email'
-                    autocomplete
+                    autoComplete='email'
                 />
                 <TextField
                     {...register('password', {
@@ -55,9 +60,9 @@ function Login() {
                     error={Boolean(errors.password?.message)}
                     label='Пароль'
                     type='password'
-                    autocomplete
                     margin={'dense'}
                     fullWidth
+                    autoComplete='current-password'
                 />
                 <Button color='primary' disabled={!isValid} type='submit'>
                     Подтвердить

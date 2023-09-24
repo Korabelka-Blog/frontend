@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import React from 'react';
 
+import { Box, Typography } from '@mui/material';
 import s from './ErrorLoading.module.scss';
 import Button from '../Button/Button';
 
-function ErrorLoading({ text, func }) {
+function ErrorLoading({ text, func }: { text?: string; func: () => void }): JSX.Element {
     return (
         <>
             <Box className={s.container}>

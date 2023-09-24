@@ -1,17 +1,20 @@
+import React from 'react';
 import { Avatar, Grid, Typography } from '@mui/material';
 import s from './PostBlock.module.scss';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { selectTheme } from '../../redux/Slices/theme';
-import { useSelector } from 'react-redux';
-function PostBlock({ item, size }) {
-    const theme = useSelector(selectTheme);
+import { useAppSelector } from '../../redux/hooks';
+import { PostBlockProps } from './types';
+
+function PostBlock({ item, size }: PostBlockProps): JSX.Element {
+    const theme = useAppSelector(selectTheme);
     const renderTags = () => {
-        return item.tags.map((tag: any) => {
+        return item.tags.map((tag) => {
             return (
                 <>
                     <Link to={`/${tag}`}>
-                        <Typography color='text.primary' variant='tag'>
+                        <Typography color='primary' style={{ display: 'inline' }}>
                             {tag}
                         </Typography>
                     </Link>

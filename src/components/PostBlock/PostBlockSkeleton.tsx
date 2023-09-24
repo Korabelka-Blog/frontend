@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Grid, Skeleton, Typography } from '@mui/material';
 
-function CustomPostSkeleton() {
+function PostBlockSkeleton() {
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Skeleton
@@ -45,4 +45,4 @@ function CustomPostSkeleton() {
     );
 }
 
-export default CustomPostSkeleton;
+export default PostBlockSkeleton;
