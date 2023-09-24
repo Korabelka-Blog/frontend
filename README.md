@@ -1,2 +1,2 @@
 # Blog frontend
-mmm [Check Result]([url](https://tangerine-salmiakki-6b6eff.netlify.app/)https://tangerine-salmiakki-6b6eff.netlify.app)
+[Check result]([url](https://app.netlify.com/sites/tangerine-salmiakki-6b6eff/overview)https://app.netlify.com/sites/tangerine-salmiakki-6b6eff/overview)
