@@ -5,18 +5,23 @@ import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
 import PostBlock from '../PostBlock';
 import CustomPostSkeleton from '../PostBlock/CustomPostSkeleton';
 import ErrorLoading from '../ErrorLoading';
+import { postData } from './types';
+import { selectTheme } from '../../redux/Slices/theme';
+import { useAppSelector } from '../../redux/hooks';
 
-function BasicTabs() {
-    const [value, setValue] = React.useState(0);
-    const [newPostsStatus, setNewPostsStatus] = React.useState('error');
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+function BasicTabs(): JSX.Element {
+    const [value, setValue] = React.useState<number>(0);
+    const [newPostsStatus, setNewPostsStatus] = React.useState<
+        'error' | 'loading' | 'loaded'
+    >('error');
+    const theme = useAppSelector(selectTheme);
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(Number(newValue));
     };
 
     useEffect(() => {
         const interval = setTimeout(() => {
             setNewPostsStatus('error');
-            console.log('was updated');
         }, 1500);
         interval;
     }, []);
@@ -25,20 +30,22 @@ function BasicTabs() {
         console.log('reloaded');
     };
 
-    const renderPopularPosts = () => {
+    const renderPopularPosts = (): JSX.Element | JSX.Element[] => {
         if (newPostsStatus === 'error') {
             return <ErrorLoading text={'постов'} func={() => reloadData()} />;
         }
-        return (newPostsStatus === 'loading' ? [...Array(4)] : customData).map((item) => {
-            return newPostsStatus === 'loading' ? (
-                <CustomPostSkeleton />
-            ) : (
-                <PostBlock key={'uniq_key_' + item.id} item={item} />
-            );
-        });
+        return (newPostsStatus === 'loading' ? [...Array(4)] : customData).map(
+            (item: postData) => {
+                return newPostsStatus === 'loading' ? (
+                    <CustomPostSkeleton key={'skeleton_' + item._id} />
+                ) : (
+                    <PostBlock key={'uniq_key_' + item._id} item={item} />
+                );
+            }
+        );
     };
 
-    const customData = [
+    const customData: postData[] = [
         {
             _id: 0,
             title: 'Искусство в цифровой эпохе: Эволюция и влияние на общество',
@@ -71,22 +78,30 @@ function BasicTabs() {
         <Box sx={{ width: '100%' }}>
             <Container>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label='basic tabs example'
+                    >
                         <Tab label='Популярные' />
                         <Tab label='Новые' />
                     </Tabs>
                 </Box>
             </Container>
-            <SwipeableViews index={value} onChangeIndex={handleChange}>
-                <CustomTabPanel value={value} index={0}>
+            <SwipeableViews
+                axis={'x'}
+                index={value}
+                onChangeIndex={handleChange}
+            >
+                <CustomTabPanel value={value} index={0} dir={'x'}>
                     <Grid container spacing={4}>
                         {renderPopularPosts()}
                     </Grid>
                 </CustomTabPanel>
-                <CustomTabPanel axis='x-reverse' value={value} index={1}>
+                <CustomTabPanel value={value} index={1} dir={'x'}>
                     <Grid container spacing={1}>
-                        {customData.map((item) => (
-                            <PostBlock key={item.id} item={item} />
+                        {customData.map((item: postData) => (
+                            <PostBlock key={item._id} item={item} />
                         ))}
                     </Grid>
                 </CustomTabPanel>

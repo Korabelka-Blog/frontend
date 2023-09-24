@@ -1,15 +1,20 @@
-import { useState } from 'react';
-import Button from '../Button/Button';
-import s from './Header.module.scss';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectTheme, setTheme } from '../../redux/Slices/theme';
-import PersonIcon from '@mui/icons-material/Person';
-import { Container } from '@mui/material';
+import React, { useState } from 'react';
 
-function Header() {
-    const [isAuth, setIsAuth] = useState(true);
+import s from './Header.module.scss';
+
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { selectTheme } from '../../redux/Slices/theme';
+
+import { Container } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+
+import Button from '../Button/Button';
+
+function Header(): JSX.Element {
+    const [isAuth, setIsAuth] = useState<Boolean>(true);
 
     const theme = useSelector(selectTheme);
 
@@ -30,7 +35,10 @@ function Header() {
                         {isAuth ? (
                             <>
                                 <Link to='/'>
-                                    <Button func={() => setIsAuth(false)} color={'default'}>
+                                    <Button
+                                        func={() => setIsAuth(false)}
+                                        color={'default'}
+                                    >
                                         Выйти
                                     </Button>
                                 </Link>
@@ -44,12 +52,18 @@ function Header() {
                         ) : (
                             <>
                                 <Link to='/register'>
-                                    <Button func={() => setIsAuth(true)} color={'default'}>
+                                    <Button
+                                        func={() => setIsAuth(true)}
+                                        color={'default'}
+                                    >
                                         Зарегистрироваться
                                     </Button>
                                 </Link>
                                 <Link to='/login'>
-                                    <Button func={() => setIsAuth(true)} color={'primary'}>
+                                    <Button
+                                        func={() => setIsAuth(true)}
+                                        color={'primary'}
+                                    >
                                         Войти
                                     </Button>
                                 </Link>

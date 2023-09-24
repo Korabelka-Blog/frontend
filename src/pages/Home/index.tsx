@@ -1,13 +1,14 @@
+import React from 'react';
+
 import { Container, Typography } from '@mui/material';
 import BasicTabs from '../../components/TabPanel/BasicTabs';
-import s from './Home.module.scss';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectPath, setPath } from '../../redux/Slices/navigation';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-function Home() {
-    const dispatch = useDispatch();
-    const path = useSelector(selectPath);
+function Home(): JSX.Element {
+    const dispatch = useAppDispatch();
+    const path = useAppSelector(selectPath);
     useEffect(() => {
         dispatch(setPath(2));
         console.log('path', path);
@@ -19,7 +20,7 @@ function Home() {
                     Главная
                 </Typography>
             </Container>
-            <BasicTabs value={0} index={0} />
+            <BasicTabs />
         </div>
     );
 }

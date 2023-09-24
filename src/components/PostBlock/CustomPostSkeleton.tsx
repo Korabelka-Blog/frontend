@@ -1,10 +1,16 @@
-import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import React from 'react';
+
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 
 function CustomPostSkeleton() {
     return (
         <Grid item xs={12} sm={6} md={4}>
-            <Skeleton animation='wave' variant='rounded' width={'100%'} height={'250px'} />
+            <Skeleton
+                animation='wave'
+                variant='rounded'
+                width={'100%'}
+                height={'250px'}
+            />
             <Typography variant='h5' sx={{ marginTop: '24px' }}>
                 <Skeleton width={'150px'} />
             </Typography>
@@ -14,7 +20,9 @@ function CustomPostSkeleton() {
             <Typography variant='body1' sx={{ marginTop: '8px' }}>
                 <Skeleton width={'100%'} />
             </Typography>
-            <Box sx={{ display: 'flex', width: '100%', height: '40px', marginTop: '10px' }}>
+            <Box
+                sx={{ display: 'flex', width: '100%', height: '40px', marginTop: '10px' }}
+            >
                 <Skeleton variant='circular' width={48} height={40} />
                 <Box
                     sx={{

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 function PostBlock({ item, size }) {
     const theme = useSelector(selectTheme);
     const renderTags = () => {
-        return item.tags.map((tag) => {
+        return item.tags.map((tag: any) => {
             return (
                 <>
                     <Link to={`/${tag}`}>
@@ -24,12 +24,17 @@ function PostBlock({ item, size }) {
     return (
         <>
             <Grid item xs={12} sm={6} md={4}>
-                <div className={classNames({ [s.post]: true, [s.dark]: theme === 'dark' })}>
+                <div
+                    className={classNames({ [s.post]: true, [s.dark]: theme === 'dark' })}
+                >
                     <Link to={pathToFullScreenPost}>
                         <img
                             src={item.imageUrl}
                             alt=''
-                            className={classNames({ [s.image]: true, [s.large]: size === 'large' })}
+                            className={classNames({
+                                [s.image]: true,
+                                [s.large]: size === 'large',
+                            })}
                         />
                     </Link>
                     <div className={s.tags}>{renderTags()}</div>
@@ -43,7 +48,10 @@ function PostBlock({ item, size }) {
                     </Link>
                     <Link to={pathToAuthorProfile}>
                         <div className={s.author}>
-                            <Avatar alt={item.userName} src={item.userImg && item.userImg} />
+                            <Avatar
+                                alt={item.userName}
+                                src={item.userImg && item.userImg}
+                            />
                             <div className={s.author__info}>
                                 <Typography color='secondary' variant='subtitle2' noWrap>
                                     {item.userName}
