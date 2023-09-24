@@ -1,2 +1,2 @@
 # Blog frontend
-[Check result]([url](https://app.netlify.com/sites/tangerine-salmiakki-6b6eff/overview)https://app.netlify.com/sites/tangerine-salmiakki-6b6eff/overview)
+This site was built using [GitHub Pages](https://pages.github.com/).
