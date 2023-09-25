@@ -11,13 +11,13 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 
-import Button from '../../components/Button/Button';
+import {Button} from '../../components/Button/Button';
 import { ErrorLoading } from '../../components/ErrorLoading';
 import { PostBlock } from '../../components/PostBlock';
 import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
 
 import { userProps } from './types';
-import { postData } from '@/components/TabPanel/types';
+import { IPost } from '@/components/TabPanel/types';
 
 import s from './Profile.module.scss';
 
@@ -42,7 +42,7 @@ export const Profile: FC = () => {
     const reloadProfilePosts: () => void = () => {
         console.log('reloaded');
     };
-    const customData: postData[] = [
+    const customData: IPost[] = [
         {
             _id: 0,
             title: 'Искусство в цифровой эпохе: Эволюция и влияние на общество',

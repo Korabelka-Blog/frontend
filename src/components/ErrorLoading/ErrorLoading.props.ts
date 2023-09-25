@@ -1,4 +1,4 @@
-export interface ErrorLoadingProps {
+export interface IProps {
     text?: string;
     func: () => void;
 }

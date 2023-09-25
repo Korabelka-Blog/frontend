@@ -1,9 +1,9 @@
-export type ButtonProps = {
+import { HTMLAttributes } from 'react';
+
+export interface IProps extends HTMLAttributes<HTMLButtonElement> {
     color?: 'default' | 'primary';
     func?: () => void;
     children: React.ReactNode;
-    style?: React.CSSProperties;
     disabled?: boolean;
     type?: 'submit';
-    // className?: string;
-};
+}

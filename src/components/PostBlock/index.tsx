@@ -15,10 +15,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 import s from './PostBlock.module.scss';
-import Button from '../Button/Button';
-import { PostBlockProps } from './PostBlock.props';
+import {Button} from '../Button/Button';
+import { IProps } from './PostBlock.props';
 
-export const PostBlock: FC<PostBlockProps> = ({ item, size, fromProfile = false }) => {
+export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const theme = useAppSelector(selectTheme);
     const renderTags = (): JSX.Element[] => {
         return item.tags.map((tag) => {

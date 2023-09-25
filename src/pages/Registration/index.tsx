@@ -12,7 +12,7 @@ import { RegistrationFormValues } from './types';
 import s from './Registration.module.scss';
 
 import TextField from '@mui/material/TextField';
-import Button from '../../components/Button/Button';
+import { Button } from '../../components/Button/Button';
 
 export const Registration: FC = () => {
     const {

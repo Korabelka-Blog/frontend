@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
-import {CustomTabPanel} from './CustomTabPanel/CustomTabPanel';
+import { CustomTabPanel } from './CustomTabPanel/CustomTabPanel';
 import { PostBlock } from '../PostBlock';
 import { PostBlockSkeleton } from '../PostBlock/PostBlockSkeleton';
 import { ErrorLoading } from '../ErrorLoading';
-import { postData } from './types';
+import { IPost } from './types';
 import { selectTheme } from '../../redux/Slices/theme';
 import { useAppSelector } from '../../redux/hooks';
 
@@ -35,7 +35,7 @@ export const BasicTabs: FC = () => {
             return <ErrorLoading text={'постов'} func={() => reloadData()} />;
         }
         return (newPostsStatus === 'loading' ? [...Array(4)] : customData).map(
-            (item: postData) => {
+            (item: IPost) => {
                 return newPostsStatus === 'loading' ? (
                     <PostBlockSkeleton key={'skeleton_' + item._id} />
                 ) : (
@@ -45,7 +45,7 @@ export const BasicTabs: FC = () => {
         );
     };
 
-    const customData: postData[] = [
+    const customData: IPost[] = [
         {
             _id: 0,
             title: 'Искусство в цифровой эпохе: Эволюция и влияние на общество',
@@ -96,7 +96,7 @@ export const BasicTabs: FC = () => {
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1} dir={'x'}>
                     <Grid container spacing={1}>
-                        {customData.map((item: postData) => (
+                        {customData.map((item: IPost) => (
                             <PostBlock key={item._id} item={item} />
                         ))}
                     </Grid>

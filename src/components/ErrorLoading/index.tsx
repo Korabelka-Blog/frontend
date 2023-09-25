@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 
-import { Box, Typography, Grid } from '@mui/material';
+import { Typography } from '@mui/material';
 import s from './ErrorLoading.module.scss';
-import Button from '../Button/Button';
-import { ErrorLoadingProps } from './ErrorLoading.props';
+import { Button } from '../Button/Button';
+import { IProps } from './ErrorLoading.props';
 
-export const ErrorLoading: FC<ErrorLoadingProps> = ({ text, func }) => {
+export const ErrorLoading: FC<IProps> = ({ text, func }) => {
     return (
         <>
             <div className={s.container}>
@@ -29,4 +29,3 @@ export const ErrorLoading: FC<ErrorLoadingProps> = ({ text, func }) => {
         </>
     );
 };
-

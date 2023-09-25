@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Box } from '@mui/material';
-import { TabPanelProps } from './CustomTabPanel.props';
+import { IProps } from './CustomTabPanel.props';
 
-export const CustomTabPanel: FC<TabPanelProps> = (props: TabPanelProps) => {
+export const CustomTabPanel: FC<IProps> = (props) => {
     const { children, value, index, ...other } = props;
 
     return (

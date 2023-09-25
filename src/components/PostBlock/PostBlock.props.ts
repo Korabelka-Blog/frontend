@@ -1,7 +1,7 @@
-import { postData } from '../TabPanel/types';
+import { IPost } from '../TabPanel/types';
 
-export interface PostBlockProps {
-    item: postData;
+export interface IProps {
+    item: IPost;
     size?: 'large';
     fromProfile?: boolean;
 }

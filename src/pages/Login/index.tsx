@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { selectTheme } from '../../redux/Slices/theme';
 import { useAppSelector } from '../../redux/hooks';
 
-import Button from '../../components/Button/Button';
+import { Button } from '../../components/Button/Button';
 import s from './Login.module.scss';
 import { LoginFormValues } from './types';
 export const Login: FC = () => {

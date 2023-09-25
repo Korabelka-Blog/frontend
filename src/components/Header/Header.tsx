@@ -10,7 +10,7 @@ import { selectTheme } from '../../redux/Slices/theme';
 import { Container } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
-import Button from '../Button/Button';
+import { Button } from '../Button/Button';
 import { useAppSelector } from '../../redux/hooks';
 
 export const Header: FC = () => {
