@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import s from './Header.module.scss';
 
@@ -13,7 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import Button from '../Button/Button';
 import { useAppSelector } from '../../redux/hooks';
 
-function Header(): JSX.Element {
+export const Header: FC = () => {
     const [isAuth, setIsAuth] = useState<Boolean>(true);
 
     const theme = useAppSelector(selectTheme);
@@ -74,6 +74,4 @@ function Header(): JSX.Element {
             </Container>
         </header>
     );
-}
-
-export default Header;
+};

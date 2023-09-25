@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import TextField from '@mui/material/TextField';
 import { Autocomplete, Typography } from '@mui/material';
@@ -11,7 +11,7 @@ import { useAppSelector } from '../../redux/hooks';
 import Button from '../../components/Button/Button';
 import s from './Login.module.scss';
 import { LoginFormValues } from './types';
-function Login(): JSX.Element {
+export const Login: FC = () => {
     const {
         register,
         handleSubmit,
@@ -70,6 +70,4 @@ function Login(): JSX.Element {
             </form>
         </div>
     );
-}
-
-export default Login;
+};

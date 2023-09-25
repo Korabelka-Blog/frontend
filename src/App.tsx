@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import {
     CssBaseline,
@@ -18,17 +18,17 @@ import { selectTheme } from './redux/Slices/theme';
 import { Route, Routes } from 'react-router-dom';
 import { useAppSelector } from './redux/hooks';
 
-import Header from './components/Header/Header';
-import NavigationMobile from './components/NavigationMobile/NavigationMobile';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import Login from './pages/Login';
-import Registration from './pages/Registration';
+import { Header } from './components/Header/Header';
+import { NavigationMobile } from './components/NavigationMobile/NavigationMobile';
+import { Home } from './pages/Home';
+import { Profile } from './pages/Profile';
+import { Login } from './pages/Login';
+import { Registration } from './pages/Registration';
 
 import s from './App.module.scss';
 import './reset.css';
 
-function App() {
+export const App: FC = () => {
     const themeMode = useAppSelector(selectTheme);
 
     let theme = React.useMemo(
@@ -95,6 +95,4 @@ function App() {
             </ThemeProvider>
         </>
     );
-}
-
-export default App;
+};

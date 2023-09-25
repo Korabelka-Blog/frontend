@@ -3,8 +3,8 @@ import React from 'react';
 import s from './Button.module.scss';
 import classNames from 'classnames';
 import { selectTheme } from '../../redux/Slices/theme';
-import { ButtonProps } from './ButtonProps';
 import { useAppSelector } from '../../redux/hooks';
+import { ButtonProps } from './Button.props';
 
 function Button({
     color = 'default',

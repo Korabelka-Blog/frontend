@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Avatar, Box, Container, Typography } from '@mui/material';
 import classNames from 'classnames';
@@ -12,16 +12,16 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 
 import Button from '../../components/Button/Button';
-import ErrorLoading from '../../components/ErrorLoading';
-import PostBlock from '../../components/PostBlock';
-import PostBlockSkeleton from '../../components/PostBlock/PostBlockSkeleton';
+import { ErrorLoading } from '../../components/ErrorLoading';
+import { PostBlock } from '../../components/PostBlock';
+import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
 
 import { userProps } from './types';
 import { postData } from '@/components/TabPanel/types';
 
 import s from './Profile.module.scss';
 
-function Profile(): JSX.Element {
+export const Profile: FC = () => {
     const [isAuth, setIsAuth] = useState<boolean>(true);
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
     const theme = useAppSelector(selectTheme);
@@ -166,6 +166,4 @@ function Profile(): JSX.Element {
             )}
         </>
     );
-}
-
-export default Profile;
+};

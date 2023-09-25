@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Box, Typography, Grid } from '@mui/material';
 import s from './ErrorLoading.module.scss';
 import Button from '../Button/Button';
+import { ErrorLoadingProps } from './ErrorLoading.props';
 
-function ErrorLoading({ text, func }: { text?: string; func: () => void }): JSX.Element {
+export const ErrorLoading: FC<ErrorLoadingProps> = ({ text, func }) => {
     return (
         <>
             <div className={s.container}>
@@ -27,6 +28,5 @@ function ErrorLoading({ text, func }: { text?: string; func: () => void }): JSX.
             </div>
         </>
     );
-}
+};
 
-export default ErrorLoading;

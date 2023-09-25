@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
-import CustomTabPanel from './CustomTabPanel/CustomTabPanel';
-import PostBlock from '../PostBlock';
-import CustomPostSkeleton from '../PostBlock/PostBlockSkeleton';
-import ErrorLoading from '../ErrorLoading';
+import {CustomTabPanel} from './CustomTabPanel/CustomTabPanel';
+import { PostBlock } from '../PostBlock';
+import { PostBlockSkeleton } from '../PostBlock/PostBlockSkeleton';
+import { ErrorLoading } from '../ErrorLoading';
 import { postData } from './types';
 import { selectTheme } from '../../redux/Slices/theme';
 import { useAppSelector } from '../../redux/hooks';
 
-function BasicTabs(): JSX.Element {
+export const BasicTabs: FC = () => {
     const [value, setValue] = React.useState<number>(0);
     const [newPostsStatus, setNewPostsStatus] = React.useState<
         'error' | 'loading' | 'loaded'
@@ -37,7 +37,7 @@ function BasicTabs(): JSX.Element {
         return (newPostsStatus === 'loading' ? [...Array(4)] : customData).map(
             (item: postData) => {
                 return newPostsStatus === 'loading' ? (
-                    <CustomPostSkeleton key={'skeleton_' + item._id} />
+                    <PostBlockSkeleton key={'skeleton_' + item._id} />
                 ) : (
                     <PostBlock key={'uniq_key_' + item._id} item={item} />
                 );
@@ -104,6 +104,4 @@ function BasicTabs(): JSX.Element {
             </SwipeableViews>
         </Box>
     );
-}
-
-export default BasicTabs;
+};

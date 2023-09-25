@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Container, Typography } from '@mui/material';
-import BasicTabs from '../../components/TabPanel/BasicTabs';
+import { BasicTabs } from '../../components/TabPanel/BasicTabs';
 import { useEffect } from 'react';
 import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-function Home(): JSX.Element {
+export const Home: FC = () => {
     const dispatch = useAppDispatch();
     const path = useAppSelector(selectPath);
     useEffect(() => {
@@ -23,6 +23,4 @@ function Home(): JSX.Element {
             <BasicTabs />
         </div>
     );
-}
-
-export default Home;
+};

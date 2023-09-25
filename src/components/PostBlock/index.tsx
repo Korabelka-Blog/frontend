@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { selectTheme } from '../../redux/Slices/theme';
 import { useAppSelector } from '../../redux/hooks';
-import { PostBlockProps } from './types';
 
 import { nFormatter } from '../../utils/formatNumbers';
 
@@ -17,8 +16,9 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 
 import s from './PostBlock.module.scss';
 import Button from '../Button/Button';
+import { PostBlockProps } from './PostBlock.props';
 
-function PostBlock({ item, size, fromProfile = false }: PostBlockProps): JSX.Element {
+export const PostBlock: FC<PostBlockProps> = ({ item, size, fromProfile = false }) => {
     const theme = useAppSelector(selectTheme);
     const renderTags = (): JSX.Element[] => {
         return item.tags.map((tag) => {
@@ -180,5 +180,4 @@ function PostBlock({ item, size, fromProfile = false }: PostBlockProps): JSX.Ele
             </Grid>
         </>
     );
-}
-export default PostBlock;
+};

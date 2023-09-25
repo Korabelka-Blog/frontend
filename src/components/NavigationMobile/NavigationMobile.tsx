@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import s from './NavigationMobile.module.scss';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-function NavigationMobile() {
+export const NavigationMobile: FC = () => {
     const dispatch = useAppDispatch();
     const path = useAppSelector(selectPath);
     return (
@@ -40,6 +40,4 @@ function NavigationMobile() {
             />
         </BottomNavigation>
     );
-}
-
-export default NavigationMobile;
+};

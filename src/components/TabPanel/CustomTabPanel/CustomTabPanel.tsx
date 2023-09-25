@@ -1,13 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Box } from '@mui/material';
-interface TabPanelProps {
-    children?: React.ReactNode;
-    dir?: string;
-    index: number;
-    value: number;
-}
+import { TabPanelProps } from './CustomTabPanel.props';
 
-function CustomTabPanel(props: TabPanelProps): JSX.Element {
+export const CustomTabPanel: FC<TabPanelProps> = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -21,6 +16,4 @@ function CustomTabPanel(props: TabPanelProps): JSX.Element {
             {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
         </div>
     );
-}
-
-export default CustomTabPanel;
+};

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Box, Grid, Skeleton, Typography } from '@mui/material';
 
-function PostBlockSkeleton() {
+export const PostBlockSkeleton: FC = () => {
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Skeleton
@@ -43,6 +43,4 @@ function PostBlockSkeleton() {
             </Box>
         </Grid>
     );
-}
-
-export default PostBlockSkeleton;
+};

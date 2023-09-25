@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
@@ -14,7 +14,7 @@ import s from './Registration.module.scss';
 import TextField from '@mui/material/TextField';
 import Button from '../../components/Button/Button';
 
-function Registration(): JSX.Element {
+export const Registration: FC = () => {
     const {
         register,
         handleSubmit,
@@ -88,6 +88,4 @@ function Registration(): JSX.Element {
             </form>
         </div>
     );
-}
-
-export default Registration;
+};
