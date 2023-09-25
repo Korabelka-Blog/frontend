@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 
-import {Button} from '../../components/Button/Button';
+import { Button } from '../../components/Button/Button';
 import { ErrorLoading } from '../../components/ErrorLoading';
 import { PostBlock } from '../../components/PostBlock';
 import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
@@ -119,7 +119,9 @@ export const Profile: FC = () => {
                                 </Typography>
                             </Box>
                         </Box>
-                        <Button color='default'>Редактировать профиль</Button>
+                        <Button profile={true} color='default'>
+                            Редактировать профиль
+                        </Button>
                     </Box>
                     <Container sx={{ padding: '50px 0 10px 0' }}>
                         {status === 'loaded' ? (

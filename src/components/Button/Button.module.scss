@@ -35,6 +35,13 @@
         transition-duration: 0.2s;
     }
 }
+.profile {
+    @media (max-width: 600px) {
+        margin: 20px 0px 0px 0px;
+        width: 100%;
+        justify-content: center;
+    }
+}
 .default {
     border: 1px solid #d0d5dd;
     color: $font-gray;

@@ -10,18 +10,21 @@ export const Button: FC<IProps> = ({
     color = 'default',
     func,
     children,
-    disabled,
+    disabled = false,
+    profile = false,
     ...props
 }) => {
+    console.log('profile', profile);
     const theme = useAppSelector(selectTheme);
     const btnType = classNames({
         [s.button]: true,
+        [s.profile]: profile === true,
         [s.dark]: theme === 'dark',
         [s.default]: color === 'default',
         [s.primary]: color === 'primary',
     });
     return (
-        <button disabled className={btnType} onClick={func} {...props}>
+        <button disabled={disabled} className={btnType} onClick={func} {...props}>
             {children}
         </button>
     );

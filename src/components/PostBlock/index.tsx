@@ -15,11 +15,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 import s from './PostBlock.module.scss';
-import {Button} from '../Button/Button';
+import { Button } from '../Button/Button';
 import { IProps } from './PostBlock.props';
+import { Loading } from '../Loading/Loading';
 
 export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const theme = useAppSelector(selectTheme);
+    const [isLoadingDeleting, setIsLoadingDeleting] = React.useState<boolean>(false);
     const renderTags = (): JSX.Element[] => {
         return item.tags.map((tag) => {
             return (
@@ -31,14 +33,23 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
             );
         });
     };
-    const [open, setOpen] = React.useState<boolean>(false);
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = React.useState<boolean>(false);
     const handleOpen = () => {
-        setOpen(true);
+        setIsOpenDeleteModal(true);
     };
     const handleClose = () => {
-        setOpen(false);
+        setIsOpenDeleteModal(false);
     };
     const deletePost = (): void => {
+        const prom = new Promise<void>((resolve) => {
+            setIsLoadingDeleting(true);
+            setTimeout(() => {
+                resolve();
+            }, 1500);
+        }).then(() => {
+            setIsLoadingDeleting(false);
+            handleClose();
+        });
         console.log('post was deleted');
     };
     const authorId: string = '6213t723';
@@ -50,11 +61,17 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     return (
         <>
             <Grid item xs={12} sm={6} md={4}>
-                {open && (
+                {isOpenDeleteModal && (
                     <Modal
                         className={s.modalDelete}
-                        open={open}
-                        onClose={handleClose}
+                        open={isOpenDeleteModal}
+                        onClose={
+                            !isLoadingDeleting
+                                ? handleClose
+                                : () => {
+                                      console.log('cant close');
+                                  }
+                        }
                         aria-labelledby='child-modal-title'
                         aria-describedby='child-modal-description'
                     >
@@ -64,22 +81,25 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                                 [s.dark]: theme === 'dark',
                             })}
                         >
-                            <Typography variant='h5' align='center' color='secondary'>
-                                Вы уверены, что хотите удалить пост?
-                            </Typography>
-                            <div className={s.modalDelete__buttons}>
-                                <Button func={handleClose} color='primary'>
-                                    Отмена
-                                </Button>
-                                <Button
-                                    func={() => {
-                                        deletePost();
-                                        handleClose();
-                                    }}
-                                >
-                                    Удалить
-                                </Button>
-                            </div>
+                            {isLoadingDeleting ? (
+                                <Loading />
+                            ) : (
+                                <>
+                                    <Typography
+                                        variant='h5'
+                                        align='center'
+                                        color='secondary'
+                                    >
+                                        Вы уверены, что хотите удалить пост?
+                                    </Typography>
+                                    <div className={s.modalDelete__buttons}>
+                                        <Button func={handleClose} color='primary'>
+                                            Отмена
+                                        </Button>
+                                        <Button func={deletePost}>Удалить</Button>
+                                    </div>
+                                </>
+                            )}
                         </Box>
                     </Modal>
                 )}
@@ -116,7 +136,6 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                             src={item.imageUrl}
                             alt='Post Image'
                             className={classNames({
-                                [s.image]: true,
                                 [s.large]: size === 'large',
                             })}
                         />
