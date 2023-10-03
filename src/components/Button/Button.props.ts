@@ -5,6 +5,6 @@ export interface IProps extends HTMLAttributes<HTMLButtonElement> {
     func?: () => void;
     children: React.ReactNode;
     disabled?: boolean;
-    type?: 'submit';
+    type?: 'submit' | 'reset';
     profile?: boolean;
 }

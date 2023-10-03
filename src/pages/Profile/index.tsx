@@ -26,6 +26,7 @@ export const Profile: FC = () => {
     const [isAuth, setIsAuth] = useState<boolean>(true);
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
     const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
+
     const theme = useAppSelector(selectTheme);
     const path = useAppSelector(selectPath);
     const dispatch = useAppDispatch();
@@ -39,11 +40,12 @@ export const Profile: FC = () => {
         dispatch(setPath(2));
         console.log('path', path);
     }, [path, dispatch]);
-    const { userName, userImg, userNickName }: userProps = {
+    const [userData, setUserData] = useState<userProps>({
+        email: 'Yd9p0@example.com',
         userName: 'Иванов Иван Иванович',
         userImg: 'https://cdn-edge.kwork.ru/files/avatar/large/52/15318475-1.jpg',
         userNickName: 'Worker',
-    };
+    });
     const reloadProfilePosts: () => void = () => {
         console.log('reloaded');
     };
@@ -112,15 +114,15 @@ export const Profile: FC = () => {
                         <Box className={s.profile__text}>
                             <Avatar
                                 className={s.avatar}
-                                alt={userName}
-                                src={userImg && userImg}
+                                alt={userData.userName}
+                                src={userData.userImg && userData.userImg}
                             />
                             <Box className={s.profile__nickname}>
                                 <Typography color='secondary' variant='h5'>
-                                    {userName}
+                                    {userData.userName}
                                 </Typography>
                                 <Typography color='gray' variant='subtitle2'>
-                                    {userNickName}
+                                    {userData.userNickName}
                                 </Typography>
                             </Box>
                         </Box>
@@ -129,6 +131,8 @@ export const Profile: FC = () => {
                         </Button>
                     </Box>
                     <ProfileEditModal
+                        setUserData={setUserData}
+                        userData={userData}
                         isOpenEditModal={isOpenEditModal}
                         setIsOpenEditModal={setIsOpenEditModal}
                     />

@@ -10,30 +10,43 @@ import { useAppSelector } from '../../redux/hooks';
 import { selectTheme } from '../../redux/Slices/theme';
 import { Button } from '../Button/Button';
 import { EditFormValues } from './ProfileEditModal.type';
+import { userProps } from '@/pages/Profile/types';
 
-const ProfileEditModal: FC<IProps> = ({ isOpenEditModal, setIsOpenEditModal }) => {
-    const [handleIsValid, setHandleIsValid] = useState(false);
-    const [userData, setUserData] = useState({
-        userName: 'Иванов Иван Иванович',
-        email: 'test@test.com',
-        password: '12345678',
-    });
+const ProfileEditModal: FC<IProps> = ({
+    isOpenEditModal,
+    setIsOpenEditModal,
+    userData,
+    setUserData,
+}) => {
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<EditFormValues>({ mode: 'onChange' });
-    const handleCloseEditModal = () => {};
-
-    const handleOnChange = (value: string) => {
-        console.log(isValid);
-        if (isValid) {
-            setIsOpenEditModal(false);
-        }
+    const handleCloseEditModal = () => {
+        setIsOpenEditModal(false);
     };
 
+    const [resetValid, setResetValid] = useState<boolean>(false);
+
     const onSubmit = (values: EditFormValues) => {
+        const isEdited: boolean = Boolean(
+            values.email !== userData.email ||
+                values.password ||
+                values.userName !== userData.userName
+        );
+        console.log('isEdited:', isEdited);
+        console.log(userData);
         console.log(values);
+        if (isEdited) {
+            setUserData({
+                ...userData,
+                email: values.email,
+                userName: values.userName,
+            });
+            setResetValid(false);
+            setIsOpenEditModal(false);
+        }
     };
 
     const theme = useAppSelector(selectTheme);
@@ -54,7 +67,7 @@ const ProfileEditModal: FC<IProps> = ({ isOpenEditModal, setIsOpenEditModal }) =
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         {...register('userName', {
-                            // required: 'Это обязательное поле',
+                            required: 'Это обязательное поле',
                             minLength: {
                                 value: 8,
                                 message: 'Минимальная длина должна быть 8',
@@ -67,11 +80,10 @@ const ProfileEditModal: FC<IProps> = ({ isOpenEditModal, setIsOpenEditModal }) =
                         margin={'dense'}
                         autoComplete='name'
                         defaultValue={userData.userName}
-                        onChange={(e) => handleOnChange(e.target.value)}
                     />
                     <TextField
                         {...register('email', {
-                            // required: 'Это обязательное поле',
+                            required: 'Это обязательное поле',
                             minLength: {
                                 value: 8,
                                 message: 'Минимальная длина должна быть 8',
@@ -85,7 +97,6 @@ const ProfileEditModal: FC<IProps> = ({ isOpenEditModal, setIsOpenEditModal }) =
                         fullWidth
                         autoComplete='email'
                         defaultValue={userData.email}
-                        onChange={(e) => handleOnChange(e.target.value)}
                     />
                     <TextField
                         {...register('password', {
@@ -96,16 +107,26 @@ const ProfileEditModal: FC<IProps> = ({ isOpenEditModal, setIsOpenEditModal }) =
                         })}
                         helperText={errors.password?.message}
                         error={Boolean(errors.password?.message)}
-                        label='Пароль'
+                        label='Изменить пароль на'
                         type='password'
                         autoComplete='new-password'
                         margin={'dense'}
-                        onChange={(e) => handleOnChange(e.target.value)}
                         fullWidth
                     />
-                    <Button color='primary' disabled={!handleIsValid} type='submit'>
-                        Подтвердить
-                    </Button>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            mt: '20px',
+                        }}
+                    >
+                        <Button color='primary' disabled={!isValid} type='submit'>
+                            Подтвердить
+                        </Button>
+                        <Button disabled={!resetValid} type='reset'>
+                            Сбросить
+                        </Button>
+                    </Box>
                 </form>
             </Box>
         </Modal>
