@@ -23,11 +23,12 @@ const ProfileEditModal: FC<IProps> = ({
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<EditFormValues>({ mode: 'onChange' });
+
+    const theme = useAppSelector(selectTheme);
+    const [resetValid, setResetValid] = useState<boolean>(false);
     const handleCloseEditModal = () => {
         setIsOpenEditModal(false);
     };
-
-    const [resetValid, setResetValid] = useState<boolean>(false);
 
     const onSubmit = (values: EditFormValues) => {
         const isEdited: boolean = Boolean(
@@ -35,9 +36,6 @@ const ProfileEditModal: FC<IProps> = ({
                 values.password ||
                 values.userName !== userData.userName
         );
-        console.log('isEdited:', isEdited);
-        console.log(userData);
-        console.log(values);
         if (isEdited) {
             setUserData({
                 ...userData,
@@ -49,7 +47,6 @@ const ProfileEditModal: FC<IProps> = ({
         }
     };
 
-    const theme = useAppSelector(selectTheme);
     return (
         <Modal
             className={s.modal}
