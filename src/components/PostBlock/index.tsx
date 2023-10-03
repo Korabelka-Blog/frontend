@@ -23,9 +23,9 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const theme = useAppSelector(selectTheme);
     const [isLoadingDeleting, setIsLoadingDeleting] = React.useState<boolean>(false);
     const renderTags = (): JSX.Element[] => {
-        return item.tags.map((tag) => {
+        return item.tags.map((tag, i) => {
             return (
-                <Link to={`/${tag}`}>
+                <Link to={`/${tag}`} key={'tag_' + i}>
                     <Typography color='primary' style={{ display: 'inline' }}>
                         {tag}
                     </Typography>
@@ -41,15 +41,18 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
         setIsOpenDeleteModal(false);
     };
     const deletePost = (): void => {
-        const prom = new Promise<void>((resolve) => {
+        const delay = () => {
             setIsLoadingDeleting(true);
-            setTimeout(() => {
-                resolve();
-            }, 1500);
-        }).then(() => {
-            setIsLoadingDeleting(false);
-            handleClose();
-        });
+            const prom = new Promise<void>((resolve) => {
+                setTimeout(() => {
+                    resolve();
+                }, 1500);
+            }).then(() => {
+                setIsLoadingDeleting(false);
+                handleClose();
+            });
+        };
+        delay();
         console.log('post was deleted');
     };
     const authorId: string = '6213t723';
@@ -136,6 +139,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                             src={item.imageUrl}
                             alt='Post Image'
                             className={classNames({
+                                [s.image]: true,
                                 [s.large]: size === 'large',
                             })}
                         />

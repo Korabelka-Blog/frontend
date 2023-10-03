@@ -14,7 +14,6 @@ export const Button: FC<IProps> = ({
     profile = false,
     ...props
 }) => {
-    console.log('profile', profile);
     const theme = useAppSelector(selectTheme);
     const btnType = classNames({
         [s.button]: true,

@@ -20,13 +20,18 @@ import { userProps } from './types';
 import { IPost } from '@/components/TabPanel/types';
 
 import s from './Profile.module.scss';
+import ProfileEditModal from '../../components/ProfileEditModal/ProfileEditModal';
 
 export const Profile: FC = () => {
     const [isAuth, setIsAuth] = useState<boolean>(true);
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
+    const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
     const theme = useAppSelector(selectTheme);
     const path = useAppSelector(selectPath);
     const dispatch = useAppDispatch();
+    const handleOpenEditModal = () => {
+        setIsOpenEditModal(true);
+    };
     const changeTheme = () => {
         dispatch(setTheme());
     };
@@ -119,10 +124,14 @@ export const Profile: FC = () => {
                                 </Typography>
                             </Box>
                         </Box>
-                        <Button profile={true} color='default'>
+                        <Button profile={true} color='default' func={handleOpenEditModal}>
                             Редактировать профиль
                         </Button>
                     </Box>
+                    <ProfileEditModal
+                        isOpenEditModal={isOpenEditModal}
+                        setIsOpenEditModal={setIsOpenEditModal}
+                    />
                     <Container sx={{ padding: '50px 0 10px 0' }}>
                         {status === 'loaded' ? (
                             customData.map((item) => (
@@ -130,7 +139,6 @@ export const Profile: FC = () => {
                                     <Box sx={{ width: '100%', marginBottom: '20px' }}>
                                         <PostBlock
                                             fromProfile={true}
-                                            key={item._id}
                                             item={item}
                                             size={'large'}
                                         />
