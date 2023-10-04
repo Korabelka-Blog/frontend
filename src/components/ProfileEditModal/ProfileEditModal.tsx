@@ -3,7 +3,7 @@ import { IProps } from './ProfileEditModal.props';
 
 import { Modal, Box, TextField } from '@mui/material';
 
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import s from './ProfileEditModal.module.scss';
 import { useAppSelector } from '../../redux/hooks';
@@ -11,6 +11,7 @@ import { selectTheme } from '../../redux/Slices/theme';
 import { Button } from '../Button/Button';
 import { EditFormValues } from './ProfileEditModal.type';
 import { userProps } from '@/pages/Profile/types';
+import { Loading } from '../Loading/Loading';
 
 const ProfileEditModal: FC<IProps> = ({
     isOpenEditModal,
@@ -21,11 +22,12 @@ const ProfileEditModal: FC<IProps> = ({
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: { touchedFields, errors, isValid },
     } = useForm<EditFormValues>({ mode: 'onChange' });
 
     const theme = useAppSelector(selectTheme);
-    const [resetValid, setResetValid] = useState<boolean>(false);
+    const [resetValid, setResetValid] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const handleCloseEditModal = () => {
         setIsOpenEditModal(false);
     };
@@ -43,9 +45,33 @@ const ProfileEditModal: FC<IProps> = ({
                 userName: values.userName,
             });
             setResetValid(false);
-            setIsOpenEditModal(false);
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                setIsOpenEditModal(false);
+            }, 1000);
         }
     };
+
+    if (loading) {
+        return (
+            <Modal
+                className={s.modal}
+                open={isOpenEditModal}
+                aria-labelledby='child-modal-title'
+                aria-describedby='child-modal-description'
+            >
+                <Box
+                    className={classNames({
+                        [s.modal__content]: true,
+                        [s.dark]: theme === 'dark',
+                    })}
+                >
+                    <Loading />
+                </Box>
+            </Modal>
+        );
+    }
 
     return (
         <Modal

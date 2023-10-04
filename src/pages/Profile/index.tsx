@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
+import AddIcon from '@mui/icons-material/Add';
 
 import { Button } from '../../components/Button/Button';
 import { ErrorLoading } from '../../components/ErrorLoading';
@@ -136,6 +137,20 @@ export const Profile: FC = () => {
                         isOpenEditModal={isOpenEditModal}
                         setIsOpenEditModal={setIsOpenEditModal}
                     />
+                    <Box
+                        className={classNames({
+                            [s.create__button]: true,
+                            [s.dark]: theme === 'dark',
+                        })}
+                    >
+                        <Button
+                            style={{ width: '100%', justifyContent: 'center' }}
+                            color='primary'
+                        >
+                            Создать пост
+                            <AddIcon />
+                        </Button>
+                    </Box>
                     <Container sx={{ padding: '50px 0 10px 0' }}>
                         {status === 'loaded' ? (
                             customData.map((item) => (
