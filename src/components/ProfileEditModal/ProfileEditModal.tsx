@@ -11,7 +11,7 @@ import { selectTheme } from '../../redux/Slices/theme';
 import { Button } from '../Button/Button';
 import { EditFormValues } from './ProfileEditModal.type';
 import { userProps } from '@/pages/Profile/types';
-import { Loading } from '../Loading/Loading';
+import Loading from '../Loading/Loading';
 
 const ProfileEditModal: FC<IProps> = ({
     isOpenEditModal,

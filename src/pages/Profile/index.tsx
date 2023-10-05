@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { Avatar, Box, Container, Typography } from '@mui/material';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { selectTheme, setTheme } from '../../redux/Slices/theme';
@@ -13,12 +13,12 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import AddIcon from '@mui/icons-material/Add';
 
 import { Button } from '../../components/Button/Button';
-import { ErrorLoading } from '../../components/ErrorLoading';
+import ErrorLoading  from '../../components/ErrorLoading';
 import { PostBlock } from '../../components/PostBlock';
 import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
 
 import { userProps } from './types';
-import { IPost } from '@/components/TabPanel/types';
+import { IPost } from '@/redux/Slices/types';
 
 import s from './Profile.module.scss';
 import ProfileEditModal from '../../components/ProfileEditModal/ProfileEditModal';
@@ -27,6 +27,10 @@ export const Profile: FC = () => {
     const [isAuth, setIsAuth] = useState<boolean>(true);
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
     const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
+
+    const id = useParams().id;
+
+    const isYour: boolean = id === '123';
 
     const theme = useAppSelector(selectTheme);
     const path = useAppSelector(selectPath);
@@ -127,9 +131,15 @@ export const Profile: FC = () => {
                                 </Typography>
                             </Box>
                         </Box>
-                        <Button profile={true} color='default' func={handleOpenEditModal}>
-                            Редактировать профиль
-                        </Button>
+                        {isYour && (
+                            <Button
+                                profile={true}
+                                color='default'
+                                func={handleOpenEditModal}
+                            >
+                                Редактировать профиль
+                            </Button>
+                        )}
                     </Box>
                     <ProfileEditModal
                         setUserData={setUserData}
@@ -137,20 +147,23 @@ export const Profile: FC = () => {
                         isOpenEditModal={isOpenEditModal}
                         setIsOpenEditModal={setIsOpenEditModal}
                     />
-                    <Box
-                        className={classNames({
-                            [s.create__button]: true,
-                            [s.dark]: theme === 'dark',
-                        })}
-                    >
-                        <Button
-                            style={{ width: '100%', justifyContent: 'center' }}
-                            color='primary'
+                    {isYour && (
+                        <Box
+                            className={classNames({
+                                [s.create__button]: true,
+                                [s.dark]: theme === 'dark',
+                            })}
                         >
-                            Создать пост
-                            <AddIcon />
-                        </Button>
-                    </Box>
+                            <Button
+                                style={{ width: '100%', justifyContent: 'center' }}
+                                color='primary'
+                            >
+                                Создать пост
+                                <AddIcon />
+                            </Button>
+                        </Box>
+                    )}
+
                     <Container sx={{ padding: '50px 0 10px 0' }}>
                         {status === 'loaded' ? (
                             customData.map((item) => (

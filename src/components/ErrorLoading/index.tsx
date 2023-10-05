@@ -5,7 +5,7 @@ import s from './ErrorLoading.module.scss';
 import { Button } from '../Button/Button';
 import { IProps } from './ErrorLoading.props';
 
-export const ErrorLoading: FC<IProps> = ({ text, func }) => {
+const ErrorLoading: FC<IProps> = ({ text, func, additionalText }) => {
     return (
         <>
             <div className={s.container}>
@@ -17,6 +17,7 @@ export const ErrorLoading: FC<IProps> = ({ text, func }) => {
                     variant='h5'
                 >
                     Кажется произошла ошибка загрузки{text && ` ${text}`}...
+                    {additionalText && <span className={s.additional}>{additionalText}</span>}
                 </Typography>
                 <Button
                     style={{ alignSelf: 'flex-start', margin: '10px auto 0 auto' }}
@@ -29,3 +30,4 @@ export const ErrorLoading: FC<IProps> = ({ text, func }) => {
         </>
     );
 };
+export default ErrorLoading;

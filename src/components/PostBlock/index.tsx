@@ -14,10 +14,12 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
-import s from './PostBlock.module.scss';
 import { Button } from '../Button/Button';
 import { IProps } from './PostBlock.props';
-import { Loading } from '../Loading/Loading';
+import Loading from '../Loading/Loading';
+import { selectUserId } from '../../redux/Slices/user';
+
+import s from './PostBlock.module.scss';
 
 export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const theme = useAppSelector(selectTheme);
@@ -55,7 +57,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
         delay();
         console.log('post was deleted');
     };
-    const authorId: string = '6213t723';
+    const authorId: string = useAppSelector(selectUserId);
     const isYour: boolean = item.userId === authorId;
     const vews: string = nFormatter(2);
     const likes: string = nFormatter(600);
@@ -112,7 +114,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                         [s.dark]: theme === 'dark',
                     })}
                 >
-                    {fromProfile && (
+                    {isYour && fromProfile && (
                         <div className={s.post__control}>
                             <Button color='primary'>
                                 <DriveFileRenameOutlineIcon />

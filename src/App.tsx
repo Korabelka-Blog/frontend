@@ -27,6 +27,7 @@ import { Registration } from './pages/Registration';
 
 import s from './App.module.scss';
 import './reset.css';
+import PostFullScreen from './pages/PostFullScreen/PostFullScreen';
 
 export const App: FC = () => {
     const themeMode = useAppSelector(selectTheme);
@@ -88,7 +89,8 @@ export const App: FC = () => {
                         <Route path='/' element={<Home />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/register' element={<Registration />} />
-                        <Route path='/profile' element={<Profile />} />
+                        <Route path='/profile/:id' element={<Profile />} />
+                        <Route path='/post/:id' element={<PostFullScreen />} />
                     </Routes>
                     <NavigationMobile />
                 </div>

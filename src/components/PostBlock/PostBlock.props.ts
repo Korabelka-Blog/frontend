@@ -1,7 +1,7 @@
-import { IPost } from '../TabPanel/types';
+import { IPost } from '../../redux/Slices/types';
 
 export interface IProps {
-    item: IPost;
     size?: 'large';
     fromProfile?: boolean;
+    item: IPost;
 }

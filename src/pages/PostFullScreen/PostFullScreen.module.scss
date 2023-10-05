@@ -1,0 +1,12 @@
+@import '../../scss/index.scss';
+.wrapper {
+    padding: 20px;
+}
+.post {
+    border-radius: 10px;
+    background: darken($main, 5%);
+    padding: 20px 0px 20px 0px;
+    &.dark {
+        background: lighten(#121212, 5%);
+    }
+}

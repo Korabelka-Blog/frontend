@@ -18,6 +18,8 @@ export const Header: FC = () => {
 
     const theme = useAppSelector(selectTheme);
 
+    const userId = '123';
+
     return (
         <header className={classNames({ [s.header]: true, [s.dark]: theme === 'dark' })}>
             <Container>
@@ -42,7 +44,7 @@ export const Header: FC = () => {
                                         Выйти
                                     </Button>
                                 </Link>
-                                <Link to='/profile'>
+                                <Link to={`/profile/${userId}`}>
                                     <Button color={'primary'}>
                                         <PersonIcon />
                                         Профиль
