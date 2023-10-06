@@ -10,7 +10,7 @@ export interface postState {
 }
 
 function getPost(id: number) {
-    const post: IPost | undefined = data.find((item: IPost) => item.user._id === id);
+    const post: IPost | undefined = data.find((item: IPost) => item._id === id);
     if (post) {
         return post;
     }

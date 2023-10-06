@@ -22,7 +22,7 @@ const PostFullScreen: FC = () => {
     const loadingStatus = useAppSelector(selectStatusPost);
     useEffect(() => {
         dispatch(setPost(Number(id)));
-    }, []);
+    }, [id]);
 
     const reloadPost = () => {
         console.log('Trying to reload');

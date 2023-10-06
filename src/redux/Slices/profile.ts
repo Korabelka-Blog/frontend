@@ -18,9 +18,9 @@ function getPost(userId: number) {
     return null;
 }
 
-const getUser = (userId: number) => {
-    const user: IUser | null = data.find((item) => item.user._id === userId);
-    if (user) {
+const getUser = (userId: number): IUser | null => {
+    const user: IUser | undefined = data.find((item) => item.user._id === userId)?.user;
+    if (user !== undefined) {
         return user;
     }
     return null;
@@ -51,6 +51,7 @@ export const profileSlice = createSlice({
 
 export const selectProfilePosts = (state: RootState) => state.profile.posts;
 export const selectStatusProfile = (state: RootState) => state.profile.status;
+export const selectUserProfile = (state: RootState) => state.profile.user;
 
 export const { setProfile, setUserProfile } = profileSlice.actions;
 
