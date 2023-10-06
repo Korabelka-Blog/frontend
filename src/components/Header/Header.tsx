@@ -12,13 +12,14 @@ import PersonIcon from '@mui/icons-material/Person';
 
 import { Button } from '../Button/Button';
 import { useAppSelector } from '../../redux/hooks';
+import { selectUserId } from '../../redux/Slices/user';
 
 export const Header: FC = () => {
     const [isAuth, setIsAuth] = useState<Boolean>(true);
 
     const theme = useAppSelector(selectTheme);
 
-    const userId = '123';
+    const userId = useAppSelector(selectUserId);
 
     return (
         <header className={classNames({ [s.header]: true, [s.dark]: theme === 'dark' })}>

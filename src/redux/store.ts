@@ -5,6 +5,7 @@ import navigationReducer from './Slices/navigation';
 import userReducer from './Slices/user';
 import postsReducer from './Slices/posts';
 import postReducer from './Slices/post';
+import profileReducer from './Slices/profile';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         user: userReducer,
         posts: postsReducer,
         post: postReducer,
+        profile: profileReducer,
     },
 });
 

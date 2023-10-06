@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { IPost, IUser } from './types';
 
 export interface userState {
-    userId: string;
+    userId: IUser['_id'] | null;
     status: 'loading' | 'error' | 'loaded';
 }
 
 function auth() {
-    return '123';
+    const isAuthed = true;
+    if (isAuthed) return 123;
+    return null;
 }
 
 const initialState: userState = {

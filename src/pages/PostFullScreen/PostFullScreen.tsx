@@ -60,10 +60,13 @@ const PostFullScreen: FC = () => {
                         [s.dark]: theme === 'dark',
                     })}
                 >
-                    <h1>
-                        <Typography variant='h2'>{post.title}</Typography>
-                    </h1>
-                    <p>{post.text}</p>
+                    <img className={s.image} src={post.imageUrl} alt='' />
+                    <Typography color='secondary' variant='h2'>
+                        {post.title}
+                    </Typography>
+                    <Typography color='secondary' variant='subtitle1'>
+                        {post.text}
+                    </Typography>
                 </Container>
             </div>
         );

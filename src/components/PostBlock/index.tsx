@@ -57,12 +57,12 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
         delay();
         console.log('post was deleted');
     };
-    const authorId: string = useAppSelector(selectUserId);
-    const isYour: boolean = item.userId === authorId;
+    const authorId = useAppSelector(selectUserId);
+    const isYour: boolean = authorId ? item.user._id === authorId : false;
     const vews: string = nFormatter(2);
     const likes: string = nFormatter(600);
     const pathToFullScreenPost: string = `/post/${item._id}`;
-    const pathToAuthorProfile: string = `/profile/${item.userId}`;
+    const pathToAuthorProfile: string = `/profile/${item.user._id}`;
     return (
         <>
             <Grid item xs={12} sm={6} md={4}>
@@ -169,8 +169,8 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                         <Link to={pathToAuthorProfile} className={s.buttomInfo}>
                             <div className={s.author}>
                                 <Avatar
-                                    alt={item.userName}
-                                    src={item.userImg && item.userImg}
+                                    alt={item.user.fullName}
+                                    src={item.user.avatarUrl}
                                 />
                                 <div className={s.author__info}>
                                     <Typography
@@ -178,10 +178,10 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                                         variant='subtitle2'
                                         noWrap
                                     >
-                                        {item.userName}
+                                        {item.user.fullName}
                                     </Typography>
                                     <Typography color='gray' variant='body1' noWrap>
-                                        {'19 Jan 2024'}
+                                        {item.user.createdAt.slice(0, 10)}
                                     </Typography>
                                 </div>
                             </div>

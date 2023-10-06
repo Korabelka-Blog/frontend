@@ -7,10 +7,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { selectUserId } from '../../redux/Slices/user';
 
 export const NavigationMobile: FC = () => {
     const dispatch = useAppDispatch();
     const path = useAppSelector(selectPath);
+
+    const userId = useAppSelector(selectUserId);
+
     return (
         <BottomNavigation
             className={s.navigation}
@@ -33,7 +37,7 @@ export const NavigationMobile: FC = () => {
                 icon={<SearchIcon />}
             />
             <BottomNavigationAction
-                to='/profile'
+                to={`/profile/${userId}`}
                 component={Link}
                 label='Профиль'
                 icon={<PersonIcon />}

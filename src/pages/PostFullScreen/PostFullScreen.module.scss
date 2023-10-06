@@ -1,11 +1,18 @@
 @import '../../scss/index.scss';
 .wrapper {
     padding: 20px;
+    @media (max-width: 600px) {
+        padding: 5px 10px 5px 10px !important;
+    }
 }
 .post {
     border-radius: 10px;
     background: darken($main, 5%);
     padding: 20px 0px 20px 0px;
+    max-width: 1000px;
+    .image {
+        border-radius: 5px;
+    }
     &.dark {
         background: lighten(#121212, 5%);
     }

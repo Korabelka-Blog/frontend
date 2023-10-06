@@ -13,24 +13,32 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import AddIcon from '@mui/icons-material/Add';
 
 import { Button } from '../../components/Button/Button';
-import ErrorLoading  from '../../components/ErrorLoading';
+import ErrorLoading from '../../components/ErrorLoading';
 import { PostBlock } from '../../components/PostBlock';
 import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
-
-import { userProps } from './types';
-import { IPost } from '@/redux/Slices/types';
-
-import s from './Profile.module.scss';
 import ProfileEditModal from '../../components/ProfileEditModal/ProfileEditModal';
 
+import { IPost } from '../../redux/Slices/types';
+
+import { userProps } from './types';
+import { selectUserId } from '../../redux/Slices/user';
+import { selectProfilePosts, setProfile, setUserProfile } from '../../redux/Slices/profile';
+
+import s from './Profile.module.scss';
+
 export const Profile: FC = () => {
-    const [isAuth, setIsAuth] = useState<boolean>(true);
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
     const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
 
     const id = useParams().id;
 
-    const isYour: boolean = id === '123';
+    const userId = useAppSelector(selectUserId);
+
+    const isAuthed = userId !== null;
+
+    const profilePosts = useAppSelector(selectProfilePosts);
+
+    const isYour: boolean = Number(id) === 123;
 
     const theme = useAppSelector(selectTheme);
     const path = useAppSelector(selectPath);
@@ -43,6 +51,8 @@ export const Profile: FC = () => {
     };
     useEffect(() => {
         dispatch(setPath(2));
+        dispatch(setProfile(Number(id)));
+        dispatch(setUserProfile(Number(id)));
         console.log('path', path);
     }, [path, dispatch]);
     const [userData, setUserData] = useState<userProps>({
@@ -54,34 +64,6 @@ export const Profile: FC = () => {
     const reloadProfilePosts: () => void = () => {
         console.log('reloaded');
     };
-    const customData: IPost[] = [
-        {
-            _id: 0,
-            title: 'Искусство в цифровой эпохе: Эволюция и влияние на общество',
-            text: `В современном мире цифровых технологий и интернета искусство не перестает удивлять и вдохновлять нас. Эпоха цифровой революции дала художникам новые инструменты и платформы для творчества, изменив их подход к созданию и восприятию произведений искусства. В этой статье мы рассмотрим эволюцию искусства в цифровой эпохе и его влияние на современное общество.
-            С появлением компьютеров и графического программного обеспечения художники стали иметь доступ к неограниченным возможностям для воплощения своих идей. Они могут создавать цифровые картины, анимации, трехмерные модели и даже интерактивные инсталляции. Это позволило искусству стать более доступным и разнообразным, привлекая новую аудиторию и открывая двери для экспериментов.
-            Социальные медиа и онлайн-галереи позволили художникам демонстрировать свои работы миллионам людей по всему миру. Это усилило глобальное сообщество художников и способствовало обмену идеями и влияниям. Искусство стало средством для обсуждения актуальных общественных вопросов, политики и культуры, что помогло формировать новую культурную динамику.
-            `,
-            tags: ['Искусство', 'Цифровые технологии'],
-            imageUrl:
-                'https://leader-id.storage.yandexcloud.net/event_photo/246929/619235fb4d190289632566.jpg',
-            userImg: 'https://cdn-edge.kwork.ru/files/avatar/large/52/15318475-1.jpg',
-            userId: 'asvdhsa56',
-            userName: 'Иванов Иван Иванович',
-        },
-        {
-            _id: 1,
-            title: 'Искусство в цифровой эпохе: Эволюция и влияние на общество',
-            text: `В современном мире цифровых технологий и интернета искусство не перестает удивлять и вдохновлять нас. Эпоха цифровой революции дала художникам новые инструменты и платформы для творчества, изменив их подход к созданию и восприятию произведений искусства. В этой статье мы рассмотрим эволюцию искусства в цифровой эпохе и его влияние на современное общество.
-            С появлением компьютеров и графического программного обеспечения художники стали иметь доступ к неограниченным возможностям для воплощения своих идей. Они могут создавать цифровые картины, анимации, трехмерные модели и даже интерактивные инсталляции. Это позволило искусству стать более доступным и разнообразным, привлекая новую аудиторию и открывая двери для экспериментов.
-            Социальные медиа и онлайн-галереи позволили художникам демонстрировать свои работы миллионам людей по всему миру. Это усилило глобальное сообщество художников и способствовало обмену идеями и влияниям. Искусство стало средством для обсуждения актуальных общественных вопросов, политики и культуры, что помогло формировать новую культурную динамику.
-            `,
-            tags: ['Искусство', 'Цифровые технологии'],
-            imageUrl: 'https://ulpravda.ru/pictures/news/big/114458_big.jpg',
-            userId: '6213t723',
-            userName: 'Иванов Иван Иванович',
-        },
-    ];
     return (
         <>
             <Container
@@ -108,7 +90,7 @@ export const Profile: FC = () => {
                     />
                 )}
             </Container>
-            {isAuth ? (
+            {isAuthed ? (
                 <Container>
                     <Box
                         className={classNames({
@@ -166,17 +148,21 @@ export const Profile: FC = () => {
 
                     <Container sx={{ padding: '50px 0 10px 0' }}>
                         {status === 'loaded' ? (
-                            customData.map((item) => (
-                                <>
-                                    <Box sx={{ width: '100%', marginBottom: '20px' }}>
-                                        <PostBlock
-                                            fromProfile={true}
-                                            item={item}
-                                            size={'large'}
-                                        />
-                                    </Box>
-                                </>
-                            ))
+                            profilePosts ? (
+                                profilePosts.map((item) => (
+                                    <>
+                                        <Box sx={{ width: '100%', marginBottom: '20px' }}>
+                                            <PostBlock
+                                                fromProfile={true}
+                                                item={item}
+                                                size={'large'}
+                                            />
+                                        </Box>
+                                    </>
+                                ))
+                            ) : (
+                                <Box>У пользователя нет постов...</Box>
+                            )
                         ) : status === 'loading' ? (
                             <PostBlockSkeleton />
                         ) : (
@@ -194,12 +180,12 @@ export const Profile: FC = () => {
                     </Typography>
                     <div className={s.notAuthorized}>
                         <Link to='/login'>
-                            <Button func={() => setIsAuth(true)} color={'primary'}>
+                            <Button func={() => console.log(true)} color={'primary'}>
                                 Войти
                             </Button>
                         </Link>
                         <Link to='/register'>
-                            <Button func={() => setIsAuth(true)} color={'default'}>
+                            <Button func={() => console.log(true)} color={'default'}>
                                 Зарегистрироваться
                             </Button>
                         </Link>
