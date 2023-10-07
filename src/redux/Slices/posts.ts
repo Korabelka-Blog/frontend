@@ -1,20 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import data from './_posts.json';
 import { IPost } from './types';
 import { RootState } from '../store';
+
+import axios from '../../axios';
 
 export interface postsState {
     posts: IPost[];
     status: 'loading' | 'error' | 'loaded';
 }
 
-function getPosts() {
+export const fetchAllPosts = createAsyncThunk('/posts', async () => {
+    const { data } = await axios.get('/posts');
     return data;
-}
+});
+
+// function getPosts() {
+//     return data;
+// }
 
 const initialState: postsState = {
-    posts: getPosts(),
+    posts: [],
     status: 'loaded',
 };
 export const postsSlice = createSlice({
@@ -24,6 +31,21 @@ export const postsSlice = createSlice({
         setStatus: (state, action) => {
             state.status = action.payload;
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllPosts.pending, (state) => {
+            state.status = 'loading';
+            state.posts = [];
+        });
+        builder.addCase(fetchAllPosts.fulfilled, (state, action) => {
+            state.posts = action.payload;
+            console.log(state.posts);
+            state.status = 'loaded';
+        });
+        builder.addCase(fetchAllPosts.rejected, (state) => {
+            state.status = 'error';
+            state.posts = [];
+        });
     },
 });
 

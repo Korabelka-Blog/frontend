@@ -18,18 +18,16 @@ import { PostBlock } from '../../components/PostBlock';
 import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
 import ProfileEditModal from '../../components/ProfileEditModal/ProfileEditModal';
 
-import { IPost } from '../../redux/Slices/types';
-
 import { userProps } from './types';
-import { selectUserId } from '../../redux/Slices/user';
+import { selectUser } from '../../redux/Slices/user';
 import {
+    getPosts,
     selectProfilePosts,
     selectUserProfile,
-    setProfile,
-    setUserProfile,
 } from '../../redux/Slices/profile';
 
 import s from './Profile.module.scss';
+import NotAuthorized from '../../components/NotAuthorized/NotAuthorized';
 
 export const Profile: FC = () => {
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
@@ -37,15 +35,15 @@ export const Profile: FC = () => {
 
     const id = useParams().id;
 
-    const authedUserId = useAppSelector(selectUserId);
+    const authedUserId = useAppSelector(selectUser);
 
     const user = useAppSelector(selectUserProfile);
 
-    const isAuthed = authedUserId !== null;
+    const isAuthed = user?._id !== null;
 
     const profilePosts = useAppSelector(selectProfilePosts);
 
-    const isYour: boolean = Number(id) === 123;
+    const isYour: boolean = id === authedUserId?._id;
 
     const theme = useAppSelector(selectTheme);
     const path = useAppSelector(selectPath);
@@ -58,10 +56,12 @@ export const Profile: FC = () => {
     };
     useEffect(() => {
         dispatch(setPath(2));
-        dispatch(setProfile(Number(id)));
-        dispatch(setUserProfile(Number(id)));
-        console.log('path', path);
-    }, [path, dispatch, id]);
+    }, [path, dispatch]);
+    useEffect(() => {
+        if (id) {
+            dispatch(getPosts(id));
+        }
+    }, [id]);
     const [userData, setUserData] = useState<userProps>({
         email: 'Yd9p0@example.com',
         userName: 'Иванов Иван Иванович',
@@ -98,113 +98,90 @@ export const Profile: FC = () => {
                 )}
             </Container>
             {user ? (
-                isAuthed ? (
-                    <Container>
+                <Container>
+                    <Box
+                        className={classNames({
+                            [s.profile]: true,
+                            [s.dark]: theme === 'dark',
+                        })}
+                    >
+                        <Box className={s.profile__text}>
+                            <Avatar
+                                className={s.avatar}
+                                alt={user?.fullName}
+                                src={user?.avatarUrl && user.avatarUrl}
+                            />
+                            <Box className={s.profile__nickname}>
+                                <Typography color='secondary' variant='h5'>
+                                    {user?.fullName}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        {isYour && (
+                            <Button
+                                profile={true}
+                                color='default'
+                                func={handleOpenEditModal}
+                            >
+                                Редактировать профиль
+                            </Button>
+                        )}
+                    </Box>
+                    <ProfileEditModal
+                        setUserData={setUserData}
+                        userData={userData}
+                        isOpenEditModal={isOpenEditModal}
+                        setIsOpenEditModal={setIsOpenEditModal}
+                    />
+                    {isYour && (
                         <Box
                             className={classNames({
-                                [s.profile]: true,
+                                [s.create__button]: true,
                                 [s.dark]: theme === 'dark',
                             })}
                         >
-                            <Box className={s.profile__text}>
-                                <Avatar
-                                    className={s.avatar}
-                                    alt={user?.fullName}
-                                    src={user?.avatarUrl && user.avatarUrl}
-                                />
-                                <Box className={s.profile__nickname}>
-                                    <Typography color='secondary' variant='h5'>
-                                        {user?.fullName}
-                                    </Typography>
-                                    {/* <Typography color='gray' variant='subtitle2'>
-                                    {user.avatarUrl}
-                                </Typography> */}
-                                </Box>
-                            </Box>
-                            {isYour && (
-                                <Button
-                                    profile={true}
-                                    color='default'
-                                    func={handleOpenEditModal}
-                                >
-                                    Редактировать профиль
-                                </Button>
-                            )}
-                        </Box>
-                        <ProfileEditModal
-                            setUserData={setUserData}
-                            userData={userData}
-                            isOpenEditModal={isOpenEditModal}
-                            setIsOpenEditModal={setIsOpenEditModal}
-                        />
-                        {isYour && (
-                            <Box
-                                className={classNames({
-                                    [s.create__button]: true,
-                                    [s.dark]: theme === 'dark',
-                                })}
+                            <Button
+                                style={{ width: '100%', justifyContent: 'center' }}
+                                color='primary'
                             >
-                                <Button
-                                    style={{ width: '100%', justifyContent: 'center' }}
-                                    color='primary'
-                                >
-                                    Создать пост
-                                    <AddIcon />
-                                </Button>
-                            </Box>
-                        )}
+                                Создать пост
+                                <AddIcon />
+                            </Button>
+                        </Box>
+                    )}
 
-                        <Container sx={{ padding: '50px 0 10px 0' }}>
-                            {status === 'loaded' ? (
-                                profilePosts ? (
-                                    profilePosts.map((item) => (
-                                        <>
-                                            <Box
-                                                sx={{
-                                                    width: '100%',
-                                                    marginBottom: '20px',
-                                                }}
-                                            >
-                                                <PostBlock
-                                                    fromProfile={true}
-                                                    item={item}
-                                                    size={'large'}
-                                                />
-                                            </Box>
-                                        </>
-                                    ))
-                                ) : (
-                                    <Box>У пользователя нет постов...</Box>
-                                )
-                            ) : status === 'loading' ? (
-                                <PostBlockSkeleton />
+                    <Container sx={{ padding: '50px 0 10px 0' }}>
+                        {status === 'loaded' ? (
+                            profilePosts ? (
+                                profilePosts.map((item) => (
+                                    <>
+                                        <Box
+                                            sx={{
+                                                width: '100%',
+                                                marginBottom: '20px',
+                                            }}
+                                        >
+                                            <PostBlock
+                                                fromProfile={true}
+                                                item={item}
+                                                size={'large'}
+                                            />
+                                        </Box>
+                                    </>
+                                ))
                             ) : (
-                                <ErrorLoading
-                                    text={'постов'}
-                                    func={() => reloadProfilePosts()}
-                                />
-                            )}
-                        </Container>
+                                <Box>У пользователя нет постов...</Box>
+                            )
+                        ) : status === 'loading' ? (
+                            <PostBlockSkeleton />
+                        ) : (
+                            <ErrorLoading
+                                text={'постов'}
+                                func={() => reloadProfilePosts()}
+                            />
+                        )}
                     </Container>
-                ) : (
-                    <Container sx={{ marginTop: '20px' }}>
-                        <Typography color='secondary' variant='subtitle1'>
-                            Вы неавторизированы
-                        </Typography>
-                        <div className={s.notAuthorized}>
-                            <Link to='/login'>
-                                <Button func={() => console.log(true)} color={'primary'}>
-                                    Войти
-                                </Button>
-                            </Link>
-                            <Link to='/register'>
-                                <Button func={() => console.log(true)} color={'default'}>
-                                    Зарегистрироваться
-                                </Button>
-                            </Link>
-                        </div>
-                    </Container>
-                )
+                </Container>
             ) : (
                 <Container>
                     <Typography color='secondary' variant='h3'>

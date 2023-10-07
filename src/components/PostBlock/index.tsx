@@ -17,7 +17,7 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import { Button } from '../Button/Button';
 import { IProps } from './PostBlock.props';
 import Loading from '../Loading/Loading';
-import { selectUserId } from '../../redux/Slices/user';
+import { selectUser } from '../../redux/Slices/user';
 
 import s from './PostBlock.module.scss';
 
@@ -57,8 +57,8 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
         delay();
         console.log('post was deleted');
     };
-    const authorId = useAppSelector(selectUserId);
-    const isYour: boolean = authorId ? item.user._id === authorId : false;
+    const authorId = useAppSelector(selectUser);
+    const isYour: boolean = authorId ? item.user._id === authorId._id : false;
     const vews: string = nFormatter(2);
     const likes: string = nFormatter(600);
     const pathToFullScreenPost: string = `/post/${item._id}`;
@@ -137,17 +137,24 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                                 Ваш пост
                             </Typography>
                         )}
-                        <img
-                            src={item.imageUrl}
-                            alt='Post Image'
-                            className={classNames({
-                                [s.image]: true,
-                                [s.large]: size === 'large',
-                            })}
-                        />
+                        {item.imageUrl ? (
+                            <img
+                                src={item.imageUrl}
+                                alt='Post Image'
+                                className={classNames({
+                                    [s.image]: true,
+                                    [s.large]: size === 'large',
+                                })}
+                            />
+                        ) : (
+                            <img
+                                src='https://rus-traktor.ru/upload/iblock/793/793a53f754ddc2acd77edaea8df4bd44.jpg'
+                                alt={item.title}
+                            />
+                        )}
                     </Link>
                     <div className={s.tags}>{renderTags()}</div>
-                    <Link to={pathToFullScreenPost}>
+                    <Link to={pathToFullScreenPost} className={s.info}>
                         <Typography
                             color='secondary'
                             variant='subtitle2'
@@ -181,7 +188,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                                         {item.user.fullName}
                                     </Typography>
                                     <Typography color='gray' variant='body1' noWrap>
-                                        {item.user.createdAt.slice(0, 10)}
+                                        {/* {item.user.createdAt.slice(0, 10)} */}
                                     </Typography>
                                 </div>
                             </div>

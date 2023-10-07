@@ -1,15 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import data from './_posts.json';
 import { IPost } from './types';
 import { RootState } from '../store';
+import axios from '../../axios';
 
 export interface postState {
     post: IPost | null;
     status: 'loading' | 'error' | 'loaded';
 }
 
-function getPost(id: number) {
+export const fetchPost = createAsyncThunk('/posts/:id', async (id: string) => {
+    const { data }: { data: IPost } = await axios.get(`/post/${id}`);
+    return data;
+});
+
+function getPost(id: string) {
     const post: IPost | undefined = data.find((item: IPost) => item._id === id);
     if (post) {
         return post;
@@ -33,6 +39,21 @@ export const postSlice = createSlice({
                 state.status = 'error';
             }
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchPost.pending, (state) => {
+            state.status = 'loading';
+            state.post = null;
+        });
+        builder.addCase(fetchPost.fulfilled, (state, action) => {
+            state.post = action.payload;
+            console.log(state.post);
+            state.status = 'loaded';
+        });
+        builder.addCase(fetchPost.rejected, (state) => {
+            state.status = 'error';
+            state.post = null;
+        });
     },
 });
 

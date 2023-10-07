@@ -2,9 +2,14 @@ import React, { FC, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import { Box, Container, FilledInput, TextField, Typography } from '@mui/material';
+import { Box, Container, TextField, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectPost, selectStatusPost, setPost } from '../../redux/Slices/post';
+import {
+    fetchPost,
+    selectPost,
+    selectStatusPost,
+    setPost,
+} from '../../redux/Slices/post';
 import SendIcon from '@mui/icons-material/Send';
 
 import Loading from '../../components/Loading/Loading';
@@ -14,10 +19,11 @@ import { selectTheme } from '../../redux/Slices/theme';
 import classNames from 'classnames';
 import s from './PostFullScreen.module.scss';
 import { Button } from '../../components/Button/Button';
+import { selectIsAuthed } from '../../redux/Slices/user';
 
 const PostFullScreen: FC = () => {
     const [yourComment, setYourComment] = React.useState<string>('');
-    const [yourCommentError, setYourCommentError] = React.useState<string>(false);
+    const [yourCommentError, setYourCommentError] = React.useState<string>('');
     const dispatch = useAppDispatch();
     const id = useParams().id;
 
@@ -25,7 +31,9 @@ const PostFullScreen: FC = () => {
     const post = useAppSelector(selectPost);
     const loadingStatus = useAppSelector(selectStatusPost);
     useEffect(() => {
-        dispatch(setPost(Number(id)));
+        if (id) {
+            dispatch(fetchPost(id));
+        }
     }, [id]);
 
     const reloadPost = () => {
@@ -33,8 +41,9 @@ const PostFullScreen: FC = () => {
         dispatch(setPost(Number(id)));
     };
 
-    const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const text = e.target.value;
+    const isAuthed: boolean = useAppSelector(selectIsAuthed);
+
+    const handleComment = (text: string) => {
         const maxLength = 120;
         if (text.length < maxLength) {
             setYourComment(text);
@@ -43,6 +52,12 @@ const PostFullScreen: FC = () => {
             setYourCommentError(
                 `Максимальное количество символоств составляет 50 ${maxLength}`
             );
+        }
+    };
+
+    const handleSubmit = () => {
+        if (isAuthed) {
+            console.log(yourComment);
         }
     };
 
@@ -84,29 +99,47 @@ const PostFullScreen: FC = () => {
                     <Typography color='secondary' variant='subtitle1'>
                         {post.text}
                     </Typography>
-                    <div className={s.comments}>
-                        <Box
-                            component='form'
-                            noValidate
-                            autoComplete='off'
-                            className={s.comments}
-                        >
-                            <TextField
-                                className={s.comments__your}
-                                id='outlined-multiline-flexible'
-                                label='Multiline'
-                                multiline
-                                fullWidth
-                                onChange={(e) => handleComment(e)}
-                                value={yourComment}
-                                error={Boolean(yourCommentError)}
-                                helperText={yourCommentError}
-                            />
-                            <Button color='primary'>
-                                <SendIcon />
-                            </Button>
-                        </Box>
-                    </div>
+                    <Box className={s.comments}>
+                        <Typography color='secondary' variant='h6'>
+                            Комментарии
+                        </Typography>
+                        <div className={s.your_comment}>
+                            {isAuthed ? (
+                                <>
+                                    <TextField
+                                        className={s.comments__your}
+                                        id='outlined-multiline-flexible'
+                                        label='Multiline'
+                                        multiline
+                                        fullWidth
+                                        onChange={(e) => handleComment(e.target.value)}
+                                        value={yourComment}
+                                        error={Boolean(yourCommentError)}
+                                        helperText={yourCommentError}
+                                    />
+                                    <Button color='primary' func={handleSubmit}>
+                                        <SendIcon />
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <TextField
+                                        className={classNames(s.comments__your, {
+                                            [s.comments__your_disabled]: true,
+                                        })}
+                                        id='input-with-icon-textfield'
+                                        label='Войдите, чтоб комментрировать'
+                                        multiline
+                                        fullWidth
+                                        disabled
+                                    />
+                                    <Button color='primary' disabled>
+                                        <SendIcon />
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    </Box>
                 </Container>
             </div>
         );

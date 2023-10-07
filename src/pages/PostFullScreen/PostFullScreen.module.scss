@@ -20,15 +20,19 @@
         background: lighten(#121212, 5%);
     }
     .comments {
+        margin: 30px 0px 0px 0px;
+    }
+    .your_comment {
         width: 100%;
         margin: 10px 0px 0px 0px;
-        display: flex;
-        align-items: flex-end;
         &__your {
-            // width: 100%;
+            &_disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
         button {
-            margin: 0px 0px 0px 10px;
+            margin: 10px 0px 0px 0px;
         }
     }
 }

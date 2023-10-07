@@ -7,13 +7,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectUserId } from '../../redux/Slices/user';
+import { selectUser } from '../../redux/Slices/user';
 
 export const NavigationMobile: FC = () => {
     const dispatch = useAppDispatch();
     const path = useAppSelector(selectPath);
 
-    const userId = useAppSelector(selectUserId);
+    const userId = useAppSelector(selectUser)?._id;
 
     return (
         <BottomNavigation

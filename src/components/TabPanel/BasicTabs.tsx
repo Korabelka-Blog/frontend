@@ -4,7 +4,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { CustomTabPanel } from './CustomTabPanel/CustomTabPanel';
 import { PostBlock } from '../PostBlock';
 import { PostBlockSkeleton } from '../PostBlock/PostBlockSkeleton';
-import ErrorLoading  from '../ErrorLoading';
+import ErrorLoading from '../ErrorLoading';
 import { IPost } from '../../redux/Slices/types';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectPosts, selectStatusPosts, setStatus } from '../../redux/Slices/posts';
@@ -33,13 +33,15 @@ export const BasicTabs: FC = () => {
         if (postsStatus === 'error') {
             return <ErrorLoading text={'постов'} func={() => reloadData()} />;
         }
-        return (postsStatus === 'loading' ? [...Array(4)] : posts).map((item: IPost) => {
-            return postsStatus === 'loading' ? (
-                <PostBlockSkeleton key={'skeleton_' + item._id} />
-            ) : (
-                <PostBlock key={'uniq_key_' + item._id} item={item} />
-            );
-        });
+        return (postsStatus === 'loading' ? [...Array(4)] : posts).map(
+            (item: IPost, i) => {
+                return postsStatus === 'loading' ? (
+                    <PostBlockSkeleton key={'skeleton_' + i} />
+                ) : (
+                    <PostBlock key={'uniq_key_' + item._id} item={item} />
+                );
+            }
+        );
     };
 
     return (

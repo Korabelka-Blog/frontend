@@ -16,7 +16,7 @@ import {
 } from './themeCustom';
 import { selectTheme } from './redux/Slices/theme';
 import { Route, Routes } from 'react-router-dom';
-import { useAppSelector } from './redux/hooks';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
 
 import { Header } from './components/Header/Header';
 import { NavigationMobile } from './components/NavigationMobile/NavigationMobile';
@@ -28,6 +28,7 @@ import { Registration } from './pages/Registration';
 import s from './App.module.scss';
 import './reset.css';
 import PostFullScreen from './pages/PostFullScreen/PostFullScreen';
+import { fetchAuthMe } from './redux/Slices/user';
 
 export const App: FC = () => {
     const themeMode = useAppSelector(selectTheme);
@@ -79,6 +80,13 @@ export const App: FC = () => {
         },
     });
     theme = responsiveFontSizes(theme);
+    const dispatch = useAppDispatch();
+    React.useEffect(() => {
+        const token = window.localStorage.getItem('token');
+        if (token) {
+            dispatch(fetchAuthMe(token));
+        }
+    }, []);
     return (
         <>
             <ThemeProvider theme={theme}>

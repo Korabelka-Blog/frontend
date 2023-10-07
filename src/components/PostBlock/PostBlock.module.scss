@@ -1,8 +1,11 @@
 @import '../../scss/index';
 .post {
+    height: 100%;
     padding: 20px;
     border-radius: 20px;
     background: darken($main, 5%);
+    display: flex;
+    flex-direction: column;
     &.dark {
         background: lighten(#121212, 5%) !important;
     }
@@ -128,4 +131,7 @@
         display: flex;
         justify-content: space-around;
     }
+}
+.info {
+    flex: 1 0 auto;
 }

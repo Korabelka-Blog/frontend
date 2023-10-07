@@ -1,26 +1,46 @@
 import React, { FC } from 'react';
 
 import TextField from '@mui/material/TextField';
-import { Autocomplete, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 
 import { selectTheme } from '../../redux/Slices/theme';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 import { Button } from '../../components/Button/Button';
 import s from './Login.module.scss';
 import { LoginFormValues } from './types';
+import { fetchAuth, selectIsAuthed } from '../../redux/Slices/user';
+import { Navigate } from 'react-router-dom';
 export const Login: FC = () => {
+    const disptach = useAppDispatch();
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
-    } = useForm<LoginFormValues>({ mode: 'onChange' });
-    const onSubmit = (values: LoginFormValues) => {
-        console.log(values);
+    } = useForm<LoginFormValues>({
+        defaultValues: {
+            email: 'slavarudenkochel@gmail.com',
+            password: '12345678',
+        },
+        mode: 'onChange',
+    });
+    const onSubmit = async (values: LoginFormValues) => {
+        const data: any = await disptach(fetchAuth(values));
+        if (!data.payload) {
+            return alert('Не удалось авторизироваться');
+        }
+        if ('token' in data.payload) {
+            window.localStorage.setItem('token', data.payload.token);
+        }
     };
+    const isAuthed = useAppSelector(selectIsAuthed);
+
     const theme = useAppSelector(selectTheme);
+    if (isAuthed) {
+        return <Navigate to='/' />;
+    }
     return (
         <div className={s.login}>
             <form
