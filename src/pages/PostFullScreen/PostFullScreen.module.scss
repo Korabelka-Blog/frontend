@@ -12,8 +12,23 @@
     max-width: 1000px;
     .image {
         border-radius: 5px;
+        width: 100%;
+        max-height: 450px;
+        object-fit: cover;
     }
     &.dark {
         background: lighten(#121212, 5%);
+    }
+    .comments {
+        width: 100%;
+        margin: 10px 0px 0px 0px;
+        display: flex;
+        align-items: flex-end;
+        &__your {
+            // width: 100%;
+        }
+        button {
+            margin: 0px 0px 0px 10px;
+        }
     }
 }
