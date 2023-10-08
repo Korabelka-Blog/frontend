@@ -3,6 +3,7 @@ export interface IPost {
     title: string;
     text: string;
     tags: string[];
+    viewsCount: number;
     imageUrl: string;
     user: IUser;
 }

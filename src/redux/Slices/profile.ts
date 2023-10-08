@@ -10,24 +10,19 @@ interface IRes extends IPost {
     posts: IPost[];
     user: IUser;
 }
-export interface profileState {
-    user: IUser | null;
-    posts: IPost[] | null;
-    status: 'loading' | 'error' | 'loaded';
-}
+
+export const deletePostFetch = createAsyncThunk(
+    '/posts/delete',
+    async (postId: string) => {
+        const { data } = await axios.delete(`/posts/${postId}`);
+        return { data, postId };
+    }
+);
 
 export const getPosts = createAsyncThunk(`/profile/`, async (userId: string) => {
     const { data }: { data: IRes } = await axios.get(`/profile/${userId}`);
     return data;
 });
-
-function getPost(userId: string) {
-    const posts: IPost[] | null = data.filter((item) => item.user._id === userId);
-    if (posts) {
-        return posts;
-    }
-    return null;
-}
 
 const getUser = (userId: string): IUser | null => {
     const user: IUser | undefined = data.find((item) => item.user._id === userId)?.user;
@@ -36,24 +31,22 @@ const getUser = (userId: string): IUser | null => {
     }
     return null;
 };
-
+export interface profileState {
+    user: IUser | null;
+    posts: IPost[] | null;
+    status: 'loading' | 'error' | 'loaded';
+    statusDelete: 'loading' | 'error' | 'loaded';
+}
 const initialState: profileState = {
     user: null,
     posts: null,
     status: 'loaded',
+    statusDelete: 'loaded',
 };
 export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        // setProfile: (state, action) => {
-        //     state.posts = getPost(action.payload);
-        //     if (state.posts) {
-        //         state.status = 'loaded';
-        //     } else {
-        //         state.status = 'error';
-        //     }
-        // },
         setUserProfile: (state, action) => {
             state.user = getUser(action.payload);
         },
@@ -75,12 +68,27 @@ export const profileSlice = createSlice({
             state.user = null;
             state.status = 'error';
         });
+        builder.addCase(deletePostFetch.pending, (state) => {
+            state.statusDelete = 'loading';
+        });
+        builder.addCase(deletePostFetch.fulfilled, (state, action) => {
+            state.statusDelete = 'loaded';
+            const deletedPostId = action.payload.postId;
+            state.posts =
+                state.posts !== null
+                    ? state.posts.filter((item) => item._id !== deletedPostId)
+                    : [];
+        });
+        builder.addCase(deletePostFetch.rejected, (state) => {
+            state.statusDelete = 'error';
+        });
     },
 });
 
 export const selectProfilePosts = (state: RootState) => state.profile.posts;
 export const selectStatusProfile = (state: RootState) => state.profile.status;
 export const selectUserProfile = (state: RootState) => state.profile.user;
+export const selectDeleteStatus = (state: RootState) => state.profile.statusDelete;
 
 export const { setUserProfile } = profileSlice.actions;
 

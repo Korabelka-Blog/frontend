@@ -4,15 +4,25 @@ import { IUser } from './types';
 
 import axios from '../../axios';
 import { LoginFormValues } from '@/pages/Login/types';
+import { RegistrationFormValues } from '@/pages/Registration/types';
 
 export interface IUserAuth extends IUser {
     token: string;
 }
 
-export const fetchAuth = createAsyncThunk(
+export const loginAuth = createAsyncThunk(
     '/auth/login',
     async (params: LoginFormValues) => {
         const { data }: { data: IUserAuth } = await axios.post('/auth/login', params);
+        return data;
+    }
+);
+
+export const registerAuth = createAsyncThunk(
+    '/auth/register',
+    async (params: RegistrationFormValues) => {
+        const { data }: { data: IUserAuth } = await axios.post('/auth/register', params);
+        console.log(data)
         return data;
     }
 );
@@ -25,25 +35,6 @@ export const fetchAuthMe = createAsyncThunk('/auth/me', async (token: string) =>
 export interface userState {
     user: IUserAuth | null;
     status?: 'loading' | 'error' | 'loaded';
-}
-
-function auth() {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-        fetchAuthMe(token);
-    }
-    // const isAuthed = false;
-    // if (isAuthed)
-    //     return {
-    //         email: 'temp2@mail.ru',
-    //         _id: 123,
-    //         fullName: 'Иванов Иван Иванович',
-    //         createdAt: '2022-10-03T10:00:00.000Z',
-    //         updatedAt: '2022-10-03T10:00:00.000Z',
-    //         token: '123123',
-    //         __v: 1,
-    //     };
-    // return null;
 }
 
 const initialState: userState = {
@@ -60,16 +51,16 @@ export const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchAuth.pending, (state) => {
+        builder.addCase(loginAuth.pending, (state) => {
             state.user = null;
             state.status = 'loading';
         });
-        builder.addCase(fetchAuth.fulfilled, (state, action) => {
+        builder.addCase(loginAuth.fulfilled, (state, action) => {
             state.user = action.payload;
             state.status = 'loaded';
             console.log(state.user);
         });
-        builder.addCase(fetchAuth.rejected, (state) => {
+        builder.addCase(loginAuth.rejected, (state) => {
             state.user = null;
             state.status = 'error';
         });
@@ -82,6 +73,19 @@ export const userSlice = createSlice({
             state.status = 'loaded';
         });
         builder.addCase(fetchAuthMe.rejected, (state) => {
+            state.user = null;
+            state.status = 'error';
+        });
+        builder.addCase(registerAuth.pending, (state) => {
+            state.user = null;
+            state.status = 'loading';
+        });
+        builder.addCase(registerAuth.fulfilled, (state, action) => {
+            state.user = action.payload;
+            state.status = 'loaded';
+            console.log(state.user);
+        });
+        builder.addCase(registerAuth.rejected, (state) => {
             state.user = null;
             state.status = 'error';
         });

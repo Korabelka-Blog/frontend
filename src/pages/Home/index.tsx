@@ -10,10 +10,14 @@ import { fetchAllPosts } from '../../redux/Slices/posts';
 export const Home: FC = () => {
     const dispatch = useAppDispatch();
     const path = useAppSelector(selectPath);
+    const wasRender = React.useRef(false);
     useEffect(() => {
         dispatch(setPath(0));
-        dispatch(fetchAllPosts());
         console.log('path', path);
+        if (!wasRender.current) {
+            dispatch(fetchAllPosts());
+        }
+        wasRender.current = true;
     }, []);
     return (
         <div>

@@ -7,7 +7,12 @@ import { PostBlockSkeleton } from '../PostBlock/PostBlockSkeleton';
 import ErrorLoading from '../ErrorLoading';
 import { IPost } from '../../redux/Slices/types';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectPosts, selectStatusPosts, setStatus } from '../../redux/Slices/posts';
+import {
+    fetchAllPosts,
+    selectPosts,
+    selectStatusPosts,
+    setStatus,
+} from '../../redux/Slices/posts';
 
 export const BasicTabs: FC = () => {
     const [value, setValue] = React.useState<number>(0);
@@ -18,15 +23,9 @@ export const BasicTabs: FC = () => {
         setValue(Number(newValue));
     };
 
-    useEffect(() => {
-        const interval = setTimeout(() => {
-            dispatch(setStatus('error'));
-        }, 1500);
-        interval;
-    }, []);
-
     const reloadData = () => {
         console.log('reloaded');
+        dispatch(fetchAllPosts());
     };
 
     const renderPopularPosts = (): JSX.Element | JSX.Element[] => {
@@ -66,9 +65,7 @@ export const BasicTabs: FC = () => {
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1} dir={'x'}>
                     <Grid container spacing={1}>
-                        {posts.map((item: IPost) => (
-                            <PostBlock key={item._id} item={item} />
-                        ))}
+                        {/* {renderPopularPosts()} */}
                     </Grid>
                 </CustomTabPanel>
             </SwipeableViews>

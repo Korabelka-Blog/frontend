@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Button } from '../../components/Button/Button';
 import s from './Login.module.scss';
 import { LoginFormValues } from './types';
-import { fetchAuth, selectIsAuthed } from '../../redux/Slices/user';
+import { loginAuth, selectIsAuthed } from '../../redux/Slices/user';
 import { Navigate } from 'react-router-dom';
 export const Login: FC = () => {
     const disptach = useAppDispatch();
@@ -27,7 +27,7 @@ export const Login: FC = () => {
         mode: 'onChange',
     });
     const onSubmit = async (values: LoginFormValues) => {
-        const data: any = await disptach(fetchAuth(values));
+        const data: any = await disptach(loginAuth(values));
         if (!data.payload) {
             return alert('Не удалось авторизироваться');
         }
@@ -35,9 +35,9 @@ export const Login: FC = () => {
             window.localStorage.setItem('token', data.payload.token);
         }
     };
-    const isAuthed = useAppSelector(selectIsAuthed);
-
     const theme = useAppSelector(selectTheme);
+    
+    const isAuthed = useAppSelector(selectIsAuthed);
     if (isAuthed) {
         return <Navigate to='/' />;
     }

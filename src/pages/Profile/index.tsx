@@ -23,11 +23,12 @@ import { selectUser } from '../../redux/Slices/user';
 import {
     getPosts,
     selectProfilePosts,
+    selectStatusProfile,
     selectUserProfile,
 } from '../../redux/Slices/profile';
 
 import s from './Profile.module.scss';
-import NotAuthorized from '../../components/NotAuthorized/NotAuthorized';
+import Loading from '../../components/Loading/Loading';
 
 export const Profile: FC = () => {
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
@@ -38,8 +39,6 @@ export const Profile: FC = () => {
     const authedUserId = useAppSelector(selectUser);
 
     const user = useAppSelector(selectUserProfile);
-
-    const isAuthed = user?._id !== null;
 
     const profilePosts = useAppSelector(selectProfilePosts);
 
@@ -71,6 +70,19 @@ export const Profile: FC = () => {
     const reloadProfilePosts: () => void = () => {
         console.log('reloaded');
     };
+    const isLoading = useAppSelector(selectStatusProfile) === 'loading';
+    if (isLoading) {
+        return (
+            <Container
+                sx={{
+                    width: '120px',
+                    margin: '0 auto',
+                }}
+            >
+                <Loading />
+            </Container>
+        );
+    }
     return (
         <>
             <Container
@@ -156,6 +168,7 @@ export const Profile: FC = () => {
                                 profilePosts.map((item) => (
                                     <>
                                         <Box
+                                            key={item._id}
                                             sx={{
                                                 width: '100%',
                                                 marginBottom: '20px',

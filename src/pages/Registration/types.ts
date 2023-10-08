@@ -1,5 +1,5 @@
 export type RegistrationFormValues = {
-    userName: string;
+    fullName: string;
     email: string;
     password: string;
 };

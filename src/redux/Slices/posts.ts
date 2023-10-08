@@ -16,10 +16,6 @@ export const fetchAllPosts = createAsyncThunk('/posts', async () => {
     return data;
 });
 
-// function getPosts() {
-//     return data;
-// }
-
 const initialState: postsState = {
     posts: [],
     status: 'loaded',

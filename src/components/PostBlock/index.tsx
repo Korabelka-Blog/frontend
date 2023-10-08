@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { selectTheme } from '../../redux/Slices/theme';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 import { nFormatter } from '../../utils/formatNumbers';
 
@@ -20,10 +20,13 @@ import Loading from '../Loading/Loading';
 import { selectUser } from '../../redux/Slices/user';
 
 import s from './PostBlock.module.scss';
+import { deletePostFetch, selectDeleteStatus } from '../../redux/Slices/profile';
 
 export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const theme = useAppSelector(selectTheme);
-    const [isLoadingDeleting, setIsLoadingDeleting] = React.useState<boolean>(false);
+    const isLoadingDeleting = useAppSelector(selectDeleteStatus);
+
+    const dispatch = useAppDispatch();
     const renderTags = (): JSX.Element[] => {
         return item.tags.map((tag, i) => {
             return (
@@ -42,24 +45,16 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const handleClose = () => {
         setIsOpenDeleteModal(false);
     };
-    const deletePost = (): void => {
-        const delay = () => {
-            setIsLoadingDeleting(true);
-            const prom = new Promise<void>((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 1500);
-            }).then(() => {
-                setIsLoadingDeleting(false);
-                handleClose();
-            });
-        };
-        delay();
-        console.log('post was deleted');
+    const deletePost = async (): Promise<void> => {
+        await dispatch(deletePostFetch(item._id));
+        setIsOpenDeleteModal(false);
     };
-    const authorId = useAppSelector(selectUser);
-    const isYour: boolean = authorId ? item.user._id === authorId._id : false;
-    const vews: string = nFormatter(2);
+
+    const authedUser = useAppSelector(selectUser);
+    const isYour: boolean =
+        authedUser !== null ? item.user._id === authedUser._id : false;
+
+    const vews: string = nFormatter(item.viewsCount);
     const likes: string = nFormatter(600);
     const pathToFullScreenPost: string = `/post/${item._id}`;
     const pathToAuthorProfile: string = `/profile/${item.user._id}`;
@@ -71,7 +66,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                         className={s.modalDelete}
                         open={isOpenDeleteModal}
                         onClose={
-                            !isLoadingDeleting
+                            isLoadingDeleting !== 'loading'
                                 ? handleClose
                                 : () => {
                                       console.log('cant close');
@@ -86,7 +81,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                                 [s.dark]: theme === 'dark',
                             })}
                         >
-                            {isLoadingDeleting ? (
+                            {isLoadingDeleting === 'loading' ? (
                                 <Loading />
                             ) : (
                                 <>

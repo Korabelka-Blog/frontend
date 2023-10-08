@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 
 import {
     CssBaseline,
@@ -81,11 +81,14 @@ export const App: FC = () => {
     });
     theme = responsiveFontSizes(theme);
     const dispatch = useAppDispatch();
+
+    const wasRender = React.useRef(false);
     React.useEffect(() => {
         const token = window.localStorage.getItem('token');
-        if (token) {
+        if (token && !wasRender.current) {
             dispatch(fetchAuthMe(token));
         }
+        wasRender.current = true;
     }, []);
     return (
         <>

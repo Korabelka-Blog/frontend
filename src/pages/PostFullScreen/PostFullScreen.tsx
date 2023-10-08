@@ -1,15 +1,10 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 
 import { useParams } from 'react-router-dom';
 
 import { Box, Container, TextField, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import {
-    fetchPost,
-    selectPost,
-    selectStatusPost,
-    setPost,
-} from '../../redux/Slices/post';
+import { fetchPost, selectPost, selectStatusPost } from '../../redux/Slices/post';
 import SendIcon from '@mui/icons-material/Send';
 
 import Loading from '../../components/Loading/Loading';
@@ -25,20 +20,21 @@ const PostFullScreen: FC = () => {
     const [yourComment, setYourComment] = React.useState<string>('');
     const [yourCommentError, setYourCommentError] = React.useState<string>('');
     const dispatch = useAppDispatch();
-    const id = useParams().id;
 
     const theme = useAppSelector(selectTheme);
     const post = useAppSelector(selectPost);
     const loadingStatus = useAppSelector(selectStatusPost);
+    const id = useParams().id;
+    const wasRender = React.useRef(false);
     useEffect(() => {
-        if (id) {
+        if (id !== undefined && !wasRender.current) {
             dispatch(fetchPost(id));
         }
-    }, [id]);
+        wasRender.current = true;
+    }, []);
 
     const reloadPost = () => {
         console.log('Trying to reload');
-        dispatch(setPost(Number(id)));
     };
 
     const isAuthed: boolean = useAppSelector(selectIsAuthed);

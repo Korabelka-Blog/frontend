@@ -6,14 +6,15 @@ import classNames from 'classnames';
 import { selectTheme } from '../../redux/Slices/theme';
 import { Typography } from '@mui/material';
 
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RegistrationFormValues } from './types';
 
 import s from './Registration.module.scss';
 
 import TextField from '@mui/material/TextField';
 import { Button } from '../../components/Button/Button';
-
+import { registerAuth, selectIsAuthed } from '../../redux/Slices/user';
+import { Navigate } from 'react-router-dom';
 export const Registration: FC = () => {
     const {
         register,
@@ -21,9 +22,23 @@ export const Registration: FC = () => {
         formState: { errors, isValid },
     } = useForm<RegistrationFormValues>({ mode: 'onChange' });
     const theme = useAppSelector(selectTheme);
-    const onSubmit = (values: RegistrationFormValues) => {
-        console.log(values);
+    const dispatch = useAppDispatch();
+    const onSubmit = async (values: RegistrationFormValues) => {
+        const data: any = await dispatch(registerAuth(values));
+        if (!data.payload) {
+            return alert('Не удалось авторизироваться');
+        }
+        if ('token' in data.payload) {
+            window.localStorage.setItem('token', data.payload.token);
+        }
     };
+
+    const isAuthed = useAppSelector(selectIsAuthed);
+
+    if (isAuthed) {
+        return <Navigate to='/' />;
+    }
+
     return (
         <div className={s.register}>
             <form
@@ -36,15 +51,15 @@ export const Registration: FC = () => {
                     Зарегистрироваться
                 </Typography>
                 <TextField
-                    {...register('userName', {
+                    {...register('fullName', {
                         required: 'Это обязательное поле',
                         minLength: {
                             value: 8,
                             message: 'Минимальная длина должна быть 8',
                         },
                     })}
-                    helperText={errors.userName?.message}
-                    error={Boolean(errors.userName?.message)}
+                    helperText={errors.fullName?.message}
+                    error={Boolean(errors.fullName?.message)}
                     label='ФИО'
                     fullWidth
                     margin={'dense'}
