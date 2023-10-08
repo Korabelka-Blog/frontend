@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance: any = axios.create({
-    baseURL: 'http://localhost:4444',
+    baseURL: 'https://korabelka-back.onrender.com',
 });
 
 type хз = { headers: { Authorization: string | null } };
