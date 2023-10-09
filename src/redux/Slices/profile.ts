@@ -61,7 +61,6 @@ export const profileSlice = createSlice({
             state.posts = action.payload.posts;
             state.user = action.payload.user;
             state.status = 'loaded';
-            console.log(state.posts);
         });
         builder.addCase(getPosts.rejected, (state) => {
             state.posts = null;

@@ -22,7 +22,6 @@ export const registerAuth = createAsyncThunk(
     '/auth/register',
     async (params: RegistrationFormValues) => {
         const { data }: { data: IUserAuth } = await axios.post('/auth/register', params);
-        console.log(data)
         return data;
     }
 );
@@ -34,12 +33,12 @@ export const fetchAuthMe = createAsyncThunk('/auth/me', async (token: string) =>
 
 export interface userState {
     user: IUserAuth | null;
-    status?: 'loading' | 'error' | 'loaded';
+    status?: 'loading' | 'error' | 'loaded' | null;
 }
 
 const initialState: userState = {
     user: null,
-    // status: 'error',
+    status: null,
 };
 export const userSlice = createSlice({
     name: 'user',
@@ -47,7 +46,6 @@ export const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.user = null;
-            console.log(state.user);
         },
     },
     extraReducers: (builder) => {
@@ -58,7 +56,6 @@ export const userSlice = createSlice({
         builder.addCase(loginAuth.fulfilled, (state, action) => {
             state.user = action.payload;
             state.status = 'loaded';
-            console.log(state.user);
         });
         builder.addCase(loginAuth.rejected, (state) => {
             state.user = null;
@@ -75,6 +72,9 @@ export const userSlice = createSlice({
         builder.addCase(fetchAuthMe.rejected, (state) => {
             state.user = null;
             state.status = 'error';
+            if ('token' in window.localStorage) {
+                window.localStorage.removeItem('token');
+            }
         });
         builder.addCase(registerAuth.pending, (state) => {
             state.user = null;
@@ -83,7 +83,6 @@ export const userSlice = createSlice({
         builder.addCase(registerAuth.fulfilled, (state, action) => {
             state.user = action.payload;
             state.status = 'loaded';
-            console.log(state.user);
         });
         builder.addCase(registerAuth.rejected, (state) => {
             state.user = null;
@@ -95,6 +94,8 @@ export const userSlice = createSlice({
 export const { logout } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user.user;
+
+export const selectUserStatus = (state: RootState) => state.user.status;
 
 export const selectIsAuthed = (state: RootState) => {
     return state.user.user != null;

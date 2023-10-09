@@ -12,7 +12,6 @@ export interface postState {
 
 export const fetchPost = createAsyncThunk('/posts/:id', async (id: string) => {
     const { data }: { data: IPost } = await axios.get(`/post/${id}`);
-    console.log('post fetched');
     return data;
 });
 
@@ -31,7 +30,6 @@ export const postSlice = createSlice({
         });
         builder.addCase(fetchPost.fulfilled, (state, action) => {
             state.post = action.payload;
-            console.log(state.post);
             state.status = 'loaded';
         });
         builder.addCase(fetchPost.rejected, (state) => {

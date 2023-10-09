@@ -13,8 +13,9 @@ import s from './Registration.module.scss';
 
 import TextField from '@mui/material/TextField';
 import { Button } from '../../components/Button/Button';
-import { registerAuth, selectIsAuthed } from '../../redux/Slices/user';
+import { registerAuth, selectIsAuthed, selectUserStatus } from '../../redux/Slices/user';
 import { Navigate } from 'react-router-dom';
+import Loading from '../../components/Loading/Loading';
 export const Registration: FC = () => {
     const {
         register,
@@ -23,6 +24,7 @@ export const Registration: FC = () => {
     } = useForm<RegistrationFormValues>({ mode: 'onChange' });
     const theme = useAppSelector(selectTheme);
     const dispatch = useAppDispatch();
+    const loadingStatus = useAppSelector(selectUserStatus);
     const onSubmit = async (values: RegistrationFormValues) => {
         const data: any = await dispatch(registerAuth(values));
         if (!data.payload) {
@@ -97,8 +99,16 @@ export const Registration: FC = () => {
                     margin={'dense'}
                     fullWidth
                 />
-                <Button color='primary' disabled={!isValid} type='submit'>
-                    Подтвердить
+                <Button
+                    color='primary'
+                    disabled={!isValid || loadingStatus === 'loading'}
+                    type='submit'
+                >
+                    {loadingStatus === 'loading' ? (
+                        <Loading color={'#fff'} />
+                    ) : (
+                        'Зарегистрироваться'
+                    )}
                 </Button>
             </form>
         </div>

@@ -11,8 +11,9 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Button } from '../../components/Button/Button';
 import s from './Login.module.scss';
 import { LoginFormValues } from './types';
-import { loginAuth, selectIsAuthed } from '../../redux/Slices/user';
+import { loginAuth, selectIsAuthed, selectUserStatus } from '../../redux/Slices/user';
 import { Navigate } from 'react-router-dom';
+import Loading from '../../components/Loading/Loading';
 export const Login: FC = () => {
     const disptach = useAppDispatch();
     const {
@@ -26,6 +27,7 @@ export const Login: FC = () => {
         },
         mode: 'onChange',
     });
+    const loadingStatus = useAppSelector(selectUserStatus);
     const onSubmit = async (values: LoginFormValues) => {
         const data: any = await disptach(loginAuth(values));
         if (!data.payload) {
@@ -36,7 +38,7 @@ export const Login: FC = () => {
         }
     };
     const theme = useAppSelector(selectTheme);
-    
+
     const isAuthed = useAppSelector(selectIsAuthed);
     if (isAuthed) {
         return <Navigate to='/' />;
@@ -84,8 +86,12 @@ export const Login: FC = () => {
                     fullWidth
                     autoComplete='current-password'
                 />
-                <Button color='primary' disabled={!isValid} type='submit'>
-                    Подтвердить
+                <Button
+                    color='primary'
+                    disabled={!isValid || loadingStatus === 'loading'}
+                    type='submit'
+                >
+                    {loadingStatus === 'loading' ? <Loading color={'#fff'} /> : 'Войти'}
                 </Button>
             </form>
         </div>

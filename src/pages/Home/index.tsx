@@ -13,7 +13,6 @@ export const Home: FC = () => {
     const wasRender = React.useRef(false);
     useEffect(() => {
         dispatch(setPath(0));
-        console.log('path', path);
         if (!wasRender.current) {
             dispatch(fetchAllPosts());
         }

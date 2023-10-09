@@ -22,7 +22,6 @@ export const themeSlice = createSlice({
                 state.theme = 'dark';
             }
             setThemeToLocalStorage(state.theme);
-            console.log('theme changed');
         },
     },
 });
