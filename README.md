@@ -49,7 +49,7 @@ To deploy this project run
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/Korabelka-Blog/frontend.git
 ```
 
 Go to the project directory
