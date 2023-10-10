@@ -17,7 +17,7 @@ The server shuts down when it has been idle for a long time. Therefore, sometime
 
 ## Tech Stack
 
-**Client:** React, React Router, TypeScript, Redux, Material UI, Axios, ClassNames, Scss 
+**Client:** React, React Router, TypeScript, Redux, Material UI, Axios, ClassNames, Scss, react-hook-form
 
 **Server:** Node, Express ([Repository here](https://github.com/OfLORIAnO/back-korabelka))
 
