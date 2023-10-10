@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import axios from '../../axios';
 
-import data from './_posts.json';
 import { IPost, IUser } from './types';
 import { RootState } from '../store';
 
@@ -24,13 +23,6 @@ export const getPosts = createAsyncThunk(`/profile/`, async (userId: string) => 
     return data;
 });
 
-const getUser = (userId: string): IUser | null => {
-    const user: IUser | undefined = data.find((item) => item.user._id === userId)?.user;
-    if (user !== undefined) {
-        return user;
-    }
-    return null;
-};
 export interface profileState {
     user: IUser | null;
     posts: IPost[] | null;
@@ -46,11 +38,7 @@ const initialState: profileState = {
 export const profileSlice = createSlice({
     name: 'profile',
     initialState,
-    reducers: {
-        setUserProfile: (state, action) => {
-            state.user = getUser(action.payload);
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getPosts.pending, (state) => {
             state.posts = null;
@@ -88,7 +76,5 @@ export const selectProfilePosts = (state: RootState) => state.profile.posts;
 export const selectStatusProfile = (state: RootState) => state.profile.status;
 export const selectUserProfile = (state: RootState) => state.profile.user;
 export const selectDeleteStatus = (state: RootState) => state.profile.statusDelete;
-
-export const { setUserProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;
