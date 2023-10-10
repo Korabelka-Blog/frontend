@@ -38,7 +38,7 @@ To deploy this project run
 ☑️Cross platform  
 ☑️Authentication  
 ☑️Light/dark mode toggle  
-☑️Delete article
+☑️Delete article  
 🔲Edit profile   
 🔲Сreate an article  
 🔲Edit article  
