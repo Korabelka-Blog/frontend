@@ -39,8 +39,8 @@ To deploy this project run
 ☑️Authentication  
 ☑️Light/dark mode toggle  
 ☑️Delete article  
+☑️Сreate an article  
 🔲Edit profile   
-🔲Сreate an article  
 🔲Edit article  
 🔲Article comments  
 🔲Like the article  
