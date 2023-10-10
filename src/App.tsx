@@ -29,6 +29,7 @@ import s from './App.module.scss';
 import './reset.css';
 import PostFullScreen from './pages/PostFullScreen/PostFullScreen';
 import { fetchAuthMe } from './redux/Slices/user';
+import AddArticle from './pages/AddArticle/AddArticle';
 
 export const App: FC = () => {
     const themeMode = useAppSelector(selectTheme);
@@ -102,6 +103,8 @@ export const App: FC = () => {
                         <Route path='/register' element={<Registration />} />
                         <Route path='/profile/:id' element={<Profile />} />
                         <Route path='/post/:id' element={<PostFullScreen />} />
+                        <Route path='/addArticle' element={<AddArticle />} />
+
                     </Routes>
                     <NavigationMobile />
                 </div>

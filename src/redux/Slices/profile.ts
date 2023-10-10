@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import axios from '../../axios';
 
-import { IPost, IUser } from './types';
+import { INewPost, IPost, IUser } from './types';
 import { RootState } from '../store';
 
 interface IRes extends IPost {
@@ -20,6 +20,11 @@ export const deletePostFetch = createAsyncThunk(
 
 export const getPosts = createAsyncThunk(`/profile/`, async (userId: string) => {
     const { data }: { data: IRes } = await axios.get(`/profile/${userId}`);
+    return data;
+});
+
+export const createArticleFetch = createAsyncThunk('/posts', async (post: INewPost) => {
+    const { data } = await axios.post('/posts', post);
     return data;
 });
 
@@ -69,6 +74,7 @@ export const profileSlice = createSlice({
         builder.addCase(deletePostFetch.rejected, (state) => {
             state.statusDelete = 'error';
         });
+        builder.addCase(createArticleFetch.pending, (state) => {});
     },
 });
 

@@ -152,13 +152,15 @@ export const Profile: FC = () => {
                                 [s.dark]: theme === 'dark',
                             })}
                         >
-                            <Button
-                                style={{ width: '100%', justifyContent: 'center' }}
-                                color='primary'
-                            >
-                                Создать пост
-                                <AddIcon />
-                            </Button>
+                            <Link to='/addArticle'>
+                                <Button
+                                    style={{ width: '100%', justifyContent: 'center' }}
+                                    color='primary'
+                                >
+                                    Создать пост
+                                    <AddIcon />
+                                </Button>
+                            </Link>
                         </Box>
                     )}
 
