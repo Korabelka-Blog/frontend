@@ -27,16 +27,18 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const isLoadingDeleting = useAppSelector(selectDeleteStatus);
 
     const dispatch = useAppDispatch();
-    const renderTags = (): JSX.Element[] => {
-        return item.tags.map((tag, i) => {
-            return (
-                <Link to={`/${tag}`} key={'tag_' + i}>
-                    <Typography color='primary' style={{ display: 'inline' }}>
-                        {tag}
-                    </Typography>
-                </Link>
-            );
-        });
+    const renderTags = (): JSX.Element[] | null => {
+        return item.tags !== undefined
+            ? item.tags.map((tag, i) => {
+                  return (
+                      <Link to={`/${tag}`} key={'tag_' + i}>
+                          <Typography color='primary' style={{ display: 'inline' }}>
+                              {tag}
+                          </Typography>
+                      </Link>
+                  );
+              })
+            : null;
     };
     const [isOpenDeleteModal, setIsOpenDeleteModal] = React.useState<boolean>(false);
     const handleOpen = () => {

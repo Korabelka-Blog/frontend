@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { Avatar, Box, Container, Pagination, Typography } from '@mui/material';
 import classNames from 'classnames';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { selectTheme, setTheme } from '../../redux/Slices/theme';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -56,17 +56,32 @@ export const Profile: FC = () => {
         dispatch(setTheme());
     };
 
+    const navigate = useNavigate();
+
+    //Костыль ну а что поделать, если я глупый не продумал это
+    useEffect(() => {
+        const paged = new URLSearchParams(window.location.href).get('page');
+        if (paged) {
+            setPage(Number(paged));
+        }
+    }, []);
+
     useEffect(() => {
         const getData = async () => {
             if (id) {
-                const res = await dispatch(getPosts({ userId: id, page, limit }));
+                const res: any = await dispatch(getPosts({ userId: id, page, limit }));
                 if (res.payload) {
                     setLength(res.payload.length);
                 }
+                console.log('page тут', page);
+                navigate(`/profile/${id}/?limit=${limit}&page=${page}`);
             }
         };
         getData();
     }, [id, page]);
+    useEffect(() => {
+        console.log(page);
+    }, [page]);
     const [userData, setUserData] = useState<userProps>({
         email: 'Yd9p0@example.com',
         userName: 'Иванов Иван Иванович',
@@ -171,18 +186,22 @@ export const Profile: FC = () => {
                     )}
 
                     <Container sx={{ padding: '50px 0 10px 0' }}>
-                        <Pagination
-                            count={Math.ceil(length / limit)}
-                            variant='outlined'
-                            color='primary'
-                            sx={{
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                marginBottom: '20px',
-                            }}
-                            onChange={handleChangePage}
-                        />
+                        {length && (
+                            <Pagination
+                                page={page}
+                                count={Math.ceil(length / limit)}
+                                variant='outlined'
+                                color='primary'
+                                sx={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    marginBottom: '20px',
+                                }}
+                                onChange={handleChangePage}
+                            />
+                        )}
+
                         {status === 'loaded' ? (
                             profilePosts ? (
                                 profilePosts.map((item) => (
@@ -213,6 +232,7 @@ export const Profile: FC = () => {
                         )}
                     </Container>
                     <Pagination
+                        page={page}
                         count={Math.ceil(length / limit)}
                         variant='outlined'
                         color='primary'

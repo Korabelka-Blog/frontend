@@ -13,13 +13,11 @@ export const deletePostFetch = createAsyncThunk(
     }
 );
 
-
-
 export const getPosts = createAsyncThunk(
     `/profile/`,
     async ({ userId, page = 1, limit = 4 }: IGetProfilePosts) => {
         const { data }: { data: IRes } = await axios.get(
-            `/profile/${userId}/?page=${page}&limit=${limit}`
+            `/profile/${userId}/?limit=${limit}&page=${page}`
         );
         console.log(data);
         return data;

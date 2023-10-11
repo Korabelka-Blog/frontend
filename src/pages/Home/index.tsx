@@ -34,13 +34,15 @@ export const Home: FC = () => {
                 </Typography>
             </Container>
             <BasicTabs />
-            <Pagination
-                count={Math.ceil(length / limit)}
-                variant='outlined'
-                color='primary'
-                sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-                onChange={handleChangePage}
-            />
+            {length && (
+                <Pagination
+                    count={Math.ceil(length / limit)}
+                    variant='outlined'
+                    color='primary'
+                    sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                    onChange={handleChangePage}
+                />
+            )}
         </>
     );
 };
