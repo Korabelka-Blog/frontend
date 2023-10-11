@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import data from './_posts.json';
 import { IPost } from './types';
 import { RootState } from '../store';
 

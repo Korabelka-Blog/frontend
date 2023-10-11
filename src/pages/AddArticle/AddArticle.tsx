@@ -30,7 +30,6 @@ const AddArticle = () => {
             post.imageUrl = linkPreview;
         }
         const response = await disptach(createArticleFetch(post));
-        console.log(response);
         if (!response.payload) {
             alert('Не удалось создать статью');
         } else {

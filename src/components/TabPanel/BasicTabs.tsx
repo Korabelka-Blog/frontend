@@ -29,18 +29,19 @@ export const BasicTabs: FC = () => {
     };
 
     const renderPopularPosts = (): JSX.Element | JSX.Element[] => {
-        if (postsStatus === 'error') {
+        console.log(posts);
+        if (postsStatus === 'loaded') {
+            return posts.map((item: IPost) => {
+                return <PostBlock key={item._id} item={item} />;
+            });
+        }
+        if (postsStatus === 'loading') {
+            return [...Array(4)].map((_, i) => {
+                return <PostBlockSkeleton key={i} />;
+            });
+        } else {
             return <ErrorLoading text={'постов'} func={() => reloadData()} />;
         }
-        return (postsStatus === 'loading' ? [...Array(4)] : posts).map(
-            (item: IPost, i) => {
-                return postsStatus === 'loading' ? (
-                    <PostBlockSkeleton key={'skeleton_' + i} />
-                ) : (
-                    <PostBlock key={'uniq_key_' + item._id} item={item} />
-                );
-            }
-        );
     };
 
     return (

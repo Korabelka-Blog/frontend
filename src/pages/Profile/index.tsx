@@ -4,7 +4,6 @@ import { Avatar, Box, Container, Typography } from '@mui/material';
 import classNames from 'classnames';
 import { Link, useParams } from 'react-router-dom';
 
-import { selectPath, setPath } from '../../redux/Slices/navigation';
 import { selectTheme, setTheme } from '../../redux/Slices/theme';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
@@ -45,7 +44,6 @@ export const Profile: FC = () => {
     const isYour: boolean = id === authedUserId?._id;
 
     const theme = useAppSelector(selectTheme);
-    const path = useAppSelector(selectPath);
     const dispatch = useAppDispatch();
     const handleOpenEditModal = () => {
         setIsOpenEditModal(true);
@@ -53,9 +51,7 @@ export const Profile: FC = () => {
     const changeTheme = () => {
         dispatch(setTheme());
     };
-    useEffect(() => {
-        dispatch(setPath(2));
-    }, [path, dispatch]);
+    
     useEffect(() => {
         if (id) {
             dispatch(getPosts(id));
@@ -168,21 +164,19 @@ export const Profile: FC = () => {
                         {status === 'loaded' ? (
                             profilePosts ? (
                                 profilePosts.map((item) => (
-                                    <>
-                                        <Box
-                                            key={item._id}
-                                            sx={{
-                                                width: '100%',
-                                                marginBottom: '20px',
-                                            }}
-                                        >
-                                            <PostBlock
-                                                fromProfile={true}
-                                                item={item}
-                                                size={'large'}
-                                            />
-                                        </Box>
-                                    </>
+                                    <Box
+                                        key={item._id}
+                                        sx={{
+                                            width: '100%',
+                                            marginBottom: '20px',
+                                        }}
+                                    >
+                                        <PostBlock
+                                            fromProfile={true}
+                                            item={item}
+                                            size={'large'}
+                                        />
+                                    </Box>
                                 ))
                             ) : (
                                 <Box>У пользователя нет постов...</Box>

@@ -19,7 +19,6 @@ import { Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 
 import { Header } from './components/Header/Header';
-import { NavigationMobile } from './components/NavigationMobile/NavigationMobile';
 import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
 import { Login } from './pages/Login';

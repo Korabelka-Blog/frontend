@@ -23,7 +23,7 @@ export const getPosts = createAsyncThunk(`/profile/`, async (userId: string) => 
     return data;
 });
 
-export const createArticleFetch = createAsyncThunk('/posts', async (post: INewPost) => {
+export const createArticleFetch = createAsyncThunk('/posts/create', async (post: INewPost) => {
     const { data } = await axios.post('/posts', post);
     return data;
 });
@@ -71,10 +71,6 @@ export const profileSlice = createSlice({
                     ? state.posts.filter((item) => item._id !== deletedPostId)
                     : [];
         });
-        builder.addCase(deletePostFetch.rejected, (state) => {
-            state.statusDelete = 'error';
-        });
-        builder.addCase(createArticleFetch.pending, (state) => {});
     },
 });
 
