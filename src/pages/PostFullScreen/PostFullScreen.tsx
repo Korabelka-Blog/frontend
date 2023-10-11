@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -10,6 +10,8 @@ import SendIcon from '@mui/icons-material/Send';
 import Loading from '../../components/Loading/Loading';
 import ErrorLoading from '../../components/ErrorLoading';
 import { selectTheme } from '../../redux/Slices/theme';
+
+import ReactMarkDown from 'react-markdown';
 
 import classNames from 'classnames';
 import s from './PostFullScreen.module.scss';
@@ -93,7 +95,7 @@ const PostFullScreen: FC = () => {
                         {post.title}
                     </Typography>
                     <Typography color='secondary' variant='subtitle1'>
-                        {post.text}
+                        <ReactMarkDown children={post.text} />
                     </Typography>
                     <Box className={s.comments}>
                         <Typography color='secondary' variant='h6'>

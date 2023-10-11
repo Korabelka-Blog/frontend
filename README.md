@@ -17,7 +17,7 @@ The server shuts down when it has been idle for a long time. Therefore, sometime
 
 ## Tech Stack
 
-**Client:** React, React Router, TypeScript, Redux, Material UI, Axios, ClassNames, Scss, react-hook-form
+**Client:** React, React Router, TypeScript, Redux, Material UI, Axios, ClassNames, Scss, react-hook-form, react-markdown, React SimpleMDE
 
 **Server:** Node, Express ([Repository here](https://github.com/OfLORIAnO/back-korabelka))
 
@@ -39,7 +39,7 @@ To deploy this project run
 ☑️Authentication  
 ☑️Light/dark mode toggle  
 ☑️Delete article  
-☑️Сreate an article  
+☑️Сreate article  
 🔲Edit profile   
 🔲Edit article  
 🔲Article comments  

@@ -81,9 +81,15 @@ const AddArticle = () => {
                     onChange={onChange}
                     options={options}
                 />
-                <Button style={{ marginTop: '20px' }} func={createArticle}>
-                    Создать статью
-                </Button>
+                <div className={s.button_add}>
+                    <Button
+                        color='primary'
+                        style={{ marginTop: '20px' }}
+                        func={createArticle}
+                    >
+                        Создать статью
+                    </Button>
+                </div>
             </div>
         </Container>
     );
