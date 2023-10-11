@@ -21,10 +21,6 @@ export const Login: FC = () => {
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<LoginFormValues>({
-        defaultValues: {
-            email: 'slavarudenkochel@gmail.com',
-            password: '12345678',
-        },
         mode: 'onChange',
     });
     const loadingStatus = useAppSelector(selectUserStatus);
