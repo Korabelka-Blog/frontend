@@ -25,3 +25,14 @@ export interface IUser {
     updatedAt: string;
     __v: number;
 }
+
+export interface IRes extends IPost {
+    length: number;
+    posts: IPost[];
+    user: IUser;
+}
+export interface IGetProfilePosts {
+    userId: string;
+    page?: number;
+    limit?: number;
+}

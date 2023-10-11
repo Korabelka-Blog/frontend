@@ -94,9 +94,11 @@ const PostFullScreen: FC = () => {
                     <Typography color='secondary' variant='h3'>
                         {post.title}
                     </Typography>
-                    <Typography color='secondary' variant='subtitle1'>
-                        <ReactMarkDown children={post.text} />
-                    </Typography>
+                    <div className={s.markdown}>
+                        <Typography color='secondary' variant='subtitle1'>
+                            <ReactMarkDown children={post.text} />
+                        </Typography>
+                    </div>
                     <Box className={s.comments}>
                         <Typography color='secondary' variant='h6'>
                             Комментарии

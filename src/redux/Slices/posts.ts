@@ -5,15 +5,25 @@ import { RootState } from '../store';
 
 import axios from '../../axios';
 
+interface IPostRes extends IPost {
+    length: number;
+    posts: IPost[];
+}
+
 export interface postsState {
     posts: IPost[];
     status: 'loading' | 'error' | 'loaded';
 }
 
-export const fetchAllPosts = createAsyncThunk('/posts', async () => {
-    const { data } = await axios.get('/posts');
-    return data;
-});
+export const fetchAllPosts = createAsyncThunk(
+    '/posts',
+    async ({ page = 1, limit = 6 }: { page?: number; limit?: number }) => {
+        const { data }: { data: IPostRes } = await axios.get(
+            `/posts/?page=${page}&limit=${limit}`
+        );
+        return data;
+    }
+);
 
 const initialState: postsState = {
     posts: [],
@@ -33,7 +43,7 @@ export const postsSlice = createSlice({
             state.posts = [];
         });
         builder.addCase(fetchAllPosts.fulfilled, (state, action) => {
-            state.posts = action.payload;
+            state.posts = action.payload.posts;
             state.status = 'loaded';
         });
         builder.addCase(fetchAllPosts.rejected, (state) => {

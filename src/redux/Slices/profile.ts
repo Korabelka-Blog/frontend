@@ -2,13 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import axios from '../../axios';
 
-import { INewPost, IPost, IUser } from './types';
+import { IGetProfilePosts, INewPost, IPost, IRes, IUser } from './types';
 import { RootState } from '../store';
-
-interface IRes extends IPost {
-    posts: IPost[];
-    user: IUser;
-}
 
 export const deletePostFetch = createAsyncThunk(
     '/posts/delete',
@@ -18,15 +13,26 @@ export const deletePostFetch = createAsyncThunk(
     }
 );
 
-export const getPosts = createAsyncThunk(`/profile/`, async (userId: string) => {
-    const { data }: { data: IRes } = await axios.get(`/profile/${userId}`);
-    return data;
-});
 
-export const createArticleFetch = createAsyncThunk('/posts/create', async (post: INewPost) => {
-    const { data } = await axios.post('/posts', post);
-    return data;
-});
+
+export const getPosts = createAsyncThunk(
+    `/profile/`,
+    async ({ userId, page = 1, limit = 4 }: IGetProfilePosts) => {
+        const { data }: { data: IRes } = await axios.get(
+            `/profile/${userId}/?page=${page}&limit=${limit}`
+        );
+        console.log(data);
+        return data;
+    }
+);
+
+export const createArticleFetch = createAsyncThunk(
+    '/posts/create',
+    async (post: INewPost) => {
+        const { data } = await axios.post('/posts', post);
+        return data;
+    }
+);
 
 export interface profileState {
     user: IUser | null;
@@ -51,6 +57,7 @@ export const profileSlice = createSlice({
             state.status = 'loading';
         });
         builder.addCase(getPosts.fulfilled, (state, action) => {
+            console.log(action.payload);
             state.posts = action.payload.posts;
             state.user = action.payload.user;
             state.status = 'loaded';

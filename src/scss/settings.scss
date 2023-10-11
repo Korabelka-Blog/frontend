@@ -34,24 +34,26 @@ button {
 body {
     transition-duration: 0.1s;
 }
-ul > li {
-    list-style: circle;
-}
-ol > li {
-    list-style: decimal;
-}
-blockquote {
-    display: flex;
-    &::before {
-        content: '❝';
+.markdown {
+    ul > li {
+        list-style: circle;
     }
-    &::after {
-        content: '❞';
+    ol > li {
+        list-style: decimal;
     }
-}
-h1 {
-    font-size: 42px;
-}
-em {
-    font-style: italic;
+    blockquote {
+        display: flex;
+        &::before {
+            content: '❝';
+        }
+        &::after {
+            content: '❞';
+        }
+    }
+    h1 {
+        font-size: 42px;
+    }
+    em {
+        font-style: italic;
+    }
 }

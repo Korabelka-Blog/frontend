@@ -24,8 +24,7 @@ export const BasicTabs: FC = () => {
     };
 
     const reloadData = () => {
-        console.log('reloaded');
-        dispatch(fetchAllPosts());
+        dispatch(fetchAllPosts({page: 1}));
     };
 
     const renderPopularPosts = (): JSX.Element | JSX.Element[] => {

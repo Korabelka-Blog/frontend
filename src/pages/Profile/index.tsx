@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { Avatar, Box, Container, Typography } from '@mui/material';
+import { Avatar, Box, Container, Pagination, Typography } from '@mui/material';
 import classNames from 'classnames';
 import { Link, useParams } from 'react-router-dom';
 
@@ -32,9 +32,13 @@ import Loading from '../../components/Loading/Loading';
 export const Profile: FC = () => {
     const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
     const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
-
+    const [page, setPage] = React.useState(1);
+    const [limit, setLimit] = React.useState(6);
+    const [length, setLength] = React.useState(0);
     const id = useParams().id;
-
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
     const authedUserId = useAppSelector(selectUser);
 
     const user = useAppSelector(selectUserProfile);
@@ -51,12 +55,18 @@ export const Profile: FC = () => {
     const changeTheme = () => {
         dispatch(setTheme());
     };
-    
+
     useEffect(() => {
-        if (id) {
-            dispatch(getPosts(id));
-        }
-    }, [id]);
+        const getData = async () => {
+            if (id) {
+                const res = await dispatch(getPosts({ userId: id, page, limit }));
+                if (res.payload) {
+                    setLength(res.payload.length);
+                }
+            }
+        };
+        getData();
+    }, [id, page]);
     const [userData, setUserData] = useState<userProps>({
         email: 'Yd9p0@example.com',
         userName: 'Иванов Иван Иванович',
@@ -161,6 +171,18 @@ export const Profile: FC = () => {
                     )}
 
                     <Container sx={{ padding: '50px 0 10px 0' }}>
+                        <Pagination
+                            count={Math.ceil(length / limit)}
+                            variant='outlined'
+                            color='primary'
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                marginBottom: '20px',
+                            }}
+                            onChange={handleChangePage}
+                        />
                         {status === 'loaded' ? (
                             profilePosts ? (
                                 profilePosts.map((item) => (
@@ -190,6 +212,13 @@ export const Profile: FC = () => {
                             />
                         )}
                     </Container>
+                    <Pagination
+                        count={Math.ceil(length / limit)}
+                        variant='outlined'
+                        color='primary'
+                        sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                        onChange={handleChangePage}
+                    />
                 </Container>
             ) : (
                 <Container>

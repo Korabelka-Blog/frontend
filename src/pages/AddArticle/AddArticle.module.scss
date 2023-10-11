@@ -1,3 +1,5 @@
+
+@import '../../scss/index';
 .articleText {
     background: lighten(#121212, 5%);
 }
@@ -13,6 +15,7 @@
 }
 .body {
     padding: 0 0 20px 0;
+    
 }
 .button_add {
     width: 100%;

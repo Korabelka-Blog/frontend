@@ -9,6 +9,7 @@ import { selectIsAuthed } from '../../redux/Slices/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { INewPost, IPost } from '../../redux/Slices/types';
 import { createArticleFetch } from '../../redux/Slices/profile';
+import classNames from 'classnames';
 // import {Container} from '';
 const AddArticle = () => {
     const [value, setValue] = React.useState<string>('');
@@ -73,7 +74,7 @@ const AddArticle = () => {
                 placeholder='Введите название статьи'
                 style={{ marginBottom: '0' }}
             />
-            <div className={s.body}>
+            <div className={classNames({ [s.body]: true, [s.markdown]: true })}>
                 <SimpleMde
                     className={s.articleText}
                     value={value}
