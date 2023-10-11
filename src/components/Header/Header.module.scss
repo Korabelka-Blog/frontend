@@ -6,9 +6,6 @@
     position: fixed;
     top: 0;
     left: 0;
-    @media (max-width: 600px) {
-        display: none;
-    }
 }
 .dark {
     background: lighten(#121212, 5%);

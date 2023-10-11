@@ -106,7 +106,6 @@ export const App: FC = () => {
                         <Route path='/addArticle' element={<AddArticle />} />
 
                     </Routes>
-                    <NavigationMobile />
                 </div>
             </ThemeProvider>
         </>
