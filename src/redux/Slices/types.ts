@@ -1,3 +1,8 @@
+
+export interface IEditPost extends INewPost {
+    _id: string;
+}
+
 export interface INewPost {
     title: string;
     text: string;

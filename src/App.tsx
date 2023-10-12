@@ -108,6 +108,7 @@ export const App: FC = () => {
                         <Route path='/login' element={<Login />} />
                         <Route path='/register' element={<Registration />} />
                         <Route path='/profile/:id' element={<Profile />} />
+                        <Route path='/post/:id/edit' element={<AddArticle />} />
                         <Route path='/post/:id' element={<PostFullScreen />} />
                         <Route path='/addArticle' element={<AddArticle />} />
                     </Routes>

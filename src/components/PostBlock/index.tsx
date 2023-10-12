@@ -113,10 +113,12 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                 >
                     {isYour && fromProfile && (
                         <div className={s.post__control}>
-                            <Button color='primary'>
-                                <DriveFileRenameOutlineIcon />
-                                Редактировать
-                            </Button>
+                            <Link to={`/post/${item._id}/edit`}>
+                                <Button color='primary'>
+                                    <DriveFileRenameOutlineIcon />
+                                    Редактировать
+                                </Button>
+                            </Link>
                             <Button func={handleOpen}>
                                 <DeleteIcon />
                                 Удалить

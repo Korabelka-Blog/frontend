@@ -148,13 +148,13 @@ export const Profile: FC = () => {
                             </Box>
                         </Box>
                         {isYour && (
-                            <Button
-                                profile={true}
-                                color='default'
-                                func={handleOpenEditModal}
-                            >
-                                Редактировать профиль
-                            </Button>
+                                <Button
+                                    profile={true}
+                                    color='default'
+                                    func={handleOpenEditModal}
+                                >
+                                    Редактировать профиль
+                                </Button>
                         )}
                     </Box>
                     <ProfileEditModal

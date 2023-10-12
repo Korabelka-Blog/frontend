@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import axios from '../../axios';
 
-import { IGetProfilePosts, INewPost, IPost, IRes, IUser } from './types';
+import { IEditPost, IGetProfilePosts, INewPost, IPost, IRes, IUser } from './types';
 import { RootState } from '../store';
 
 export const deletePostFetch = createAsyncThunk(
@@ -28,6 +28,14 @@ export const createArticleFetch = createAsyncThunk(
     '/posts/create',
     async (post: INewPost) => {
         const { data } = await axios.post('/posts', post);
+        return data;
+    }
+);
+
+export const updatePostFetch = createAsyncThunk(
+    '/posts/update',
+    async (post: IEditPost) => {
+        const { data } = await axios.patch(`/posts/${post._id}`, post);
         return data;
     }
 );

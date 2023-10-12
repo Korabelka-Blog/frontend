@@ -40,8 +40,8 @@ To deploy this project run
 ☑️Light/dark mode toggle  
 ☑️Delete article  
 ☑️Сreate article  
+☑️Edit article  
 🔲Edit profile   
-🔲Edit article  
 🔲Article comments  
 🔲Like the article  
 ## Run Locally
