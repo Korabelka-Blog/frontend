@@ -99,7 +99,7 @@ const PostFullScreen: FC = () => {
                             <ReactMarkDown children={post.text} />
                         </Typography>
                     </div>
-                    <Box className={s.comments}>
+                    {/* <Box className={s.comments}>
                         <Typography color='secondary' variant='h6'>
                             Комментарии
                         </Typography>
@@ -139,7 +139,7 @@ const PostFullScreen: FC = () => {
                                 </>
                             )}
                         </div>
-                    </Box>
+                    </Box> */}
                 </Container>
             </div>
         );
