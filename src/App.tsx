@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 
 import {
     CssBaseline,
@@ -31,6 +31,9 @@ import { fetchAuthMe } from './redux/Slices/user';
 import AddArticle from './pages/AddArticle/AddArticle';
 
 export const App: FC = () => {
+    React.useEffect(() => {
+        console.log('render');
+    });
     const themeMode = useAppSelector(selectTheme);
 
     let theme = React.useMemo(
@@ -44,41 +47,45 @@ export const App: FC = () => {
             }),
         [themeMode]
     );
-    theme = createTheme(theme, {
-        palette: {
-            ...(themeMode === 'light'
-                ? {
-                      changeLightTheme,
-                      text: {
-                          primary: '#6941c6',
-                          secondary: '#101828',
-                          text: {
-                              gray: theme.palette.augmentColor({
-                                  color: {
-                                      main: '#475467',
+    theme = React.useMemo(
+        () =>
+            createTheme(theme, {
+                palette: {
+                    ...(themeMode === 'light'
+                        ? {
+                              changeLightTheme,
+                              text: {
+                                  primary: '#6941c6',
+                                  secondary: '#101828',
+                                  text: {
+                                      gray: theme.palette.augmentColor({
+                                          color: {
+                                              main: '#475467',
+                                          },
+                                          name: 'gray',
+                                      }),
                                   },
-                                  name: 'gray',
-                              }),
-                          },
-                      },
-                  }
-                : {
-                      changeDarkTheme,
-                      text: {
-                          primary: '#7f56d9',
-                          secondary: 'rgba(255, 255, 255, 0.7)',
-                          text: {
-                              gray: theme.palette.augmentColor({
-                                  color: {
-                                      main: '#475467',
+                              },
+                          }
+                        : {
+                              changeDarkTheme,
+                              text: {
+                                  primary: '#7f56d9',
+                                  secondary: 'rgba(255, 255, 255, 0.7)',
+                                  text: {
+                                      gray: theme.palette.augmentColor({
+                                          color: {
+                                              main: '#475467',
+                                          },
+                                          name: 'gray',
+                                      }),
                                   },
-                                  name: 'gray',
-                              }),
-                          },
-                      },
-                  }),
-        },
-    });
+                              },
+                          }),
+                },
+            }),
+        [themeMode]
+    );
     theme = responsiveFontSizes(theme);
     const dispatch = useAppDispatch();
 
@@ -103,7 +110,6 @@ export const App: FC = () => {
                         <Route path='/profile/:id' element={<Profile />} />
                         <Route path='/post/:id' element={<PostFullScreen />} />
                         <Route path='/addArticle' element={<AddArticle />} />
-
                     </Routes>
                 </div>
             </ThemeProvider>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { Box, Container, Grid, Tab, Tabs } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import { CustomTabPanel } from './CustomTabPanel/CustomTabPanel';
@@ -24,11 +24,11 @@ export const BasicTabs: FC = () => {
     };
 
     const reloadData = () => {
-        dispatch(fetchAllPosts({page: 1}));
+        dispatch(fetchAllPosts({ page: 1 }));
     };
 
     const renderPopularPosts = (): JSX.Element | JSX.Element[] => {
-        console.log(posts);
+        // console.log(posts);
         if (postsStatus === 'loaded') {
             return posts.map((item: IPost) => {
                 return <PostBlock key={item._id} item={item} />;
@@ -53,7 +53,7 @@ export const BasicTabs: FC = () => {
                         aria-label='basic tabs example'
                     >
                         <Tab label='Популярные' />
-                        <Tab label='Новые' />
+                        {/* <Tab label='Новые' /> */}
                     </Tabs>
                 </Box>
             </Container>

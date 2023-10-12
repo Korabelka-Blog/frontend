@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import { Avatar, Box, Container, Pagination, Typography } from '@mui/material';
 import classNames from 'classnames';
@@ -14,7 +14,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button } from '../../components/Button/Button';
 import ErrorLoading from '../../components/ErrorLoading';
 import { PostBlock } from '../../components/PostBlock';
-import { PostBlockSkeleton } from '../../components/PostBlock/PostBlockSkeleton';
 import ProfileEditModal from '../../components/ProfileEditModal/ProfileEditModal';
 
 import { userProps } from './types';
@@ -30,58 +29,56 @@ import s from './Profile.module.scss';
 import Loading from '../../components/Loading/Loading';
 
 export const Profile: FC = () => {
-    const [status, setStatus] = useState<'loaded' | 'error' | 'loading'>('loaded');
-    const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
     const [page, setPage] = React.useState(1);
-    const [limit, setLimit] = React.useState(6);
-    const [length, setLength] = React.useState(0);
-    const id = useParams().id;
+    const limit = 6;
+    const [length, setLength] = React.useState(9);
+    const isChangedPage = useRef(false);
     const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
+
+    const id = useParams().id;
     const authedUserId = useAppSelector(selectUser);
-
     const user = useAppSelector(selectUserProfile);
-
     const profilePosts = useAppSelector(selectProfilePosts);
-
     const isYour: boolean = id === authedUserId?._id;
 
-    const theme = useAppSelector(selectTheme);
-    const dispatch = useAppDispatch();
+    const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
     const handleOpenEditModal = () => {
         setIsOpenEditModal(true);
     };
+
+    const theme = useAppSelector(selectTheme);
     const changeTheme = () => {
         dispatch(setTheme());
     };
 
     const navigate = useNavigate();
 
-    //Костыль ну а что поделать, если я глупый не продумал это
     useEffect(() => {
-        const paged = new URLSearchParams(window.location.href).get('page');
-        if (paged) {
-            setPage(Number(paged));
-        }
+        isChangedPage.current = true;
     }, []);
 
     useEffect(() => {
         const getData = async () => {
             if (id) {
-                const res: any = await dispatch(getPosts({ userId: id, page, limit }));
+                const res: any = await dispatch(
+                    getPosts({
+                        userId: id,
+                        page,
+                        limit,
+                    })
+                );
                 if (res.payload) {
                     setLength(res.payload.length);
                 }
-                console.log('page тут', page);
-                navigate(`/profile/${id}/?limit=${limit}&page=${page}`);
             }
         };
-        getData();
+        if (isChangedPage.current) {
+            getData();
+        }
     }, [id, page]);
-    useEffect(() => {
-        console.log(page);
-    }, [page]);
     const [userData, setUserData] = useState<userProps>({
         email: 'Yd9p0@example.com',
         userName: 'Иванов Иван Иванович',
@@ -91,8 +88,8 @@ export const Profile: FC = () => {
     const reloadProfilePosts: () => void = () => {
         console.log('reloaded');
     };
-    const isLoading = useAppSelector(selectStatusProfile) === 'loading';
-    if (isLoading) {
+    const loadingStatus = useAppSelector(selectStatusProfile);
+    if (loadingStatus === 'loading') {
         return (
             <Container
                 sx={{
@@ -178,15 +175,15 @@ export const Profile: FC = () => {
                                     style={{ width: '100%', justifyContent: 'center' }}
                                     color='primary'
                                 >
-                                    Создать пост
                                     <AddIcon />
+                                    Создать пост
                                 </Button>
                             </Link>
                         </Box>
                     )}
 
                     <Container sx={{ padding: '50px 0 10px 0' }}>
-                        {length && (
+                        {length ? (
                             <Pagination
                                 page={page}
                                 count={Math.ceil(length / limit)}
@@ -200,10 +197,10 @@ export const Profile: FC = () => {
                                 }}
                                 onChange={handleChangePage}
                             />
-                        )}
+                        ) : null}
 
-                        {status === 'loaded' ? (
-                            profilePosts ? (
+                        {loadingStatus === 'loaded' ? (
+                            profilePosts?.length ? (
                                 profilePosts.map((item) => (
                                     <Box
                                         key={item._id}
@@ -220,10 +217,12 @@ export const Profile: FC = () => {
                                     </Box>
                                 ))
                             ) : (
-                                <Box>У пользователя нет постов...</Box>
+                                <Box>
+                                    <Typography color='secondary' variant='h3'>
+                                        У пользователя нет постов
+                                    </Typography>
+                                </Box>
                             )
-                        ) : status === 'loading' ? (
-                            <PostBlockSkeleton />
                         ) : (
                             <ErrorLoading
                                 text={'постов'}
@@ -231,14 +230,20 @@ export const Profile: FC = () => {
                             />
                         )}
                     </Container>
-                    <Pagination
-                        page={page}
-                        count={Math.ceil(length / limit)}
-                        variant='outlined'
-                        color='primary'
-                        sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-                        onChange={handleChangePage}
-                    />
+                    {length ? (
+                        <Pagination
+                            page={page}
+                            count={Math.ceil(length / limit)}
+                            variant='outlined'
+                            color='primary'
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                            onChange={handleChangePage}
+                        />
+                    ) : null}
                 </Container>
             ) : (
                 <Container>
