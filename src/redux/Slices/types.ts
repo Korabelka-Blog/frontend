@@ -1,4 +1,3 @@
-
 export interface IEditPost extends INewPost {
     _id: string;
 }
@@ -18,6 +17,8 @@ export interface IPost {
     viewsCount: number;
     imageUrl: string;
     user: IUser;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IUser {

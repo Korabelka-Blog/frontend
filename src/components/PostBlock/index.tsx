@@ -6,13 +6,14 @@ import classNames from 'classnames';
 import { selectTheme } from '../../redux/Slices/theme';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-import { nFormatter } from '../../utils/formatNumbers';
+import { dateCoverter, nFormatter } from '../../utils/formatNumbers';
 
 import { Avatar, Box, Grid, Modal, Typography } from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import ReactMarkDown from 'react-markdown';
 
 import { Button } from '../Button/Button';
 import { IProps } from './PostBlock.props';
@@ -56,8 +57,9 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
     const isYour: boolean =
         authedUser !== null ? item.user._id === authedUser._id : false;
 
-    const vews: string = nFormatter(item.viewsCount);
+    // const vews: string = ;
     const likes: string = nFormatter(600);
+
     const pathToFullScreenPost: string = `/post/${item._id}`;
     const pathToAuthorProfile: string = `/profile/${item.user._id}`;
     return (
@@ -139,7 +141,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                         {item.imageUrl ? (
                             <img
                                 src={item.imageUrl}
-                                alt='Post Image'
+                                alt={item.title}
                                 className={classNames({
                                     [s.image]: true,
                                     [s.large]: size === 'large',
@@ -148,12 +150,19 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                         ) : (
                             <img
                                 src='https://rus-traktor.ru/upload/iblock/793/793a53f754ddc2acd77edaea8df4bd44.jpg'
+                                className={classNames({
+                                    [s.image]: true,
+                                    [s.large]: size === 'large',
+                                })}
                                 alt={item.title}
                             />
                         )}
                     </Link>
                     <div className={s.tags}>{renderTags()}</div>
-                    <Link to={pathToFullScreenPost} className={s.info}>
+                    <Link
+                        to={pathToFullScreenPost}
+                        className={classNames(s.info, s.markdown_description)}
+                    >
                         <Typography
                             color='secondary'
                             variant='subtitle2'
@@ -168,7 +177,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                             variant='body1'
                             mt='8px'
                         >
-                            {item.text}
+                            <ReactMarkDown children={item.text} />
                         </Typography>
                     </Link>
                     <div className={s.bottom}>
@@ -187,7 +196,7 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                                         {item.user.fullName}
                                     </Typography>
                                     <Typography color='gray' variant='body1' noWrap>
-                                        {/* {item.user.createdAt.slice(0, 10)} */}
+                                        {dateCoverter(item.createdAt)}
                                     </Typography>
                                 </div>
                             </div>
@@ -196,15 +205,15 @@ export const PostBlock: FC<IProps> = ({ item, size, fromProfile = false }) => {
                             <div className={s.views}>
                                 <RemoveRedEyeIcon color='secondary' />
                                 <Typography variant='body1' color='secondary' noWrap>
-                                    {vews}
+                                    {nFormatter(item.viewsCount)}
                                 </Typography>
                             </div>
-                            <div className={s.likes}>
+                            {/* <div className={s.likes}>
                                 <ThumbUpIcon color='secondary' />
                                 <Typography variant='body1' color='secondary' noWrap>
                                     {likes}
                                 </Typography>
-                            </div>
+                            </div> */}
                         </Link>
                     </div>
                 </div>

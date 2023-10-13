@@ -103,51 +103,54 @@ export const Profile: FC = () => {
     }
     return (
         <>
-            <Container
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}
-            >
-                <Typography color='secondary' variant='h2'>
-                    Профиль
-                </Typography>
-                {theme === 'dark' ? (
-                    <LightModeIcon
-                        color='secondary'
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => changeTheme()}
-                    />
-                ) : (
-                    <Brightness4Icon
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => changeTheme()}
-                        color='secondary'
-                    />
-                )}
+            <Container>
+                <Container
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Typography color='secondary' variant='h2'>
+                        Профиль
+                    </Typography>
+                    {theme === 'dark' ? (
+                        <LightModeIcon
+                            color='secondary'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => changeTheme()}
+                        />
+                    ) : (
+                        <Brightness4Icon
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => changeTheme()}
+                            color='secondary'
+                        />
+                    )}
+                </Container>
             </Container>
             {user ? (
                 <Container>
-                    <Box
-                        className={classNames({
-                            [s.profile]: true,
-                            [s.dark]: theme === 'dark',
-                        })}
-                    >
-                        <Box className={s.profile__text}>
-                            <Avatar
-                                className={s.avatar}
-                                alt={user?.fullName}
-                                src={user?.avatarUrl && user.avatarUrl}
-                            />
-                            <Box className={s.profile__nickname}>
-                                <Typography color='secondary' variant='h5'>
-                                    {user?.fullName}
-                                </Typography>
+                    <Container>
+                        <Box
+                            className={classNames({
+                                [s.profile]: true,
+                                [s.dark]: theme === 'dark',
+                            })}
+                        >
+                            <Box className={s.profile__text}>
+                                <Avatar
+                                    className={s.avatar}
+                                    alt={user?.fullName}
+                                    src={user?.avatarUrl && user.avatarUrl}
+                                />
+                                <Box className={s.profile__nickname}>
+                                    <Typography color='secondary' variant='h5'>
+                                        {user?.fullName}
+                                    </Typography>
+                                </Box>
                             </Box>
-                        </Box>
-                        {isYour && (
+                            {isYour && (
                                 <Button
                                     profile={true}
                                     color='default'
@@ -155,35 +158,41 @@ export const Profile: FC = () => {
                                 >
                                     Редактировать профиль
                                 </Button>
-                        )}
-                    </Box>
-                    <ProfileEditModal
-                        setUserData={setUserData}
-                        userData={userData}
-                        isOpenEditModal={isOpenEditModal}
-                        setIsOpenEditModal={setIsOpenEditModal}
-                    />
-                    {isYour && (
-                        <Box
-                            className={classNames({
-                                [s.create__button]: true,
-                                [s.dark]: theme === 'dark',
-                            })}
-                        >
-                            <Link to='/addArticle'>
-                                <Button
-                                    style={{ width: '100%', justifyContent: 'center' }}
-                                    color='primary'
-                                >
-                                    <AddIcon />
-                                    Создать пост
-                                </Button>
-                            </Link>
+                            )}
                         </Box>
+                        <ProfileEditModal
+                            setUserData={setUserData}
+                            userData={userData}
+                            isOpenEditModal={isOpenEditModal}
+                            setIsOpenEditModal={setIsOpenEditModal}
+                        />
+                    </Container>
+                    {isYour && (
+                        <Container>
+                            <Box
+                                className={classNames({
+                                    [s.create__button]: true,
+                                    [s.dark]: theme === 'dark',
+                                })}
+                            >
+                                <Link to='/addArticle'>
+                                    <Button
+                                        style={{
+                                            width: '100%',
+                                            justifyContent: 'center',
+                                        }}
+                                        color='primary'
+                                    >
+                                        <AddIcon />
+                                        Создать пост
+                                    </Button>
+                                </Link>
+                            </Box>
+                        </Container>
                     )}
 
                     <Container sx={{ padding: '50px 0 10px 0' }}>
-                        {length ? (
+                        {length > limit ? (
                             <Pagination
                                 page={page}
                                 count={Math.ceil(length / limit)}
@@ -230,7 +239,7 @@ export const Profile: FC = () => {
                             />
                         )}
                     </Container>
-                    {length ? (
+                    {length > limit ? (
                         <Pagination
                             page={page}
                             count={Math.ceil(length / limit)}

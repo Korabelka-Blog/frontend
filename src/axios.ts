@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const instance: any = axios.create({
+    // baseURL: 'http://localhost:10000',
     baseURL: 'https://korabelka-back.onrender.com',
 });
 

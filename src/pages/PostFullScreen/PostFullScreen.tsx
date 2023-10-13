@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-import { Box, Container, TextField, Typography } from '@mui/material';
+import { Box, Container, TextField, Typography, Avatar } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchPost, selectPost, selectStatusPost } from '../../redux/Slices/post';
 import SendIcon from '@mui/icons-material/Send';
@@ -10,13 +10,14 @@ import SendIcon from '@mui/icons-material/Send';
 import Loading from '../../components/Loading/Loading';
 import ErrorLoading from '../../components/ErrorLoading';
 import { selectTheme } from '../../redux/Slices/theme';
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ReactMarkDown from 'react-markdown';
 
 import classNames from 'classnames';
 import s from './PostFullScreen.module.scss';
 import { Button } from '../../components/Button/Button';
 import { selectIsAuthed } from '../../redux/Slices/user';
+import { dateCoverter, nFormatter } from '../../utils/formatNumbers';
 
 const PostFullScreen: FC = () => {
     const [yourComment, setYourComment] = React.useState<string>('');
@@ -59,6 +60,10 @@ const PostFullScreen: FC = () => {
         }
     };
 
+    const pathToAuthorProfile = `/profile/${post?.user._id}`;
+
+    console.log(post);
+
     if (loadingStatus === 'error') {
         return (
             <Container>
@@ -90,8 +95,28 @@ const PostFullScreen: FC = () => {
                         [s.dark]: theme === 'dark',
                     })}
                 >
+                    <Link to={pathToAuthorProfile} className={s.buttomInfo}>
+                        <div className={s.author} style={{ marginBottom: '20px' }}>
+                            <Avatar alt={post.user.fullName} src={post.user.avatarUrl} />
+                            <div className={s.author__info}>
+                                <Typography color='secondary' variant='subtitle2' noWrap>
+                                    {post.user.fullName}
+                                </Typography>
+                                <Typography color='gray' variant='body1' noWrap>
+                                    {dateCoverter(post.createdAt)}
+                                </Typography>
+                            </div>
+                        </div>
+                        <div className={s.views}>
+                            <RemoveRedEyeIcon color='secondary' />
+                            <Typography variant='body1' color='secondary' noWrap>
+                                {nFormatter(post.viewsCount)}
+                            </Typography>
+                        </div>
+                    </Link>
+
                     <img className={s.image} src={post.imageUrl} alt='' />
-                    <Typography color='secondary' variant='h3'>
+                    <Typography color='secondary' variant='h3' className={s.title}>
                         {post.title}
                     </Typography>
                     <div className={s.markdown}>

@@ -2,7 +2,7 @@ import React, { FC, useRef } from 'react';
 
 import { Container, Pagination, Typography } from '@mui/material';
 import { BasicTabs } from '../../components/TabPanel/BasicTabs';
-import { useEffect,  } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchAllPosts } from '../../redux/Slices/posts';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -41,7 +41,7 @@ export const Home: FC = () => {
                 </Typography>
             </Container>
             <BasicTabs />
-            {length && (
+            {length > limit && (
                 <Pagination
                     count={Math.ceil(length / limit)}
                     variant='outlined'

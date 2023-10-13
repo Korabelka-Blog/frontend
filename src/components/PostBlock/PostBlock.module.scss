@@ -56,33 +56,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.author {
-    margin: 10px 0px 0px 0px;
-    display: flex;
-    &:hover {
-        & > * {
-            text-decoration: underline;
-        }
-    }
-    &__info {
-        margin: 0px 0px 0px 5px;
-        display: flex;
-        flex-direction: column;
-    }
-}
+
 .bottom {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     & > *:last-child {
         margin: 10px 0px 0px 0px;
     }
 }
 .stats {
-    width: 130px;
+    width: 60px;
     display: flex;
-    align-self: flex-end;
+    align-self: flex-start;
+    justify-content: flex-end;
     svg {
         height: 18px;
         margin: 0px 5px 0px 0px;
@@ -93,6 +82,9 @@
     display: flex;
     align-items: flex-end;
     flex: 0 0 60px;
+}
+.views {
+    justify-content: flex-start;
 }
 .likes {
     margin: 0px 0px 0px 10px;

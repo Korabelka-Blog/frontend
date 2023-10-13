@@ -1,3 +1,17 @@
+.author {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    &:hover {
+        & > * {
+            text-decoration: underline;
+        }
+    }
+    &__info {
+        margin: 0px 0px 0px 5px;
+        display: flex;
+        flex-direction: column;
+    }
+}
 @import './vars.scss';
 body {
     font-family: 'Fira Sans', sans-serif;
@@ -55,5 +69,40 @@ body {
     }
     em {
         font-style: italic;
+    }
+}
+
+.markdown_description {
+    ul > li {
+        list-style: circle;
+    }
+    ol > li {
+        list-style: decimal;
+    }
+    blockquote {
+        display: flex;
+        &::before {
+            content: '❝';
+        }
+        &::after {
+            content: '❞';
+        }
+    }
+    em {
+        font-style: italic;
+    }
+}
+.author {
+    margin: 10px 0px 0px 0px;
+    display: flex;
+    &:hover {
+        & > * {
+            text-decoration: underline;
+        }
+    }
+    &__info {
+        margin: 0px 0px 0px 5px;
+        display: flex;
+        flex-direction: column;
     }
 }

@@ -59,6 +59,10 @@ export const Registration: FC = () => {
                             value: 8,
                             message: 'Минимальная длина должна быть 8',
                         },
+                        maxLength: {
+                            value: 30,
+                            message: 'Максимальная длина должна быть 30',
+                        },
                     })}
                     helperText={errors.fullName?.message}
                     error={Boolean(errors.fullName?.message)}

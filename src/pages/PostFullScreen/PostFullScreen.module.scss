@@ -16,6 +16,9 @@
         max-height: 450px;
         object-fit: cover;
     }
+    .title {
+        margin: 10px 0;
+    }
     &.dark {
         background: lighten(#121212, 5%);
     }
@@ -36,4 +39,16 @@
         }
     }
 }
-
+.buttomInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .views {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        svg {
+            margin: 0px 5px 0px 0px;
+        }
+    }
+}

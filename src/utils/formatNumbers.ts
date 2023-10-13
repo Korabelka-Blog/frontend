@@ -19,3 +19,13 @@ export const nFormatter = (num: number, digits?: any): string => {
         ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol
         : '0';
 };
+
+export const dateCoverter = (date: string): string => {
+    return new Date(date).toLocaleDateString('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+};
