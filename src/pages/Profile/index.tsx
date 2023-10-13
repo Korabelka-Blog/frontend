@@ -161,8 +161,6 @@ export const Profile: FC = () => {
                             )}
                         </Box>
                         <ProfileEditModal
-                            setUserData={setUserData}
-                            userData={userData}
                             isOpenEditModal={isOpenEditModal}
                             setIsOpenEditModal={setIsOpenEditModal}
                         />

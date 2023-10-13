@@ -2,7 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import axios from '../../axios';
 
-import { IEditPost, IGetProfilePosts, INewPost, IPost, IRes, IUser } from './types';
+import {
+    IEditPost,
+    IGetProfilePosts,
+    INewPost,
+    IPost,
+    IRes,
+    IUser,
+} from './types';
 import { RootState } from '../store';
 
 export const deletePostFetch = createAsyncThunk(
@@ -39,6 +46,7 @@ export const updatePostFetch = createAsyncThunk(
         return data;
     }
 );
+
 
 export interface profileState {
     user: IUser | null;

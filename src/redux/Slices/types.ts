@@ -42,3 +42,13 @@ export interface IGetProfilePosts {
     page?: number;
     limit?: number;
 }
+
+export interface IUpdatedData {
+    userId: string | undefined;
+    user: {
+        email: string;
+        password?: string;
+        fullName: string;
+        avatarUrl: string;
+    };
+}

@@ -3,22 +3,20 @@ import { IProps } from './ProfileEditModal.props';
 
 import { Modal, Box, TextField } from '@mui/material';
 
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import s from './ProfileEditModal.module.scss';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectTheme } from '../../redux/Slices/theme';
 import { Button } from '../Button/Button';
 import { EditFormValues } from './ProfileEditModal.type';
-import { userProps } from '@/pages/Profile/types';
 import Loading from '../Loading/Loading';
+import { selectUser, updateDataUser } from '../../redux/Slices/user';
+import { IUpdatedData } from '../../redux/Slices/types';
 
-const ProfileEditModal: FC<IProps> = ({
-    isOpenEditModal,
-    setIsOpenEditModal,
-    userData,
-    setUserData,
-}) => {
+const ProfileEditModal: FC<IProps> = ({ isOpenEditModal, setIsOpenEditModal }) => {
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(selectUser);
     const {
         register,
         handleSubmit,
@@ -27,33 +25,44 @@ const ProfileEditModal: FC<IProps> = ({
 
     const theme = useAppSelector(selectTheme);
     const [resetValid, setResetValid] = useState<boolean>(true);
-    const [loading, setLoading] = useState<boolean>(false);
+
     const handleCloseEditModal = () => {
         setIsOpenEditModal(false);
     };
 
-    const onSubmit = (values: EditFormValues) => {
+    const updateStatus = useAppSelector((state) => state.user.updateStatus);
+
+    const onSubmit = async (values: EditFormValues) => {
         const isEdited: boolean = Boolean(
-            values.email !== userData.email ||
+            values.email !== user?.email ||
                 values.password ||
-                values.userName !== userData.userName
+                values.userName !== user?.fullName ||
+                values.avatarUrl !== user?.avatarUrl
         );
         if (isEdited) {
-            setUserData({
-                ...userData,
-                email: values.email,
-                userName: values.userName,
-            });
-            setResetValid(false);
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
+            const data: IUpdatedData = {
+                userId: user?._id,
+                user: {
+                    email: values.email,
+                    fullName: values.userName,
+                    avatarUrl: values.avatarUrl !== undefined ? values.avatarUrl : '',
+                },
+            };
+            if (values.password) {
+                data.user.password = values.password;
+            }
+            const res: any = await dispatch(updateDataUser(data));
+            if (!res.payload) {
+                return alert('Не удалось изменить данные');
+            }
+            if (res.payload) {
                 setIsOpenEditModal(false);
-            }, 1000);
+                document.location.reload()
+            }
         }
     };
 
-    if (loading) {
+    if (updateStatus === 'loading') {
         return (
             <Modal
                 className={s.modal}
@@ -89,6 +98,22 @@ const ProfileEditModal: FC<IProps> = ({
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
+                        {...register('avatarUrl', {
+                            minLength: {
+                                value: 8,
+                                message: 'Минимальная длина должна быть 8',
+                            },
+                        })}
+                        helperText={errors.userName?.message}
+                        error={Boolean(errors.userName?.message)}
+                        label='Ссылка на аватарку'
+                        fullWidth
+                        placeholder='👉👈 У нас нет денег на диск, так что просим предоставить аватарку в виде ссылки'
+                        margin={'dense'}
+                        autoComplete='name'
+                        defaultValue={user?.avatarUrl}
+                    />
+                    <TextField
                         {...register('userName', {
                             required: 'Это обязательное поле',
                             minLength: {
@@ -102,7 +127,7 @@ const ProfileEditModal: FC<IProps> = ({
                         fullWidth
                         margin={'dense'}
                         autoComplete='name'
-                        defaultValue={userData.userName}
+                        defaultValue={user?.fullName}
                     />
                     <TextField
                         {...register('email', {
@@ -119,7 +144,7 @@ const ProfileEditModal: FC<IProps> = ({
                         type='email'
                         fullWidth
                         autoComplete='email'
-                        defaultValue={userData.email}
+                        defaultValue={user?.email}
                     />
                     <TextField
                         {...register('password', {

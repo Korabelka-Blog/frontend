@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { IUser } from './types';
+import { IUpdatedData, IUser } from './types';
 
 import axios from '../../axios';
 import { LoginFormValues } from '@/pages/Login/types';
@@ -31,14 +31,24 @@ export const fetchAuthMe = createAsyncThunk('/auth/me', async (token: string) =>
     return data;
 });
 
+export const updateDataUser = createAsyncThunk(
+    '/me/update',
+    async ({ userId, user }: IUpdatedData) => {
+        const { data } = await axios.patch(`/me/update/${userId}`, user);
+        return data;
+    }
+);
+
 export interface userState {
     user: IUserAuth | null;
-    status?: 'loading' | 'error' | 'loaded' | null;
+    status: 'loading' | 'error' | 'loaded' | null;
+    updateStatus: 'loading' | 'error' | 'loaded' | null;
 }
 
 const initialState: userState = {
     user: null,
     status: null,
+    updateStatus: null,
 };
 export const userSlice = createSlice({
     name: 'user',
@@ -46,6 +56,7 @@ export const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.user = null;
+            window.localStorage.removeItem('token');
         },
     },
     extraReducers: (builder) => {
@@ -88,6 +99,15 @@ export const userSlice = createSlice({
             state.user = null;
             state.status = 'error';
         });
+        builder.addCase(updateDataUser.pending, (state) => {
+            state.updateStatus = 'loading';
+        });
+        builder.addCase(updateDataUser.fulfilled, (state, action) => {
+            state.updateStatus = 'loaded';
+        });
+        builder.addCase(updateDataUser.rejected, (state) => {
+            state.updateStatus = 'error';
+        });
     },
 });
 
@@ -95,7 +115,7 @@ export const { logout } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user.user;
 
-export const selectUserStatus = (state: RootState) => state.user.status;
+export const selectUserStatus = (state: RootState) => state.user.updateStatus;
 
 export const selectIsAuthed = (state: RootState) => {
     return state.user.user != null;
