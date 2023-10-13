@@ -55,7 +55,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd back-korabelka
+  cd frontend
 ```
 
 Install dependencies
