@@ -41,7 +41,7 @@ To deploy this project run
 ☑️Delete article  
 ☑️Сreate article  
 ☑️Edit article  
-🔲Edit profile   
+☑️Edit profile   
 🔲Article comments  
 🔲Like the article  
 ## Run Locally
