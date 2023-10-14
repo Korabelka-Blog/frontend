@@ -19,7 +19,7 @@ The server shuts down when it has been idle for a long time. Therefore, sometime
 
 **Client:** React, React Router, TypeScript, Redux, Material UI, Axios, ClassNames, Scss, react-hook-form, react-markdown, React SimpleMDE
 
-**Server:** Node, Express ([Repository here](https://github.com/OfLORIAnO/back-korabelka))
+**Server:** Node, Express, MongoDB([Repository here](https://github.com/OfLORIAnO/back-korabelka))
 
  
 ## Deployment
