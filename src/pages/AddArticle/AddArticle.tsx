@@ -37,7 +37,6 @@ const AddArticle = () => {
         }
 
         const response = await disptach(updatePostFetch(post));
-        console.log(response);
         if (!response.payload) {
             alert('Не удалось отредактировать статью статью');
         } else {
@@ -81,7 +80,6 @@ const AddArticle = () => {
                     setTitleValue(res.data.title);
                     setLinkPreview(res.data.imageUrl);
                     setValue(res.data.text);
-                    console.log(res);
                 })
                 .catch(() => {
                     alert('Не удалось получить статью');

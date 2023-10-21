@@ -71,7 +71,6 @@ export const profileSlice = createSlice({
             state.status = 'loading';
         });
         builder.addCase(getPosts.fulfilled, (state, action) => {
-            console.log(action.payload);
             state.posts = action.payload.posts;
             state.user = action.payload.user;
             state.status = 'loaded';

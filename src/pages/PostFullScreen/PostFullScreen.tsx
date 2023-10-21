@@ -56,13 +56,11 @@ const PostFullScreen: FC = () => {
 
     const handleSubmit = () => {
         if (isAuthed) {
-            console.log(yourComment);
         }
     };
 
     const pathToAuthorProfile = `/profile/${post?.user._id}`;
 
-    console.log(post);
 
     if (loadingStatus === 'error') {
         return (
